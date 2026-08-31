@@ -50,6 +50,7 @@ import { CaptionPreview } from "@/components/CaptionPreview";
 import { BannersTab } from "@/components/admin/BannersTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
 import { SiteBlocksTab } from "@/components/admin/SiteBlocksTab";
+import { CustomOrdersTab } from "@/components/admin/CustomOrdersTab";
 import { SmartImage } from "@/components/admin/SmartImage";
 import { MediaField } from "@/components/admin/MediaField";
 import { copyToClipboard, downloadUrl, uploadMedia } from "@/lib/media";
@@ -72,7 +73,7 @@ export const Route = createFileRoute("/_authenticated/panel")({
   component: PanelPage,
 });
 
-type Tab = "overview" | "inbox" | "products" | "banners" | "certificates" | "blocks" | "theme" | "branding" | "seo" | "customization" | "visitors" | "analytics" | "instagram" | "accounts" | "logs" | "content" | "settings";
+type Tab = "overview" | "inbox" | "orders" | "products" | "banners" | "certificates" | "blocks" | "theme" | "branding" | "seo" | "customization" | "visitors" | "analytics" | "instagram" | "accounts" | "logs" | "content" | "settings";
 
 const TABS: {
   id: Tab;
@@ -84,6 +85,7 @@ const TABS: {
 }[] = [
   { id: "overview", label: "Overview", icon: ShieldCheck },
   { id: "inbox", label: "Inbox", icon: Inbox, roles: ["owner", "admin", "developer"], permission: "inbox" },
+  { id: "orders", label: "Custom Orders", icon: ShoppingBag, roles: ["owner", "admin", "developer"], permission: "orders" },
   { id: "products", label: "Products", icon: Package, roles: ["owner", "admin", "developer"], permission: "products" },
   { id: "banners", label: "Banners", icon: Images, roles: ["owner", "admin", "developer"], permission: "banners" },
   { id: "certificates", label: "Certificates", icon: Award, roles: ["owner", "admin", "developer"], permission: "certificates" },
@@ -103,6 +105,7 @@ const TABS: {
 
 const PERMISSION_LABELS: Record<string, string> = {
   inbox: "Inbox",
+  orders: "Custom Orders",
   products: "Products",
   banners: "Banners",
   certificates: "Certificates",
@@ -206,6 +209,7 @@ function PanelPage() {
       <section className="mx-auto mt-8 max-w-7xl pb-20">
         {activeTab === "overview" && <Overview data={data!} />}
         {activeTab === "inbox" && can("inbox") && <InboxTab data={data!} onDone={() => void refetch()} />}
+        {activeTab === "orders" && can("orders") && <CustomOrdersTab />}
         {activeTab === "products" && can("products") && <ProductsTab data={data!} onDone={() => void refetch()} />}
               {activeTab === "banners" && can("banners") && <BannersTab />}
         {activeTab === "certificates" && can("certificates") && <CertificatesTab />}
