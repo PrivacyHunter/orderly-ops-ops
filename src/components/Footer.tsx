@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaThreads } from "react-icons/fa6";
 import { useTheme } from "./ThemeProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -76,6 +77,7 @@ export function Footer() {
               {social?.twitter && <SocialIcon icon={<FaTwitter size={18} />} href={social.twitter} />}
               {social?.linkedin && <SocialIcon icon={<FaLinkedin size={18} />} href={social.linkedin} />}
               {social?.whatsapp && <SocialIcon icon={<FaWhatsapp size={18} />} href={social.whatsapp} />}
+              {social?.threads && <SocialIcon icon={<FaThreads size={18} />} href={social.threads} />}
             </div>
           )}
         </div>
