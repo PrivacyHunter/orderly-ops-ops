@@ -111,9 +111,9 @@ export function BannersTab() {
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {rows.map((banner, index) => (
           <div key={banner.id} className="glass overflow-hidden rounded-3xl border border-border">
-            <div className="relative h-40 bg-black/30">
+            <div className="relative h-40 bg-background/60">
               <SmartImage src={banner.image_url} alt={banner.title1} className="h-full w-full object-cover" iconSize={22} />
-              <span className={`absolute right-3 top-3 rounded-full px-2 py-1 text-[9px] font-black uppercase ${banner.status === "published" && banner.is_active ? "bg-primary text-primary-foreground" : "bg-black/70 text-white"}`}>
+              <span className={`absolute right-3 top-3 rounded-full px-2 py-1 text-[9px] font-black uppercase ${banner.status === "published" && banner.is_active ? "bg-primary text-primary-foreground" : "bg-black/70 text-foreground"}`}>
                 {banner.is_active ? banner.status : "hidden"}
               </span>
             </div>
@@ -178,7 +178,7 @@ export function BannersTab() {
           <form
             onClick={(e) => e.stopPropagation()}
             onSubmit={(e) => { e.preventDefault(); saveMutation.mutate(form); }}
-            className="glass max-h-[88vh] w-full max-w-xl space-y-4 overflow-y-auto rounded-3xl p-6"
+            className="max-h-[88vh] w-full max-w-xl space-y-4 overflow-y-auto rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-black uppercase">{form.id ? "Edit banner" : "New banner"}</h3>

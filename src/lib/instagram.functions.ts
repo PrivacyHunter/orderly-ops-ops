@@ -66,7 +66,7 @@ export const initiateInstagramAuth = createServerFn({ method: "POST" })
     await assertStaff(context.supabase, context.userId);
 
     const appId = process.env['INSTAGRAM_APP_ID'];
-    if (!appId) throw new Error("Instagram App ID is not configured");
+    if (!appId) throw new Error("Instagram is not configured yet — add INSTAGRAM_APP_ID and INSTAGRAM_APP_SECRET to the project environment variables, then retry.");
 
     const request = getRequest();
     const origin = new URL(request.url).origin;
