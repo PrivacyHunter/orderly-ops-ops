@@ -8,7 +8,7 @@ import { getSiteBlocks, saveSiteBlocks } from "@/lib/site-blocks.functions";
 import { PageBannersSection } from "@/components/admin/PageBannersSection";
 
 type Step = { num: string; title: string; desc: string; image: string };
-type Social = { facebook: string; instagram: string; twitter: string; linkedin: string; whatsapp: string };
+type Social = { facebook: string; instagram: string; twitter: string; linkedin: string; whatsapp: string; threads: string };
 type PageBanner = { eyebrow: string; title1: string; title2: string; subtitle: string; image: string };
 type Catalog = { title: string; subtitle: string; buttonLabel: string; fileUrl: string };
 type CategoryCard = { title: string; desc: string; image: string; url: string };
@@ -16,17 +16,21 @@ const EMPTY_CATALOG: Catalog = { title: "", subtitle: "", buttonLabel: "", fileU
 type Facilities = {
   eyebrow: string; title1: string; title2: string; description: string;
   image1: string; image2: string;
+  fabricImage1: string; fabricImage2: string;
+  fabricLabel1: string; fabricLabel2: string;
   stat1Value: string; stat1Label: string; stat2Value: string; stat2Label: string;
   buttonLabel: string; buttonUrl: string;
 };
 const EMPTY_FACILITIES: Facilities = {
   eyebrow: "", title1: "", title2: "", description: "",
   image1: "", image2: "",
+  fabricImage1: "", fabricImage2: "",
+  fabricLabel1: "220 GSM+", fabricLabel2: "Zero Fade",
   stat1Value: "", stat1Label: "", stat2Value: "", stat2Label: "",
   buttonLabel: "", buttonUrl: "",
 };
 
-const SOCIAL_KEYS: (keyof Social)[] = ["facebook", "instagram", "twitter", "linkedin", "whatsapp"];
+const SOCIAL_KEYS: (keyof Social)[] = ["facebook", "instagram", "twitter", "linkedin", "whatsapp", "threads"];
 
 export function SiteBlocksTab() {
   const load = useServerFn(getSiteBlocks);
@@ -34,7 +38,7 @@ export function SiteBlocksTab() {
   const { data, refetch } = useQuery({ queryKey: ["site-blocks"], queryFn: () => load() });
 
   const [workflow, setWorkflow] = useState<Step[]>([]);
-  const [social, setSocial] = useState<Social>({ facebook: "", instagram: "", twitter: "", linkedin: "", whatsapp: "" });
+  const [social, setSocial] = useState<Social>({ facebook: "", instagram: "", twitter: "", linkedin: "", whatsapp: "", threads: "" });
   const [pageBanners, setPageBanners] = useState<Record<string, PageBanner>>({});
   const [catalog, setCatalog] = useState<Catalog>({ title: "", subtitle: "", buttonLabel: "", fileUrl: "" });
   const [facilities, setFacilities] = useState<Facilities>(EMPTY_FACILITIES);
@@ -122,6 +126,14 @@ export function SiteBlocksTab() {
         <div className="grid gap-3 sm:grid-cols-2">
           <MediaField label="Image 1" value={facilities.image1} folder="products" accept="image/*" onChange={(image1) => setFacilities({ ...facilities, image1 })} />
           <MediaField label="Image 2" value={facilities.image2} folder="products" accept="image/*" onChange={(image2) => setFacilities({ ...facilities, image2 })} />
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <MediaField label="Fabric macro image 1 (Tech Specs)" value={facilities.fabricImage1} folder="products" accept="image/*" onChange={(fabricImage1) => setFacilities({ ...facilities, fabricImage1 })} />
+          <MediaField label="Fabric macro image 2 (Tech Specs)" value={facilities.fabricImage2} folder="products" accept="image/*" onChange={(fabricImage2) => setFacilities({ ...facilities, fabricImage2 })} />
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field label="Fabric badge 1" value={facilities.fabricLabel1} onChange={(fabricLabel1) => setFacilities({ ...facilities, fabricLabel1 })} />
+          <Field label="Fabric badge 2" value={facilities.fabricLabel2} onChange={(fabricLabel2) => setFacilities({ ...facilities, fabricLabel2 })} />
         </div>
         <div className="grid gap-3 sm:grid-cols-4">
           <Field label="Stat 1 value" value={facilities.stat1Value} onChange={(stat1Value) => setFacilities({ ...facilities, stat1Value })} />

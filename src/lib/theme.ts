@@ -27,7 +27,7 @@ export const DEFAULT_THEME: ThemeConfig = {
   sectionSpace: "6rem",
   containerWidth: "80rem",
   glassOpacity: 5,
-  defaultMode: "light",
+  defaultMode: "dark",
 };
 
 export const FONT_PRESETS = [

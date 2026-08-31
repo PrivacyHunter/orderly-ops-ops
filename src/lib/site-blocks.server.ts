@@ -12,6 +12,7 @@ export type SocialLinks = {
   twitter: string;
   linkedin: string;
   whatsapp: string;
+  threads: string;
 };
 export type PageBanner = { eyebrow: string; title1: string; title2: string; subtitle: string; image: string };
 export type Catalog = { title: string; subtitle: string; buttonLabel: string; fileUrl: string };
@@ -22,6 +23,10 @@ export type Facilities = {
   description: string;
   image1: string;
   image2: string;
+  fabricImage1: string;
+  fabricImage2: string;
+  fabricLabel1: string;
+  fabricLabel2: string;
   stat1Value: string;
   stat1Label: string;
   stat2Value: string;
@@ -71,6 +76,7 @@ export const DEFAULT_SITE_BLOCKS: SiteBlocks = {
     twitter: "",
     linkedin: "",
     whatsapp: "https://wa.me/923049893054",
+    threads: "",
   },
   pageBanners: {},
   catalog: {
@@ -87,6 +93,10 @@ export const DEFAULT_SITE_BLOCKS: SiteBlocks = {
       "Operating from Sialkot's industrial hub, our facility integrates vertical production lines. We handle everything from high-tech sublimation to precision tailoring under one roof.",
     image1: "",
     image2: "",
+    fabricImage1: "",
+    fabricImage2: "",
+    fabricLabel1: "220 GSM+",
+    fabricLabel2: "Zero Fade",
     stat1Value: "25+",
     stat1Label: "Export Nations",
     stat2Value: "500k",
