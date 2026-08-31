@@ -178,7 +178,7 @@ export function BannersTab() {
           <form
             onClick={(e) => e.stopPropagation()}
             onSubmit={(e) => { e.preventDefault(); saveMutation.mutate(form); }}
-            className="glass max-h-[88vh] w-full max-w-xl space-y-4 overflow-y-auto rounded-3xl p-6"
+            className="max-h-[88vh] w-full max-w-xl space-y-4 overflow-y-auto rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-black uppercase">{form.id ? "Edit banner" : "New banner"}</h3>

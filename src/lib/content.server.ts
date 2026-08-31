@@ -1,4 +1,3 @@
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/integrations/supabase/types";
 import { assertStaff } from "./admin.server";
@@ -81,7 +80,7 @@ export async function updateLandingPageContent(supabase: DB, userId: string, dat
       key: "landing_page_content", 
       value: JSON.stringify(data),
       updated_at: new Date().toISOString()
-    });
+    }, { onConflict: "key" });
   if (error) throw new Error(error.message);
   return { ok: true };
 }
@@ -94,7 +93,7 @@ export async function updateFooterContent(supabase: DB, userId: string, data: an
       key: "footer_content", 
       value: JSON.stringify(data),
       updated_at: new Date().toISOString()
-    });
+    }, { onConflict: "key" });
   if (error) throw new Error(error.message);
   return { ok: true };
 }

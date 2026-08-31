@@ -30,7 +30,7 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 const MODE_KEY = "ambition-mode";
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ThemeMode>(DEFAULT_THEME.defaultMode);
+  const [mode, setMode] = useState<ThemeMode>("dark");
   const [preview, setPreviewState] = useState<{ theme?: ThemeConfig; branding?: BrandingConfig } | null>(null);
 
   const { data: settings, refetch } = useQuery({
@@ -53,9 +53,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Mode is a per-visitor choice, restored after hydration to avoid mismatches.
   useEffect(() => {
-    const stored = window.localStorage.getItem(MODE_KEY) as ThemeMode | null;
-    setMode(stored ?? savedTheme.defaultMode);
-  }, [savedTheme.defaultMode]);
+    // Site always opens in dark mode; only an explicit visitor choice overrides it.
+    const stored = window.localStorage.getItem(MODE_KEY);
+    setMode(stored === "light" || stored === "dark" ? stored : "dark");
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
