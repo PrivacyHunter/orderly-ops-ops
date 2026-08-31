@@ -62,12 +62,19 @@ export const Route = createFileRoute("/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData as any;
-    const title = seo?.title || "Ambition Sports | Elite Performance Wear";
-    const description = seo?.description || "High-performance custom sportswear and apparel manufacturer.";
+    const title = seo?.title || "Custom Sportswear Manufacturer & OEM Supplier | Ambition Sports";
+    const description =
+      seo?.description ||
+      "B2B custom sportswear manufacturer in Sialkot, Pakistan. OEM/ODM teamwear, activewear and sublimation apparel with low MOQ, private label and worldwide bulk export.";
     return {
       title,
       meta: [
         { name: "description", content: description },
+        {
+          name: "keywords",
+          content:
+            "custom sportswear manufacturer, sportswear supplier Pakistan, OEM apparel manufacturer, sublimation teamwear supplier, wholesale activewear manufacturer, private label sportswear, low MOQ sportswear factory, B2B custom teamwear, Sialkot sportswear exporter, bulk gym wear manufacturer",
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
@@ -183,7 +190,7 @@ function Index() {
                   <div className="aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 relative">
                     <img 
                       src={facilities.image1} 
-                      alt="Ambition Sports manufacturing facility" 
+                      alt="Ambition Sports custom sportswear manufacturing facility floor in Sialkot, Pakistan" 
 
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 hover:scale-105"
                     />
@@ -201,7 +208,7 @@ function Index() {
                   <div className="aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 relative">
                     <img 
                       src={facilities.image2} 
-                      alt="Stitching floor at the Ambition Sports facility" 
+                      alt="Industrial stitching floor producing bulk OEM teamwear orders at Ambition Sports" 
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 hover:scale-105"
                     />
 
@@ -379,7 +386,7 @@ function WorkflowStep({ num, title, desc, image }: { num: string; title: string;
       <div className="w-full aspect-square rounded-2xl md:rounded-3xl overflow-hidden mb-4 md:mb-8 border border-slate-200 dark:border-white/10 relative">
         <img 
           src={image} 
-          alt={title} 
+          alt={`${title} stage of Ambition Sports custom sportswear manufacturing process`} 
           className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

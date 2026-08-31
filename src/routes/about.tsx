@@ -36,12 +36,19 @@ export const Route = createFileRoute("/about")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData as any;
-    const title = seo?.title || "About Us | Ambition Sports";
-    const description = seo?.description || "Learn about Ambition Sports' legacy of premium custom sportswear manufacturing.";
+    const title = seo?.title || "About Our Sportswear Manufacturing Company | Ambition Sports";
+    const description =
+      seo?.description ||
+      "Ambition Sports is a vertically integrated custom sportswear manufacturer and exporter in Sialkot, Pakistan — serving clubs, brands and distributors with OEM/ODM production, QC and global shipping.";
     return {
       title,
       meta: [
         { name: "description", content: description },
+        {
+          name: "keywords",
+          content:
+            "sportswear manufacturing company, custom apparel factory Pakistan, OEM ODM sportswear supplier, teamwear exporter Sialkot, wholesale sportswear partner, private label apparel manufacturer, ISO certified sportswear factory, B2B apparel sourcing",
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
