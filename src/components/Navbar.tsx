@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Phone, Mail, Moon, Sun, Heart } from "lucide-react";
+import { Menu, X, Phone, Mail, Heart } from "lucide-react";
 import { listSettings } from "@/lib/admin.functions";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { FaThreads } from "react-icons/fa6";
 
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getSiteBlocks } from "@/lib/site-blocks.functions";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/ThemeProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function Navbar() {
-  const { branding, mode, toggleMode } = useTheme();
+  const { branding } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,7 +25,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const { savedTheme } = useTheme();
   const [siteMode, setSiteMode] = useState<"business" | "store">("business");
 
   useEffect(() => {
@@ -63,7 +64,7 @@ export function Navbar() {
 
       {/* Top Info Bar */}
       {branding.showTopInfoBar && (
-        <div className="hidden lg:flex justify-between items-center px-8 py-2 text-xs border-b-2 border-primary bg-background/50 backdrop-blur-md">
+        <div className="hidden lg:flex justify-between items-center px-8 py-2 text-xs text-foreground border-b-2 border-primary bg-background">
           <div className="flex gap-6">
             <a href={`tel:${branding.phone}`} className="flex items-center gap-2 hover:text-neon-cyan transition-colors">
               <Phone size={14} className="text-neon-cyan" /> {branding.phone}
@@ -79,6 +80,7 @@ export function Navbar() {
               {social?.instagram && <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><FaInstagram size={16} /></a>}
               {social?.twitter && <a href={social.twitter} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><FaTwitter size={16} /></a>}
               {social?.linkedin && <a href={social.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><FaLinkedin size={16} /></a>}
+              {social?.threads && <a href={social.threads} target="_blank" rel="noopener noreferrer" aria-label="Threads" className="text-muted-foreground hover:text-primary transition-colors"><FaThreads size={16} /></a>}
             </div>
           )}
         </div>
@@ -86,10 +88,10 @@ export function Navbar() {
 
       <nav
         className={cn(
-          "sticky top-0 z-50 w-full transition-all duration-300 px-4 lg:px-8 py-4",
+          "sticky top-0 z-50 w-full border-b border-border bg-background text-foreground transition-all duration-300 px-4 lg:px-8 py-4",
           isScrolled 
-            ? "bg-background border-b border-border py-3 shadow-[0_4px_12px_rgba(0,0,0,0.05)]" 
-            : "bg-background shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
+            ? "py-3 shadow-sm" 
+            : "shadow-sm"
         )}
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -116,7 +118,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-sm font-bold uppercase tracking-widest text-nav-foreground lg:text-foreground dark:lg:text-foreground hover:text-primary transition-colors"
+                className="text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
                 activeProps={{ className: "text-primary" }}
               >
                 {link.name}
@@ -124,39 +126,38 @@ export function Navbar() {
             ))}
             <Link
               to="/quote"
-              className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded font-black text-sm uppercase transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(211,26,35,0.3)]"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded font-black text-sm uppercase transition-all hover:scale-105"
               
             >
               Get a Quote
             </Link>
             <Link
               to="/favorites"
-              className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-nav-foreground lg:text-muted-foreground hover:text-primary relative group"
+              className="p-2 hover:bg-surface rounded-full transition-colors text-muted-foreground hover:text-primary relative group"
               title="My Favorites"
             >
               <Heart size={20} />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
-            <button 
-              onClick={toggleMode}
-              className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors text-nav-foreground lg:text-muted-foreground hover:text-primary"
-            >
-              {mode === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
+            <ThemeToggle />
           </div>
 
-
-          <button
-            className="lg:hidden text-nav-foreground"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              className="grid h-9 w-9 place-items-center rounded-full text-foreground hover:bg-surface"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-background border-b border-white/10 p-6 flex flex-col gap-6 animate-in slide-in-from-top duration-300">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-background text-foreground border-b border-border p-6 flex flex-col gap-6 shadow-lg animate-in slide-in-from-top duration-300">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -176,7 +177,7 @@ export function Navbar() {
             </Link>
             <Link
               to="/quote"
-              className="bg-primary text-white px-6 py-3 rounded text-center font-black uppercase"
+              className="bg-primary text-primary-foreground px-6 py-3 rounded text-center font-black uppercase"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Get a Quote
