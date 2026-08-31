@@ -47,6 +47,25 @@ export const Route = createFileRoute("/api/public/tracking")({
 
           const device = userAgent?.includes("Mobi") ? "Mobile" : "Desktop";
 
+          // Last resort: resolve the visitor IP through a free geo lookup.
+          if (!location.country) {
+            const ip = (header("x-forwarded-for", "cf-connecting-ip", "x-real-ip") ?? "").split(",")[0]?.trim();
+            if (ip && !ip.startsWith("127.") && !ip.startsWith("::")) {
+              try {
+                const geo: any = await fetch(`https://ipapi.co/${ip}/json/`).then((r) => (r.ok ? r.json() : null));
+                if (geo && !geo.error) {
+                  location.city = location.city ?? geo.city ?? null;
+                  location.region = location.region ?? geo.region ?? null;
+                  location.country = location.country ?? geo.country_name ?? geo.country ?? null;
+                  location.latitude = location.latitude ?? geo.latitude ?? null;
+                  location.longitude = location.longitude ?? geo.longitude ?? null;
+                }
+              } catch (geoError) {
+                console.error("Geo lookup failed", geoError);
+              }
+            }
+          }
+
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
           const { error } = await supabaseAdmin
             .from("user_tracking")
