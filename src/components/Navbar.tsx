@@ -57,7 +57,7 @@ export function Navbar() {
     <>
       {/* Notification Bar */}
       {branding.showNotificationBar && (
-        <div className="bg-neon-lime py-1 px-4 text-center text-xs font-bold text-background uppercase tracking-wider">
+        <div className="bg-primary py-1 px-4 text-center text-xs font-bold text-primary-foreground uppercase tracking-wider">
           {branding.notificationText}
         </div>
       )}
