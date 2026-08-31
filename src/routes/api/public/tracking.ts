@@ -6,7 +6,34 @@ export const Route = createFileRoute("/api/public/tracking")({
       POST: async ({ request }) => {
         try {
           const body = await request.json();
-          const { path, referrer, userAgent, location } = body;
+          const { path, referrer, userAgent: bodyUa, location: bodyLocation } = body;
+          const userAgent = bodyUa || request.headers.get("user-agent") || "";
+
+          // Edge/CDN geo headers (Vercel + Cloudflare) so visitors resolve even
+          // when the browser never shares its precise location.
+          const h = request.headers;
+          const header = (...names: string[]) => {
+            for (const name of names) {
+              const value = h.get(name);
+              if (value) return decodeURIComponent(value);
+            }
+            return null;
+          };
+          const num = (value: string | null) => (value && !Number.isNaN(Number(value)) ? Number(value) : null);
+          const edgeLocation = {
+            city: header("x-vercel-ip-city", "cf-ipcity"),
+            region: header("x-vercel-ip-country-region", "cf-region"),
+            country: header("x-vercel-ip-country", "cf-ipcountry", "x-country-code"),
+            latitude: num(header("x-vercel-ip-latitude", "cf-iplatitude")),
+            longitude: num(header("x-vercel-ip-longitude", "cf-iplongitude")),
+          };
+          const location = {
+            city: bodyLocation?.city ?? edgeLocation.city,
+            region: bodyLocation?.region ?? edgeLocation.region,
+            country: bodyLocation?.country ?? edgeLocation.country,
+            latitude: bodyLocation?.latitude ?? edgeLocation.latitude,
+            longitude: bodyLocation?.longitude ?? edgeLocation.longitude,
+          };
 
           // Basic device/browser parsing from UA if not provided
           const browser = userAgent?.includes("Chrome") ? "Chrome" : 
