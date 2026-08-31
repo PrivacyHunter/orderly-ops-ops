@@ -183,7 +183,6 @@ function PanelPage() {
           <span className="hidden rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:inline">
             {role}
           </span>
-          <ThemeToggle className="sm:hidden" />
           <AdminThemeManager />
           <ThemeToggle />
           <button onClick={signOut} aria-label="Sign out" className="glass grid h-9 w-9 place-items-center rounded-full">
@@ -2725,11 +2724,13 @@ function ContentTab() {
   const { data: content, isPending: contentLoading, error: contentError, refetch: refetchContent } = useQuery({
     queryKey: ["landing-page-content"],
     queryFn: () => getContent(),
+    retry: 1,
   });
 
   const { data: footer, isPending: footerLoading, error: footerError, refetch: refetchFooter } = useQuery({
     queryKey: ["footer-content"],
     queryFn: () => getFooter(),
+    retry: 1,
   });
 
   const [form, setForm] = useState<any>(null);
