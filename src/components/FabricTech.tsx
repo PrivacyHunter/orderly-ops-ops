@@ -1,5 +1,8 @@
 import { Droplets, Move3d, ShieldCheck, Sparkles } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { assetUrl } from "@/lib/media";
+import { getSiteBlocks } from "@/lib/site-blocks.functions";
 import fabricA from "@/assets/fabric-mesh.jpg";
 import fabricB from "@/assets/fabric-stretch.jpg";
 
@@ -27,24 +30,43 @@ const SPECS = [
 ];
 
 export function FabricTech() {
+  const loadBlocks = useServerFn(getSiteBlocks);
+  const { data: blocks } = useQuery({ queryKey: ["site-blocks"], queryFn: () => loadBlocks() });
+  const f = blocks?.facilities as
+    | { fabricImage1?: string; fabricImage2?: string; fabricLabel1?: string; fabricLabel2?: string }
+    | undefined;
+
+  const images = [
+    {
+      src: f?.fabricImage1 ? assetUrl(f.fabricImage1) : fabricA,
+      label: f?.fabricLabel1 || "220 GSM+",
+      alt: "Macro close-up of 220 GSM moisture-wicking polyester mesh fabric used in Ambition Sports custom sportswear manufacturing",
+    },
+    {
+      src: f?.fabricImage2 ? assetUrl(f.fabricImage2) : fabricB,
+      label: f?.fabricLabel2 || "Zero Fade",
+      alt: "Macro close-up of 4-way stretch elastane blend fabric with sublimation print used for wholesale teamwear production",
+    },
+  ];
+
   return (
     <section className="border-y border-border bg-surface px-4 py-16 md:py-20 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
         <div className="grid grid-cols-2 gap-3">
-          {[fabricA, fabricB].map((img, i) => (
+          {images.map((img, i) => (
             <div
               key={i}
               className={`relative overflow-hidden rounded-lg border border-border bg-card ${i === 1 ? "mt-8" : ""}`}
             >
               <img
-                src={img}
-                alt="Performance fabric macro detail"
+                src={img.src}
+                alt={img.alt}
                 loading="lazy"
                 className="aspect-[4/5] w-full bg-muted object-cover"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.visibility = "hidden"; }}
               />
               <span className="absolute bottom-3 left-3 rounded bg-primary px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-primary-foreground">
-                {i === 0 ? "220 GSM+" : "Zero Fade"}
+                {img.label}
               </span>
             </div>
           ))}
