@@ -264,7 +264,7 @@ export function CustomOrdersTab() {
   );
 }
 
-function Detail({ label, value }: { label: string; value?: string | null }) {
+function Detail({ label, value }: { label: string; value?: string | null | undefined }) {
   return (
     <div className="rounded-xl border border-border p-3">
       <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{label}</p>
