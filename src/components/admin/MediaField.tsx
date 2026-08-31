@@ -67,7 +67,7 @@ export function MediaField({
           <div className="relative h-16 w-16 shrink-0">
             <SmartImage src={preview} alt={label} className="h-16 w-16 rounded-lg object-cover" />
             {busy && (
-              <div className="absolute inset-0 grid place-items-center rounded-lg bg-black/50 text-white">
+              <div className="absolute inset-0 grid place-items-center rounded-lg bg-black/50 text-foreground">
                 <Loader2 size={14} className="animate-spin" />
               </div>
             )}

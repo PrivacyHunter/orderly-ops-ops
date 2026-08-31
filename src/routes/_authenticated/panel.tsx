@@ -1190,7 +1190,7 @@ function SeoSingleView() {
           {draft.ogImage && <img src={draft.ogImage} alt="OG Preview" className="w-full h-48 object-cover" />}
           <div className="p-4">
             <p className="text-[10px] uppercase text-muted-foreground mb-1">ambitionsports.com</p>
-            <p className="font-bold text-white truncate">{draft.title}</p>
+            <p className="font-bold text-foreground truncate">{draft.title}</p>
             <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{draft.description}</p>
           </div>
         </div>
@@ -1266,7 +1266,7 @@ function SeoBulkEditor() {
           const isDescTooShort = currentSeo.description.length > 0 && currentSeo.description.length < 120;
 
           return (
-            <div key={item.id} className={`p-4 rounded-2xl border transition-colors ${hasChanges ? "border-primary/50 bg-primary/5" : "border-border bg-black/20"}`}>
+            <div key={item.id} className={`p-4 rounded-2xl border transition-colors ${hasChanges ? "border-primary/50 bg-primary/5" : "border-border bg-background/60"}`}>
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-widest text-primary">{item.type}</p>
@@ -1542,7 +1542,7 @@ function AnalyticsDashboard({ data }: { data: Dash }) {
               </div>
             </div>
             <div className="flex items-end gap-2">
-              <button onClick={exportToCsv} className="flex-1 py-2 rounded-lg bg-white/5 border border-border text-[10px] font-bold uppercase hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+              <button onClick={exportToCsv} className="flex-1 py-2 rounded-lg bg-surface border border-border text-[10px] font-bold uppercase hover:bg-surface-strong transition-colors flex items-center justify-center gap-2">
                 <Download size={12} /> CSV
               </button>
               <button onClick={exportToPdf} className="flex-1 py-2 rounded-lg bg-primary text-primary-foreground text-[10px] font-bold uppercase flex items-center justify-center gap-2">
@@ -1610,7 +1610,7 @@ function AnalyticsDashboard({ data }: { data: Dash }) {
                   <span className="font-mono text-muted-foreground">{p.name}</span>
                   <span className="font-bold">{p.value}</span>
                 </div>
-                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                <div className="h-1 w-full bg-surface rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-primary transition-all duration-1000" 
                     style={{ width: `${stats.pages[0] ? (p.value / stats.pages[0].value) * 100 : 0}%` }}
@@ -1655,7 +1655,7 @@ function AnalyticsDashboard({ data }: { data: Dash }) {
           <h3 className="text-sm font-bold uppercase tracking-widest mb-6">Geographic Reach</h3>
           <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
             {stats.countries.map(c => (
-              <div key={c.name} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+              <div key={c.name} className="flex items-center justify-between p-3 rounded-xl bg-surface border border-border">
                 <div className="flex items-center gap-3">
                   <MapPin size={14} className="text-primary" />
                   <span className="text-xs font-bold">{c.name}</span>
@@ -1721,7 +1721,7 @@ function LogsTab() {
           </thead>
           <tbody>
             {filteredAudit?.map(l => (
-              <tr key={l.id} className="border-t border-border/50 group hover:bg-white/5 transition-colors">
+              <tr key={l.id} className="border-t border-border/50 group hover:bg-surface transition-colors">
                 <td className="py-3 font-bold">{(l.profiles as any)?.email}</td>
                 <td><span className="bg-primary/5 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase">{l.action}</span></td>
                 <td className="uppercase font-bold tracking-tighter opacity-70">{l.action_type}</td>
@@ -1825,7 +1825,7 @@ function RestoreButton() {
             
             <div className="space-y-4 mb-8">
               {Object.keys(dryRunData).map(key => (
-                <div key={key} className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                <div key={key} className="p-4 bg-surface rounded-2xl border border-border">
                   <p className="text-[10px] font-bold uppercase text-primary mb-2">{key}</p>
                   <pre className="text-[9px] font-mono text-muted-foreground overflow-x-auto whitespace-pre-wrap">
                     {JSON.stringify(dryRunData[key], null, 2).slice(0, 300)}...
@@ -1843,7 +1843,7 @@ function RestoreButton() {
               </button>
               <button 
                 onClick={() => setDryRunData(null)}
-                className="flex-1 bg-white/5 text-foreground py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/10 transition-all"
+                className="flex-1 bg-surface text-foreground py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-surface-strong transition-all"
               >
                 Cancel
               </button>
@@ -1964,7 +1964,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
           <p className="text-xs text-muted-foreground">Manage manufacturing process videos and descriptions.</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2">
+          <div className="flex items-center gap-2 bg-surface border border-border rounded-xl px-3 py-2">
             <Search size={14} className="text-muted-foreground" />
             <input 
               placeholder="Search videos..."
@@ -1974,7 +1974,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
             />
           </div>
           <select 
-            className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs outline-none"
+            className="bg-surface border border-border rounded-xl px-3 py-2 text-xs outline-none"
             value={filterType}
             onChange={e => setFilterType(e.target.value)}
           >
@@ -1984,10 +1984,10 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
             <option value="heat_transfer">Heat Transfer</option>
           </select>
           {selectedIds.length > 0 && (
-            <div className="flex gap-2 mr-4 border-r border-white/10 pr-4 animate-in slide-in-from-left duration-300">
-              <button onClick={() => bulkMutation.mutate('publish')} className="p-2 hover:bg-white/5 rounded-lg text-primary" title="Bulk Publish"><CheckSquare size={16} /></button>
-              <button onClick={() => bulkMutation.mutate('unpublish')} className="p-2 hover:bg-white/5 rounded-lg text-muted-foreground" title="Bulk Draft"><Square size={16} /></button>
-              <button onClick={() => confirm(`Delete ${selectedIds.length} videos?`) && bulkMutation.mutate('delete')} className="p-2 hover:bg-white/5 rounded-lg text-red-500" title="Bulk Delete"><Trash2 size={16} /></button>
+            <div className="flex gap-2 mr-4 border-r border-border pr-4 animate-in slide-in-from-left duration-300">
+              <button onClick={() => bulkMutation.mutate('publish')} className="p-2 hover:bg-surface rounded-lg text-primary" title="Bulk Publish"><CheckSquare size={16} /></button>
+              <button onClick={() => bulkMutation.mutate('unpublish')} className="p-2 hover:bg-surface rounded-lg text-muted-foreground" title="Bulk Draft"><Square size={16} /></button>
+              <button onClick={() => confirm(`Delete ${selectedIds.length} videos?`) && bulkMutation.mutate('delete')} className="p-2 hover:bg-surface rounded-lg text-red-500" title="Bulk Delete"><Trash2 size={16} /></button>
             </div>
           )}
           <button 
@@ -2002,7 +2002,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
       {/* Analytics Summary */}
       <div className="grid gap-4 md:grid-cols-4">
         <div className="glass p-4 rounded-2xl flex flex-col justify-center">
-           <button onClick={toggleAll} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-primary hover:text-white transition-colors">
+           <button onClick={toggleAll} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-primary hover:text-foreground transition-colors">
               {selectedIds.length === videos?.length ? <CheckSquare size={14} /> : <Square size={14} />} 
               {selectedIds.length > 0 ? `Selected ${selectedIds.length}` : 'Select All'}
            </button>
@@ -2032,18 +2032,18 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
 
             <div className="aspect-video bg-black relative group/vid">
               <video src={v.video_url} className="w-full h-full object-cover opacity-60" muted />
-              <div onClick={() => toggleSelection(v.id)} className={`absolute top-2 left-2 p-1.5 rounded-lg backdrop-blur-md border cursor-pointer transition-all z-10 ${selectedIds.includes(v.id) ? 'bg-primary border-primary text-primary-foreground' : 'bg-black/40 border-white/10 text-white/40 opacity-0 group-hover/vid:opacity-100 hover:text-white'}`}>
+              <div onClick={() => toggleSelection(v.id)} className={`absolute top-2 left-2 p-1.5 rounded-lg backdrop-blur-md border cursor-pointer transition-all z-10 ${selectedIds.includes(v.id) ? 'bg-primary border-primary text-primary-foreground' : 'bg-background/60 border-border text-foreground/40 opacity-0 group-hover/vid:opacity-100 hover:text-foreground'}`}>
                 {selectedIds.includes(v.id) ? <CheckSquare size={14} /> : <Square size={14} />}
               </div>
 
               <div className="absolute inset-0 flex items-center justify-center">
-                 <Play size={32} className="text-white/50" />
+                 <Play size={32} className="text-foreground/50" />
               </div>
               <div className="absolute top-2 right-2 flex gap-2">
                 <a 
                   href={v.video_url} 
                   download 
-                  className="p-2 bg-black/60 rounded-full text-white hover:bg-black/80 transition-colors"
+                  className="p-2 bg-black/60 rounded-full text-foreground hover:bg-black/80 transition-colors"
                   title="Download"
                 >
                   <Download size={14} />
@@ -2053,7 +2053,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
             <div className="p-4 flex-grow">
               <div className="flex justify-between items-start mb-2">
                 <h3 className="font-bold uppercase text-sm truncate">{v.title}</h3>
-                <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full border ${v.is_published ? 'border-primary/30 text-primary' : 'border-white/10 text-muted-foreground'}`}>
+                <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full border ${v.is_published ? 'border-primary/30 text-primary' : 'border-border text-muted-foreground'}`}>
                   {v.is_published ? 'Published' : 'Draft'}
                 </span>
               </div>
@@ -2061,7 +2061,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
               <div className="flex gap-2">
                 <button 
                   onClick={() => setEditing(v)}
-                  className="flex-grow glass border border-white/10 py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-white/5"
+                  className="flex-grow glass border border-border py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-surface"
                 >
                   Edit
                 </button>
@@ -2093,7 +2093,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                   <label className="text-[10px] font-bold uppercase text-muted-foreground">Title</label>
                   <input 
                     placeholder="Title"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"
+                    className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm"
                     value={editing.title}
                     onChange={e => setEditing({...editing, title: e.target.value})}
                   />
@@ -2103,7 +2103,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold uppercase text-muted-foreground">Process Type</label>
                     <select 
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"
+                      className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm"
                       value={editing.process_type || 'general'}
                       onChange={e => setEditing({...editing, process_type: e.target.value})}
                     >
@@ -2118,7 +2118,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                     <label className="text-[10px] font-bold uppercase text-muted-foreground">Display Order</label>
                     <input 
                       type="number"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"
+                      className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm"
                       value={editing.display_order}
                       onChange={e => setEditing({...editing, display_order: parseInt(e.target.value)})}
                     />
@@ -2129,7 +2129,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                   <label className="text-[10px] font-bold uppercase text-muted-foreground">Description</label>
                   <textarea 
                     placeholder="Description"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm min-h-[80px]"
+                    className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm min-h-[80px]"
                     value={editing.description}
                     onChange={e => setEditing({...editing, description: e.target.value})}
                   />
@@ -2140,11 +2140,11 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                   <div className="flex gap-2">
                     <input 
                       placeholder="Video URL"
-                      className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"
+                      className="flex-grow bg-surface border border-border rounded-xl px-4 py-3 text-sm"
                       value={editing.video_url}
                       onChange={e => setEditing({...editing, video_url: e.target.value})}
                     />
-                    <label className="cursor-pointer bg-white/10 border border-white/10 px-4 py-3 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors">
+                    <label className="cursor-pointer bg-surface-strong border border-border px-4 py-3 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors">
                       {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
                       <input type="file" className="hidden" accept="video/mp4" onChange={handleFileUpload} />
                     </label>
@@ -2156,11 +2156,11 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                   <div className="flex gap-2">
                     <input 
                       placeholder="Thumbnail URL"
-                      className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"
+                      className="flex-grow bg-surface border border-border rounded-xl px-4 py-3 text-sm"
                       value={editing.thumbnail_url || ''}
                       onChange={e => setEditing({...editing, thumbnail_url: e.target.value})}
                     />
-                    <label className="cursor-pointer bg-white/10 border border-white/10 px-4 py-3 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors" title="Upload image">
+                    <label className="cursor-pointer bg-surface-strong border border-border px-4 py-3 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors" title="Upload image">
                       <Upload size={16} />
                       <input type="file" className="hidden" accept="image/*" onChange={async (e) => {
                          const file = e.target.files?.[0];
@@ -2174,7 +2174,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                     </label>
                   </div>
                   {editing.thumbnail_url && (
-                    <img src={editing.thumbnail_url} alt="Thumbnail preview" className="mt-2 h-24 w-full rounded-xl object-cover border border-white/10" />
+                    <img src={editing.thumbnail_url} alt="Thumbnail preview" className="mt-2 h-24 w-full rounded-xl object-cover border border-border" />
                   )}
                 </div>
 
@@ -2192,7 +2192,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
               </div>
 
               <div className="space-y-4">
-                <div className="glass p-4 rounded-2xl border border-white/5 space-y-4">
+                <div className="glass p-4 rounded-2xl border border-border space-y-4">
                    <h3 className="text-[10px] font-bold uppercase tracking-widest text-primary flex items-center gap-2">
                      <Palette size={12} /> Caption Studio & Preview
                    </h3>
@@ -2209,7 +2209,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                      <div className="space-y-1">
                        <label className="text-[8px] font-bold uppercase text-muted-foreground">Font Size</label>
                        <select 
-                         className="w-full bg-black/20 border border-white/10 rounded-lg px-2 py-2 text-[10px]"
+                         className="w-full bg-background/60 border border-border rounded-lg px-2 py-2 text-[10px]"
                          value={editing.caption_style?.fontSize || 'text-sm'}
                          onChange={e => setEditing({...editing, caption_style: {...(editing.caption_style || {}), fontSize: e.target.value}})}
                        >
@@ -2224,7 +2224,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                        <label className="text-[8px] font-bold uppercase text-muted-foreground">Color</label>
                        <input 
                          type="color"
-                         className="w-full h-8 bg-black/20 border border-white/10 rounded-lg"
+                         className="w-full h-8 bg-background/60 border border-border rounded-lg"
                          value={editing.caption_style?.color || '#ffffff'}
                          onChange={e => setEditing({...editing, caption_style: {...(editing.caption_style || {}), color: e.target.value}})}
                        />
@@ -2236,7 +2236,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                            <button 
                              key={pos}
                              onClick={() => setEditing({...editing, caption_style: {...(editing.caption_style || {}), position: pos}})}
-                             className={`flex-1 py-1.5 rounded-lg border text-[8px] font-bold uppercase transition-all ${editing.caption_style?.position === pos ? 'bg-primary border-primary text-primary-foreground' : 'bg-black/20 border-white/10 text-muted-foreground hover:bg-black/40'}`}
+                             className={`flex-1 py-1.5 rounded-lg border text-[8px] font-bold uppercase transition-all ${editing.caption_style?.position === pos ? 'bg-primary border-primary text-primary-foreground' : 'bg-background/60 border-border text-muted-foreground hover:bg-background/60'}`}
                            >
                              {pos}
                            </button>
@@ -2255,11 +2255,11 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                   <div className="flex gap-2">
                     <input 
                       placeholder="SRT/VTT URL"
-                      className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"
+                      className="flex-grow bg-surface border border-border rounded-xl px-4 py-3 text-sm"
                       value={editing.captions_url || ''}
                       onChange={e => setEditing({...editing, captions_url: e.target.value})}
                     />
-                    <label className="cursor-pointer bg-white/10 border border-white/10 px-4 py-3 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors">
+                    <label className="cursor-pointer bg-surface-strong border border-border px-4 py-3 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors">
                       {isUploadingSubtitles ? <Loader2 size={16} className="animate-spin" /> : <Subtitles size={16} />}
                       <input type="file" className="hidden" accept=".srt,.vtt" onChange={handleSubtitleUpload} />
                     </label>
@@ -2290,7 +2290,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                         type="number" 
                         step="0.1" 
                         placeholder="0.0" 
-                        className="w-16 bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px]"
+                        className="w-16 bg-surface border border-border rounded px-2 py-1 text-[10px]"
                         value={c.start}
                         onChange={e => {
                           const caps = [...editing.captions];
@@ -2302,7 +2302,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                         type="number" 
                         step="0.1" 
                         placeholder="5.0" 
-                        className="w-16 bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px]"
+                        className="w-16 bg-surface border border-border rounded px-2 py-1 text-[10px]"
                         value={c.end}
                         onChange={e => {
                           const caps = [...editing.captions];
@@ -2312,7 +2312,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
                       />
                       <input 
                         placeholder="Text..." 
-                        className="flex-grow bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px]"
+                        className="flex-grow bg-surface border border-border rounded px-2 py-1 text-[10px]"
                         value={c.text}
                         onChange={e => {
                           const caps = [...editing.captions];
@@ -2341,7 +2341,7 @@ function CustomizationTab({ onDone }: { onDone: () => void }) {
             <div className="flex gap-3 pt-6">
               <button 
                 onClick={() => setEditing(null)}
-                className="flex-grow glass border border-white/10 py-3 rounded-xl text-xs font-bold uppercase"
+                className="flex-grow glass border border-border py-3 rounded-xl text-xs font-bold uppercase"
               >
                 Cancel
               </button>
@@ -2419,10 +2419,10 @@ function InstagramTab() {
 
   return (
     <div className="space-y-6">
-      <div className="glass rounded-[2rem] p-8 border border-white/5">
+      <div className="glass rounded-[2rem] p-8 border border-border">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white shadow-xl">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-foreground shadow-xl">
               <Instagram size={32} />
             </div>
             <div>
@@ -2443,7 +2443,7 @@ function InstagramTab() {
 
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-6">
-            <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
+            <div className="p-6 rounded-3xl bg-surface border border-border">
               <h3 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                 <Link size={14} className="text-primary" /> Connection Status
               </h3>
@@ -2472,7 +2472,7 @@ function InstagramTab() {
                     <button 
                       onClick={() => syncMutation.mutate()}
                       disabled={syncMutation.isPending}
-                      className="flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-white/10 transition-all"
+                      className="flex-1 py-3 rounded-xl bg-surface border border-border text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-surface-strong transition-all"
                     >
                       {syncMutation.isPending ? <RefreshCw size={14} className="animate-spin" /> : <RefreshCw size={14} />}
                       Sync Feed Now
@@ -2483,7 +2483,7 @@ function InstagramTab() {
                     <span>{settings.last_sync ? new Date(settings.last_sync).toLocaleString() : 'Never'}</span>
                   </div>
 
-                  <div className="pt-4 border-t border-white/5 space-y-3">
+                  <div className="pt-4 border-t border-border space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Token Status</span>
                       <span className={`text-[9px] font-black uppercase ${tokenExpired ? 'text-red-500' : 'text-green-500'}`}>
@@ -2499,13 +2499,13 @@ function InstagramTab() {
                     </button>
                   </div>
 
-                  <div className="pt-4 border-t border-white/5 space-y-2">
+                  <div className="pt-4 border-t border-border space-y-2">
                     <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Realtime Webhook URL</span>
                     <div className="flex gap-2">
-                      <input readOnly value={webhookUrl} className="flex-1 bg-black/20 border border-white/10 rounded-xl px-3 py-2 text-[10px]" />
+                      <input readOnly value={webhookUrl} className="flex-1 bg-background/60 border border-border rounded-xl px-3 py-2 text-[10px]" />
                       <button
                         onClick={() => { void navigator.clipboard.writeText(webhookUrl); toast.success("Webhook URL copied"); }}
-                        className="px-3 rounded-xl bg-white/5 border border-white/10 text-[9px] font-black uppercase"
+                        className="px-3 rounded-xl bg-surface border border-border text-[9px] font-black uppercase"
                       >
                         Copy
                       </button>
@@ -2534,7 +2534,7 @@ function InstagramTab() {
               )}
             </div>
 
-            <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
+            <div className="p-6 rounded-3xl bg-surface border border-border">
               <h3 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                 <AlertCircle size={14} className="text-primary" /> Posting Logs
               </h3>
@@ -2544,7 +2544,7 @@ function InstagramTab() {
                     type="button"
                     key={log.id}
                     onClick={() => setOpenLog(log)}
-                    className="w-full text-left p-3 rounded-xl bg-black/20 border border-white/5 flex items-center justify-between group hover:border-primary/30 transition-colors"
+                    className="w-full text-left p-3 rounded-xl bg-background/60 border border-border flex items-center justify-between group hover:border-primary/30 transition-colors"
                   >
                     <div>
                       <div className="flex items-center gap-2">
@@ -2568,40 +2568,40 @@ function InstagramTab() {
           </div>
 
           <div className="space-y-6">
-            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 h-full">
+            <div className="p-6 rounded-3xl bg-surface border border-border h-full">
               <h3 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                 <Settings2 size={14} className="text-primary" /> Auto-Feed Rules
               </h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-surface border border-border">
                   <div className="space-y-0.5">
                     <span className="text-[10px] font-bold uppercase block">Auto-Publish</span>
                     <span className="text-[8px] text-muted-foreground uppercase font-medium">Sync new posts every hour</span>
                   </div>
                   <button 
                     onClick={() => updateMutation.mutate({ auto_publish: !settings?.auto_publish })}
-                    className={`w-10 h-5 rounded-full transition-all relative ${settings?.auto_publish ? 'bg-primary/20 border-primary/40' : 'bg-white/10 border-white/20'}`}
+                    className={`w-10 h-5 rounded-full transition-all relative ${settings?.auto_publish ? 'bg-primary/20 border-primary/40' : 'bg-surface-strong border-border'}`}
                   >
                     <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${settings?.auto_publish ? 'right-1 bg-primary' : 'left-1 bg-white/40'}`} />
                   </button>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-surface border border-border">
                   <span className="text-[10px] font-bold uppercase">Show on Home Page</span>
                   <button className="w-10 h-5 rounded-full bg-primary/20 border border-primary/40 relative">
                     <div className="absolute right-1 top-1 w-3 h-3 rounded-full bg-primary" />
                   </button>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-surface border border-border">
                   <span className="text-[10px] font-bold uppercase">Show on Shop Pages</span>
-                  <button className="w-10 h-5 rounded-full bg-white/10 border border-white/20 relative">
+                  <button className="w-10 h-5 rounded-full bg-surface-strong border border-border relative">
                     <div className="absolute left-1 top-1 w-3 h-3 rounded-full bg-white/40" />
                   </button>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-surface border border-border">
                   <span className="text-[10px] font-bold uppercase">Filter by Hashtag</span>
-                  <input placeholder="#ambition" className="bg-transparent border-none text-[10px] text-right focus:ring-0 outline-none placeholder:text-white/20" />
+                  <input placeholder="#ambition" className="bg-transparent border-none text-[10px] text-right focus:ring-0 outline-none placeholder:text-foreground/20" />
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-surface border border-border">
                   <div className="space-y-0.5">
                     <span className="text-[10px] font-bold uppercase block">Caption Language</span>
                     <span className="text-[8px] text-muted-foreground uppercase font-medium">Instagram captions convert to subtitles</span>
@@ -2609,7 +2609,7 @@ function InstagramTab() {
                   <select
                     value={settings?.caption_language ?? 'en'}
                     onChange={e => updateMutation.mutate({ caption_language: e.target.value })}
-                    className="bg-black/30 border border-white/10 rounded-lg px-2 py-1 text-[10px] font-bold uppercase"
+                    className="bg-background/60 border border-border rounded-lg px-2 py-1 text-[10px] font-bold uppercase"
                   >
                     <option value="en">English</option>
                     <option value="ur">Urdu</option>
@@ -2617,7 +2617,7 @@ function InstagramTab() {
                     <option value="es">Spanish</option>
                   </select>
                 </div>
-                <div className="pt-4 mt-4 border-t border-white/5">
+                <div className="pt-4 mt-4 border-t border-border">
                   <p className="text-[9px] text-muted-foreground leading-relaxed uppercase tracking-tighter">
                     Realtime webhooks publish new photos and reels the moment you post. Duplicates are blocked automatically, so overlapping syncs and retries never double-post.
                   </p>
@@ -2630,7 +2630,7 @@ function InstagramTab() {
 
       {openLog && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setOpenLog(null)}>
-          <div className="glass rounded-[2rem] p-8 max-w-lg w-full border border-white/10 space-y-5" onClick={e => e.stopPropagation()}>
+          <div className="glass rounded-[2rem] p-8 max-w-lg w-full border border-border space-y-5" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-black uppercase italic">Sync Entry Details</h3>
               <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-full ${openLog.status === 'success' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
@@ -2645,7 +2645,7 @@ function InstagramTab() {
               <Detail label="Next Action" value={openLog.recommended_action ?? (openLog.status === 'success' ? 'None required' : 'Retry the sync')} />
               <div className="space-y-1">
                 <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Payload</span>
-                <pre className="bg-black/40 border border-white/10 rounded-xl p-3 text-[9px] overflow-x-auto">
+                <pre className="bg-background/60 border border-border rounded-xl p-3 text-[9px] overflow-x-auto">
                   {JSON.stringify(openLog.payload ?? {}, null, 2)}
                 </pre>
               </div>
@@ -2660,7 +2660,7 @@ function InstagramTab() {
                   {retryMutation.isPending ? 'Retrying...' : 'Retry Now'}
                 </button>
               )}
-              <button onClick={() => setOpenLog(null)} className="flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em]">
+              <button onClick={() => setOpenLog(null)} className="flex-1 py-3 rounded-xl bg-surface border border-border text-[10px] font-black uppercase tracking-[0.2em]">
                 Close
               </button>
             </div>
@@ -2781,13 +2781,13 @@ function ContentTab() {
 
   return (
     <div className="space-y-12">
-      <div className="glass rounded-[2rem] p-8 border border-white/5">
+      <div className="glass rounded-[2rem] p-8 border border-border">
         <h2 className="text-xl font-black uppercase italic mb-8 flex items-center gap-3">
           <Layout className="text-primary" /> Landing Page
         </h2>
         
         <div className="space-y-6">
-          <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+          <div className="p-6 rounded-3xl bg-surface border border-border space-y-4">
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Hero Section</h3>
             
             <div className="grid gap-6">
@@ -2796,7 +2796,7 @@ function ContentTab() {
                 <textarea 
                   value={form.hero.title}
                   onChange={(e) => setForm({ ...form, hero: { ...form.hero, title: e.target.value } })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[100px]"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[100px]"
                 />
               </label>
               
@@ -2805,7 +2805,7 @@ function ContentTab() {
                 <textarea 
                   value={form.hero.ctaText}
                   onChange={(e) => setForm({ ...form, hero: { ...form.hero, ctaText: e.target.value } })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[80px]"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[80px]"
                 />
               </label>
             </div>
@@ -2821,19 +2821,19 @@ function ContentTab() {
         </div>
       </div>
 
-      <div className="glass rounded-[2rem] p-8 border border-white/5">
+      <div className="glass rounded-[2rem] p-8 border border-border">
         <h2 className="text-xl font-black uppercase italic mb-8 flex items-center gap-3">
           <FileText className="text-primary" /> Footer Configuration
         </h2>
         
         <div className="space-y-6">
-          <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-6">
+          <div className="p-6 rounded-3xl bg-surface border border-border space-y-6">
             <label className="block space-y-2">
               <span className="text-[10px] font-bold uppercase text-muted-foreground">Brand Description</span>
               <textarea 
                 value={footerForm.description}
                 onChange={(e) => setFooterForm({ ...footerForm, description: e.target.value })}
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[100px]"
+                className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[100px]"
               />
             </label>
 
@@ -2844,7 +2844,7 @@ function ContentTab() {
                   type="text"
                   value={footerForm.newsletterTitle}
                   onChange={(e) => setFooterForm({ ...footerForm, newsletterTitle: e.target.value })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
                 />
               </label>
               <label className="block space-y-2">
@@ -2853,7 +2853,7 @@ function ContentTab() {
                   type="text"
                   value={footerForm.copyright}
                   onChange={(e) => setFooterForm({ ...footerForm, copyright: e.target.value })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
                 />
               </label>
             </div>
@@ -2863,7 +2863,7 @@ function ContentTab() {
               <textarea 
                 value={footerForm.newsletterDescription}
                 onChange={(e) => setFooterForm({ ...footerForm, newsletterDescription: e.target.value })}
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[80px]"
+                className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none min-h-[80px]"
               />
             </label>
           </div>
@@ -2925,12 +2925,12 @@ function AlertSettingsTab() {
 
   return (
     <div className="space-y-6">
-      <div className="glass rounded-[2rem] p-8 border border-white/5">
+      <div className="glass rounded-[2rem] p-8 border border-border">
         <h2 className="text-xl font-black uppercase italic mb-8">System Settings</h2>
         
         <div className="space-y-8">
           {/* Thresholds */}
-          <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+          <div className="p-6 rounded-3xl bg-surface border border-border space-y-4">
             <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
               <Activity size={14} /> Alert Thresholds
             </h3>
@@ -2941,7 +2941,7 @@ function AlertSettingsTab() {
                   type="number"
                   value={form.failure_rate_pct}
                   onChange={(e) => setForm({ ...form, failure_rate_pct: Number(e.target.value) })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
                 />
               </label>
               <label className="block space-y-2">
@@ -2950,14 +2950,14 @@ function AlertSettingsTab() {
                   type="number"
                   value={form.latency_ms}
                   onChange={(e) => setForm({ ...form, latency_ms: Number(e.target.value) })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
                 />
               </label>
             </div>
           </div>
 
           {/* Notifications */}
-          <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+          <div className="p-6 rounded-3xl bg-surface border border-border space-y-4">
             <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
               <Mail size={14} /> Notification Channels
             </h3>
@@ -2968,7 +2968,7 @@ function AlertSettingsTab() {
                   type="email"
                   value={form.notification_email}
                   onChange={(e) => setForm({ ...form, notification_email: e.target.value })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
                 />
               </label>
               <label className="block space-y-2">
@@ -2976,7 +2976,7 @@ function AlertSettingsTab() {
                 <input 
                   value={form.slack_webhook_url}
                   onChange={(e) => setForm({ ...form, slack_webhook_url: e.target.value })}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
+                  className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm focus:border-primary outline-none"
                 />
               </label>
             </div>
@@ -2993,7 +2993,7 @@ function AlertSettingsTab() {
             <button 
               onClick={() => testMutation.mutate()}
               disabled={testMutation.isPending}
-              className="px-8 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-white/5 transition-all"
+              className="px-8 border border-border rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-surface transition-all"
             >
               {testMutation.isPending ? <Loader2 className="animate-spin" /> : "Test Alerts"}
             </button>
