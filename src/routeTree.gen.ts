@@ -10,33 +10,293 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ActivewearRouteImport } from './routes/activewear'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CasualWearRouteImport } from './routes/casual-wear'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CustomizationRouteImport } from './routes/customization'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SportswearRouteImport } from './routes/sportswear'
+import { Route as TrackRouteImport } from './routes/track'
+import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
+import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as ApiPublicInstagramWebhookRouteImport } from './routes/api/public/instagram-webhook'
+import { Route as ApiPublicTrackingRouteImport } from './routes/api/public/tracking'
+import { Route as ApiPublicWebhookRouteImport } from './routes/api/public/webhook'
+import { Route as ApiPublicInstagramOauthCallbackRouteImport } from './routes/api/public/instagram-oauth/callback'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivewearRoute = ActivewearRouteImport.update({
+  id: '/activewear',
+  path: '/activewear',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CasualWearRoute = CasualWearRouteImport.update({
+  id: '/casual-wear',
+  path: '/casual-wear',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomizationRoute = CustomizationRouteImport.update({
+  id: '/customization',
+  path: '/customization',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteRoute = QuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SportswearRoute = SportswearRouteImport.update({
+  id: '/sportswear',
+  path: '/sportswear',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
+  id: '/panel',
+  path: '/panel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ProductSlugRoute = ProductSlugRouteImport.update({
+  id: '/product/$slug',
+  path: '/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicInstagramWebhookRoute =
+  ApiPublicInstagramWebhookRouteImport.update({
+    id: '/api/public/instagram-webhook',
+    path: '/api/public/instagram-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicTrackingRoute = ApiPublicTrackingRouteImport.update({
+  id: '/api/public/tracking',
+  path: '/api/public/tracking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicWebhookRoute = ApiPublicWebhookRouteImport.update({
+  id: '/api/public/webhook',
+  path: '/api/public/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicInstagramOauthCallbackRoute =
+  ApiPublicInstagramOauthCallbackRouteImport.update({
+    id: '/api/public/instagram-oauth/callback',
+    path: '/api/public/instagram-oauth/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/activewear': typeof ActivewearRoute
+  '/auth': typeof AuthRoute
+  '/casual-wear': typeof CasualWearRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/customization': typeof CustomizationRoute
+  '/favorites': typeof FavoritesRoute
+  '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sportswear': typeof SportswearRoute
+  '/track': typeof TrackRoute
+  '/panel': typeof AuthenticatedPanelRoute
+  '/product/$slug': typeof ProductSlugRoute
+  '/api/public/instagram-webhook': typeof ApiPublicInstagramWebhookRoute
+  '/api/public/tracking': typeof ApiPublicTrackingRoute
+  '/api/public/webhook': typeof ApiPublicWebhookRoute
+  '/api/public/instagram-oauth/callback': typeof ApiPublicInstagramOauthCallbackRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/activewear': typeof ActivewearRoute
+  '/auth': typeof AuthRoute
+  '/casual-wear': typeof CasualWearRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/customization': typeof CustomizationRoute
+  '/favorites': typeof FavoritesRoute
+  '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sportswear': typeof SportswearRoute
+  '/track': typeof TrackRoute
+  '/panel': typeof AuthenticatedPanelRoute
+  '/product/$slug': typeof ProductSlugRoute
+  '/api/public/instagram-webhook': typeof ApiPublicInstagramWebhookRoute
+  '/api/public/tracking': typeof ApiPublicTrackingRoute
+  '/api/public/webhook': typeof ApiPublicWebhookRoute
+  '/api/public/instagram-oauth/callback': typeof ApiPublicInstagramOauthCallbackRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/activewear': typeof ActivewearRoute
+  '/auth': typeof AuthRoute
+  '/casual-wear': typeof CasualWearRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/customization': typeof CustomizationRoute
+  '/favorites': typeof FavoritesRoute
+  '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sportswear': typeof SportswearRoute
+  '/track': typeof TrackRoute
+  '/_authenticated/panel': typeof AuthenticatedPanelRoute
+  '/product/$slug': typeof ProductSlugRoute
+  '/api/public/instagram-webhook': typeof ApiPublicInstagramWebhookRoute
+  '/api/public/tracking': typeof ApiPublicTrackingRoute
+  '/api/public/webhook': typeof ApiPublicWebhookRoute
+  '/api/public/instagram-oauth/callback': typeof ApiPublicInstagramOauthCallbackRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/activewear'
+    | '/auth'
+    | '/casual-wear'
+    | '/checkout'
+    | '/contact'
+    | '/customization'
+    | '/favorites'
+    | '/quote'
+    | '/reset-password'
+    | '/sportswear'
+    | '/track'
+    | '/panel'
+    | '/product/$slug'
+    | '/api/public/instagram-webhook'
+    | '/api/public/tracking'
+    | '/api/public/webhook'
+    | '/api/public/instagram-oauth/callback'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/activewear'
+    | '/auth'
+    | '/casual-wear'
+    | '/checkout'
+    | '/contact'
+    | '/customization'
+    | '/favorites'
+    | '/quote'
+    | '/reset-password'
+    | '/sportswear'
+    | '/track'
+    | '/panel'
+    | '/product/$slug'
+    | '/api/public/instagram-webhook'
+    | '/api/public/tracking'
+    | '/api/public/webhook'
+    | '/api/public/instagram-oauth/callback'
+    | '/api/public/media/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/activewear'
+    | '/auth'
+    | '/casual-wear'
+    | '/checkout'
+    | '/contact'
+    | '/customization'
+    | '/favorites'
+    | '/quote'
+    | '/reset-password'
+    | '/sportswear'
+    | '/track'
+    | '/_authenticated/panel'
+    | '/product/$slug'
+    | '/api/public/instagram-webhook'
+    | '/api/public/tracking'
+    | '/api/public/webhook'
+    | '/api/public/instagram-oauth/callback'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  ActivewearRoute: typeof ActivewearRoute
+  AuthRoute: typeof AuthRoute
+  CasualWearRoute: typeof CasualWearRoute
+  CheckoutRoute: typeof CheckoutRoute
+  ContactRoute: typeof ContactRoute
+  CustomizationRoute: typeof CustomizationRoute
+  FavoritesRoute: typeof FavoritesRoute
+  QuoteRoute: typeof QuoteRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SportswearRoute: typeof SportswearRoute
+  TrackRoute: typeof TrackRoute
+  ProductSlugRoute: typeof ProductSlugRoute
+  ApiPublicInstagramWebhookRoute: typeof ApiPublicInstagramWebhookRoute
+  ApiPublicTrackingRoute: typeof ApiPublicTrackingRoute
+  ApiPublicWebhookRoute: typeof ApiPublicWebhookRoute
+  ApiPublicInstagramOauthCallbackRoute: typeof ApiPublicInstagramOauthCallbackRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +308,181 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activewear': {
+      id: '/activewear'
+      path: '/activewear'
+      fullPath: '/activewear'
+      preLoaderRoute: typeof ActivewearRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/casual-wear': {
+      id: '/casual-wear'
+      path: '/casual-wear'
+      fullPath: '/casual-wear'
+      preLoaderRoute: typeof CasualWearRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customization': {
+      id: '/customization'
+      path: '/customization'
+      fullPath: '/customization'
+      preLoaderRoute: typeof CustomizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quote': {
+      id: '/quote'
+      path: '/quote'
+      fullPath: '/quote'
+      preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sportswear': {
+      id: '/sportswear'
+      path: '/sportswear'
+      fullPath: '/sportswear'
+      preLoaderRoute: typeof SportswearRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/panel': {
+      id: '/_authenticated/panel'
+      path: '/panel'
+      fullPath: '/panel'
+      preLoaderRoute: typeof AuthenticatedPanelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/product/$slug': {
+      id: '/product/$slug'
+      path: '/product/$slug'
+      fullPath: '/product/$slug'
+      preLoaderRoute: typeof ProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/instagram-webhook': {
+      id: '/api/public/instagram-webhook'
+      path: '/api/public/instagram-webhook'
+      fullPath: '/api/public/instagram-webhook'
+      preLoaderRoute: typeof ApiPublicInstagramWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/tracking': {
+      id: '/api/public/tracking'
+      path: '/api/public/tracking'
+      fullPath: '/api/public/tracking'
+      preLoaderRoute: typeof ApiPublicTrackingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/webhook': {
+      id: '/api/public/webhook'
+      path: '/api/public/webhook'
+      fullPath: '/api/public/webhook'
+      preLoaderRoute: typeof ApiPublicWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/instagram-oauth/callback': {
+      id: '/api/public/instagram-oauth/callback'
+      path: '/api/public/instagram-oauth/callback'
+      fullPath: '/api/public/instagram-oauth/callback'
+      preLoaderRoute: typeof ApiPublicInstagramOauthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPanelRoute: typeof AuthenticatedPanelRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPanelRoute: AuthenticatedPanelRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  ActivewearRoute: ActivewearRoute,
+  AuthRoute: AuthRoute,
+  CasualWearRoute: CasualWearRoute,
+  CheckoutRoute: CheckoutRoute,
+  ContactRoute: ContactRoute,
+  CustomizationRoute: CustomizationRoute,
+  FavoritesRoute: FavoritesRoute,
+  QuoteRoute: QuoteRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SportswearRoute: SportswearRoute,
+  TrackRoute: TrackRoute,
+  ProductSlugRoute: ProductSlugRoute,
+  ApiPublicInstagramWebhookRoute: ApiPublicInstagramWebhookRoute,
+  ApiPublicTrackingRoute: ApiPublicTrackingRoute,
+  ApiPublicWebhookRoute: ApiPublicWebhookRoute,
+  ApiPublicInstagramOauthCallbackRoute: ApiPublicInstagramOauthCallbackRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
