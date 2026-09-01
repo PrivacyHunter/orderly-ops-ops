@@ -429,8 +429,8 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
   });
 
   const saveMutation = useMutation({
-    mutationFn: (draft: ProductForm) =>
-      save({
+    mutationFn: async (draft: ProductForm) => {
+      const result = await save({
         data: {
           id: draft.id,
           name: draft.name,
@@ -448,8 +448,13 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
           status: draft.status,
           sort_order: draft.sort_order,
         },
-      }),
-    onSuccess: () => { toast.success("Product saved"); setForm(null); onDone(); },
+      });
+      if (draft.slug) {
+        await setSubcategory({ data: { slug: draft.slug, subcategory: draft.subcategory } }).catch(() => null);
+      }
+      return result;
+    },
+    onSuccess: () => { toast.success("Product saved"); setForm(null); refetchTaxonomy(); onDone(); },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Save failed"),
   });
 
