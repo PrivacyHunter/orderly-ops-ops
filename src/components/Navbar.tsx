@@ -119,7 +119,48 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
+            <Link
+              to="/"
+              className="text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
+              activeProps={{ className: "text-primary" }}
+              activeOptions={{ exact: true }}
+            >
+              Home
+            </Link>
+            {categoryMenus.map((menu) => (
+              <div key={menu.key} className="relative group/menu">
+                <Link
+                  to={menu.href}
+                  className="flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
+                  activeProps={{ className: "text-primary" }}
+                >
+                  {menu.label}
+                  <ChevronDown size={14} className="transition-transform group-hover/menu:rotate-180" />
+                </Link>
+                <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-1 pt-3 opacity-0 transition-all group-hover/menu:visible group-hover/menu:translate-y-0 group-hover/menu:opacity-100">
+                  <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+                    {menu.subs.map((sub) => (
+                      <Link
+                        key={sub.slug}
+                        to={menu.href}
+                        search={{ sub: sub.slug }}
+                        className="block border-b border-border px-4 py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-foreground transition-colors hover:bg-surface hover:text-primary"
+                      >
+                        {sub.name}
+                      </Link>
+                    ))}
+                    <Link
+                      to={menu.href}
+                      search={{ sub: "all" }}
+                      className="block px-4 py-3 text-[11px] font-black uppercase tracking-[0.12em] text-primary transition-colors hover:bg-surface"
+                    >
+                      All Products
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
             {navLinks.map((link) => (
               <Link
                 key={link.name}
