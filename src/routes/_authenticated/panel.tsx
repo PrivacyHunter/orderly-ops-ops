@@ -73,7 +73,7 @@ export const Route = createFileRoute("/_authenticated/panel")({
   component: PanelPage,
 });
 
-type Tab = "overview" | "inbox" | "orders" | "products" | "banners" | "certificates" | "blocks" | "theme" | "branding" | "seo" | "customization" | "visitors" | "analytics" | "instagram" | "accounts" | "logs" | "content" | "settings";
+type Tab = "overview" | "inbox" | "orders" | "products" | "banners" | "certificates" | "blocks" | "theme" | "branding" | "seo" | "customization" | "visitors" | "analytics" | "accounts" | "logs" | "content" | "settings";
 
 const TABS: {
   id: Tab;
@@ -96,7 +96,6 @@ const TABS: {
   { id: "customization", label: "Studio Manager", icon: Layers, roles: ["owner", "admin", "developer"], permission: "customization" },
   { id: "visitors", label: "Visitors", icon: Globe2, roles: ["owner", "admin", "developer"], permission: "visitors" },
   { id: "analytics", label: "Analytics", icon: BarChart3, roles: ["owner", "admin", "developer"], permission: "analytics" },
-  { id: "instagram", label: "Instagram", icon: Instagram, roles: ["owner", "admin", "developer"], permission: "instagram" },
   { id: "accounts", label: "Accounts", icon: Users, roles: ["owner", "developer"] },
   { id: "logs", label: "Logs", icon: Activity, roles: ["developer"] },
   { id: "content", label: "Content", icon: FileText, roles: ["owner", "admin", "developer"], permission: "content" },
@@ -115,7 +114,6 @@ const PERMISSION_LABELS: Record<string, string> = {
   customization: "Studio Manager",
   visitors: "Visitors",
   analytics: "Analytics",
-  instagram: "Instagram",
   content: "Content",
   settings: "Settings",
 };
