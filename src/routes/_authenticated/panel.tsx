@@ -479,6 +479,7 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
     name: product.name,
     slug: product.slug,
     category: product.category,
+    subcategory: taxonomy?.assignments?.[product.slug] ?? "",
     description: product.description ?? "",
     price: Number(product.price) || 0,
     stock: Number(product.stock) || 0,
