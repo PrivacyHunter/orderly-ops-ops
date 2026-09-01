@@ -288,7 +288,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-lg font-bold uppercase tracking-widest hover:text-neon-cyan"
+                className="border-b border-border py-3.5 text-sm font-bold uppercase tracking-widest hover:text-primary"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -296,14 +296,14 @@ export function Navbar() {
             ))}
             <Link
               to="/favorites"
-              className="flex items-center gap-3 text-lg font-bold uppercase tracking-widest hover:text-primary"
+              className="flex items-center gap-3 border-b border-border py-3.5 text-sm font-bold uppercase tracking-widest hover:text-primary"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <Heart size={18} /> Favorites
+              <Heart size={16} /> Favorites
             </Link>
             <Link
               to="/quote"
-              className="bg-primary text-primary-foreground px-6 py-3 rounded text-center font-black uppercase"
+              className="mt-4 rounded-xl bg-primary px-6 py-3.5 text-center text-sm font-black uppercase text-primary-foreground"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Get a Quote
