@@ -21,6 +21,7 @@ import { Route as CustomizationRouteImport } from './routes/customization'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as SportswearRouteImport } from './routes/sportswear'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
@@ -88,6 +89,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SportswearRoute = SportswearRouteImport.update({
   id: '/sportswear',
   path: '/sportswear',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
   '/panel': typeof AuthenticatedPanelRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
   '/panel': typeof AuthenticatedPanelRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
   '/_authenticated/panel': typeof AuthenticatedPanelRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/quote'
     | '/reset-password'
+    | '/search'
     | '/sportswear'
     | '/track'
     | '/panel'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/quote'
     | '/reset-password'
+    | '/search'
     | '/sportswear'
     | '/track'
     | '/panel'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/quote'
     | '/reset-password'
+    | '/search'
     | '/sportswear'
     | '/track'
     | '/_authenticated/panel'
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SearchRoute: typeof SearchRoute
   SportswearRoute: typeof SportswearRoute
   TrackRoute: typeof TrackRoute
   ProductSlugRoute: typeof ProductSlugRoute
@@ -357,6 +370,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sportswear': {
       id: '/sportswear'
       path: '/sportswear'
@@ -433,6 +453,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SearchRoute: SearchRoute,
   SportswearRoute: SportswearRoute,
   TrackRoute: TrackRoute,
   ProductSlugRoute: ProductSlugRoute,
