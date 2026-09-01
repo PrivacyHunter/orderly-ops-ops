@@ -9,11 +9,9 @@ import {
   Search, BarChart3, TrendingUp, MapPin, Smartphone,
   ArrowRight, GripVertical, Check, Wand2, FileJson,
   Layout, ShoppingBag, FileText, Activity, Mail, Layers, Play, Subtitles, X,
-  Trash2, CheckSquare, Square, DownloadCloud, RefreshCw, Link, AlertCircle,
+  Trash2, CheckSquare, Square, DownloadCloud,
   Images, Pencil, Copy, Award
 } from "lucide-react";
-
-import { SiGooglechrome as Chrome, SiInstagram as Instagram } from "react-icons/si";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as ReTooltip, ResponsiveContainer,
   PieChart, Pie, Cell, AreaChart, Area
