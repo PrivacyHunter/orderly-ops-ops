@@ -64,7 +64,7 @@ function CasualWear() {
           }}
         />
 
-        <CategoryProducts category="casualwear" accentClass="group-hover:text-primary" />
+        <CategoryProducts category="casualwear" accentClass="group-hover:text-primary" activeSub={activeSub} />
 
         {/* Casual CTA */}
         <section className="py-24 px-4 bg-white relative overflow-hidden">

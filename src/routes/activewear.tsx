@@ -64,7 +64,7 @@ function Activewear() {
           }}
         />
 
-        <CategoryProducts category="activewear" accentClass="group-hover:text-neon-lime" />
+        <CategoryProducts category="activewear" accentClass="group-hover:text-neon-lime" activeSub={activeSub} />
 
         {/* Catalog CTA */}
         <section className="py-24 px-4 bg-neon-lime relative overflow-hidden">

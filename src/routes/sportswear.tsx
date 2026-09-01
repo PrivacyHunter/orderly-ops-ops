@@ -64,7 +64,7 @@ function Sportswear() {
           }}
         />
 
-        <CategoryProducts category="sportswear" accentClass="group-hover:text-primary" />
+        <CategoryProducts category="sportswear" accentClass="group-hover:text-primary" activeSub={activeSub} />
 
         {/* Global Catalog CTA */}
         <CatalogCTA />
