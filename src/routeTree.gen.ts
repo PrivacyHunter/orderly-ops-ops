@@ -25,10 +25,8 @@ import { Route as SportswearRouteImport } from './routes/sportswear'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
-import { Route as ApiPublicInstagramWebhookRouteImport } from './routes/api/public/instagram-webhook'
 import { Route as ApiPublicTrackingRouteImport } from './routes/api/public/tracking'
 import { Route as ApiPublicWebhookRouteImport } from './routes/api/public/webhook'
-import { Route as ApiPublicInstagramOauthCallbackRouteImport } from './routes/api/public/instagram-oauth/callback'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -110,12 +108,6 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicInstagramWebhookRoute =
-  ApiPublicInstagramWebhookRouteImport.update({
-    id: '/api/public/instagram-webhook',
-    path: '/api/public/instagram-webhook',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiPublicTrackingRoute = ApiPublicTrackingRouteImport.update({
   id: '/api/public/tracking',
   path: '/api/public/tracking',
@@ -126,12 +118,6 @@ const ApiPublicWebhookRoute = ApiPublicWebhookRouteImport.update({
   path: '/api/public/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicInstagramOauthCallbackRoute =
-  ApiPublicInstagramOauthCallbackRouteImport.update({
-    id: '/api/public/instagram-oauth/callback',
-    path: '/api/public/instagram-oauth/callback',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   id: '/api/public/media/$',
   path: '/api/public/media/$',
@@ -154,10 +140,8 @@ export interface FileRoutesByFullPath {
   '/track': typeof TrackRoute
   '/panel': typeof AuthenticatedPanelRoute
   '/product/$slug': typeof ProductSlugRoute
-  '/api/public/instagram-webhook': typeof ApiPublicInstagramWebhookRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
-  '/api/public/instagram-oauth/callback': typeof ApiPublicInstagramOauthCallbackRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
@@ -176,10 +160,8 @@ export interface FileRoutesByTo {
   '/track': typeof TrackRoute
   '/panel': typeof AuthenticatedPanelRoute
   '/product/$slug': typeof ProductSlugRoute
-  '/api/public/instagram-webhook': typeof ApiPublicInstagramWebhookRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
-  '/api/public/instagram-oauth/callback': typeof ApiPublicInstagramOauthCallbackRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
@@ -200,10 +182,8 @@ export interface FileRoutesById {
   '/track': typeof TrackRoute
   '/_authenticated/panel': typeof AuthenticatedPanelRoute
   '/product/$slug': typeof ProductSlugRoute
-  '/api/public/instagram-webhook': typeof ApiPublicInstagramWebhookRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
-  '/api/public/instagram-oauth/callback': typeof ApiPublicInstagramOauthCallbackRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
@@ -224,10 +204,8 @@ export interface FileRouteTypes {
     | '/track'
     | '/panel'
     | '/product/$slug'
-    | '/api/public/instagram-webhook'
     | '/api/public/tracking'
     | '/api/public/webhook'
-    | '/api/public/instagram-oauth/callback'
     | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -246,10 +224,8 @@ export interface FileRouteTypes {
     | '/track'
     | '/panel'
     | '/product/$slug'
-    | '/api/public/instagram-webhook'
     | '/api/public/tracking'
     | '/api/public/webhook'
-    | '/api/public/instagram-oauth/callback'
     | '/api/public/media/$'
   id:
     | '__root__'
@@ -269,10 +245,8 @@ export interface FileRouteTypes {
     | '/track'
     | '/_authenticated/panel'
     | '/product/$slug'
-    | '/api/public/instagram-webhook'
     | '/api/public/tracking'
     | '/api/public/webhook'
-    | '/api/public/instagram-oauth/callback'
     | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
@@ -292,10 +266,8 @@ export interface RootRouteChildren {
   SportswearRoute: typeof SportswearRoute
   TrackRoute: typeof TrackRoute
   ProductSlugRoute: typeof ProductSlugRoute
-  ApiPublicInstagramWebhookRoute: typeof ApiPublicInstagramWebhookRoute
   ApiPublicTrackingRoute: typeof ApiPublicTrackingRoute
   ApiPublicWebhookRoute: typeof ApiPublicWebhookRoute
-  ApiPublicInstagramOauthCallbackRoute: typeof ApiPublicInstagramOauthCallbackRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
@@ -413,13 +385,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/instagram-webhook': {
-      id: '/api/public/instagram-webhook'
-      path: '/api/public/instagram-webhook'
-      fullPath: '/api/public/instagram-webhook'
-      preLoaderRoute: typeof ApiPublicInstagramWebhookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/tracking': {
       id: '/api/public/tracking'
       path: '/api/public/tracking'
@@ -432,13 +397,6 @@ declare module '@tanstack/react-router' {
       path: '/api/public/webhook'
       fullPath: '/api/public/webhook'
       preLoaderRoute: typeof ApiPublicWebhookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/instagram-oauth/callback': {
-      id: '/api/public/instagram-oauth/callback'
-      path: '/api/public/instagram-oauth/callback'
-      fullPath: '/api/public/instagram-oauth/callback'
-      preLoaderRoute: typeof ApiPublicInstagramOauthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/media/$': {
@@ -478,10 +436,8 @@ const rootRouteChildren: RootRouteChildren = {
   SportswearRoute: SportswearRoute,
   TrackRoute: TrackRoute,
   ProductSlugRoute: ProductSlugRoute,
-  ApiPublicInstagramWebhookRoute: ApiPublicInstagramWebhookRoute,
   ApiPublicTrackingRoute: ApiPublicTrackingRoute,
   ApiPublicWebhookRoute: ApiPublicWebhookRoute,
-  ApiPublicInstagramOauthCallbackRoute: ApiPublicInstagramOauthCallbackRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
