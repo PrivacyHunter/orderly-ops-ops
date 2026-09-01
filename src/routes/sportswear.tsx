@@ -9,9 +9,8 @@ import { CatalogCTA } from "@/components/CatalogCTA";
 import { CategoryProducts } from "@/components/CategoryProducts";
 
 export const Route = createFileRoute("/sportswear")({
-  validateSearch: (search: Record<string, unknown>): { sub?: string } => ({
-    sub: typeof search["sub"] === "string" ? search["sub"] : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { sub?: string } =>
+    typeof search["sub"] === "string" && search["sub"] ? { sub: search["sub"] } : {},
   loader: async ({ context }) => {
     const qc = context.queryClient;
     const [seo] = await Promise.all([
