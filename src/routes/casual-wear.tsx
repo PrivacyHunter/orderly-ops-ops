@@ -46,6 +46,8 @@ export const Route = createFileRoute("/casual-wear")({
 });
 
 function CasualWear() {
+  const { sub } = Route.useSearch();
+  const activeSub = sub === "all" ? "" : (sub ?? "");
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-white selection:text-background">
       <Navbar />

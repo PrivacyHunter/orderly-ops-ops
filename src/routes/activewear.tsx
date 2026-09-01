@@ -46,6 +46,8 @@ export const Route = createFileRoute("/activewear")({
 });
 
 function Activewear() {
+  const { sub } = Route.useSearch();
+  const activeSub = sub === "all" ? "" : (sub ?? "");
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-neon-lime selection:text-background">
       <Navbar />
