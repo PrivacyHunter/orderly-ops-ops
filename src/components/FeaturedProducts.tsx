@@ -99,7 +99,7 @@ export function FeaturedProducts() {
           >
             {products.map((product) => {
             const image = resolveMediaUrl(product.cover_image || product.images?.[0] || "");
-            const price = product.price == null ? "Custom Quote" : `${product.currency ?? "USD"} ${product.price}`;
+            const price = formatPrice(product.price, product.currency);
             return (
               <div
                 key={product.id}
