@@ -8,6 +8,7 @@ import { getPageSeo } from '@/lib/seo.functions';
 import { Navbar } from '@/components/Navbar';
 import { PageHero } from '@/components/PageHero';
 import { Footer } from '@/components/Footer';
+import { SizeGuide } from '@/components/B2bSections';
 
 export const Route = createFileRoute('/customization')({
   head: () => {

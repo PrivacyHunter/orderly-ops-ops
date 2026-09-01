@@ -282,7 +282,7 @@ function Index() {
           </div>
         </section>
 
-        <SizeGuide />
+        
 
         <Certifications />
 
@@ -329,7 +329,7 @@ function Index() {
 
 
 
-        <OrderTrackingBanner />
+        
 
         {/* Red footer CTA banner */}
         <section className="bg-primary px-4 py-14 md:py-16 lg:px-8">
