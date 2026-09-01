@@ -44,7 +44,6 @@ export function Navbar() {
   const social = blocks?.social;
 
   const navLinks = [
-    { name: "Home", href: "/" },
     { name: "Customization", href: "/customization" },
     { name: "About Us", href: "/about" },
     { name: "Contact Us", href: "/contact" },
