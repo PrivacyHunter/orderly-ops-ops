@@ -12,6 +12,7 @@ type Social = { facebook: string; instagram: string; twitter: string; linkedin: 
 type PageBanner = { eyebrow: string; title1: string; title2: string; subtitle: string; image: string };
 type Catalog = { title: string; subtitle: string; buttonLabel: string; fileUrl: string };
 type CategoryCard = { title: string; desc: string; image: string; url: string };
+type ShowcaseCard = { image: string; alt: string };
 const EMPTY_CATALOG: Catalog = { title: "", subtitle: "", buttonLabel: "", fileUrl: "" };
 type Facilities = {
   eyebrow: string; title1: string; title2: string; description: string;
@@ -43,6 +44,7 @@ export function SiteBlocksTab() {
   const [catalog, setCatalog] = useState<Catalog>({ title: "", subtitle: "", buttonLabel: "", fileUrl: "" });
   const [facilities, setFacilities] = useState<Facilities>(EMPTY_FACILITIES);
   const [categories, setCategories] = useState<CategoryCard[]>([]);
+  const [showcase, setShowcase] = useState<ShowcaseCard[]>([]);
 
   useEffect(() => {
     if (!data) return;
@@ -52,10 +54,11 @@ export function SiteBlocksTab() {
     setCatalog({ ...EMPTY_CATALOG, ...((data as any).catalog ?? {}) } as Catalog);
     setFacilities({ ...EMPTY_FACILITIES, ...((data as any).facilities ?? {}) } as Facilities);
     setCategories((((data as any).categories ?? []) as CategoryCard[]));
+    setShowcase((((data as any).showcase ?? []) as ShowcaseCard[]));
   }, [data]);
 
   const mutation = useMutation({
-    mutationFn: () => save({ data: { workflow, social, pageBanners, catalog, facilities, categories } }),
+    mutationFn: () => save({ data: { workflow, social, pageBanners, catalog, facilities, categories, showcase } }),
     onSuccess: () => { toast.success("Site blocks saved"); void refetch(); },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Save failed"),
   });
@@ -182,6 +185,47 @@ export function SiteBlocksTab() {
                 <Field label="Description" value={cat.desc} onChange={(desc) => patchCat({ desc })} />
                 <Field label="Link (e.g. /sportswear)" value={cat.url} onChange={(url) => patchCat({ url })} />
                 <MediaField label="Image" value={cat.image} folder="products" accept="image/*" onChange={(image) => patchCat({ image })} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="glass space-y-5 rounded-3xl p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h3 className="text-sm font-black uppercase">Factory showcase grid (Instagram section)</h3>
+            <p className="text-xs text-muted-foreground">
+              Upload your real stitching, sublimation and finished-kit photos. Empty slots fall back to the built-in images.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowcase((rows) => [...rows, { image: "", alt: "" }])}
+            className="flex shrink-0 items-center gap-2 rounded-lg border border-border px-3 py-2 text-[10px] font-bold uppercase tracking-widest hover:border-primary"
+          >
+            <Plus size={12} /> Add photo
+          </button>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {showcase.map((card, index) => {
+            const patchCard = (next: Partial<ShowcaseCard>) =>
+              setShowcase((rows) => rows.map((row, i) => (i === index ? { ...row, ...next } : row)));
+            return (
+              <div key={index} className="space-y-3 rounded-2xl border border-border p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Photo {index + 1}</span>
+                  <button
+                    type="button"
+                    aria-label="Remove photo"
+                    onClick={() => setShowcase((rows) => rows.filter((_, i) => i !== index))}
+                    className="text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+                <MediaField label="Photo" value={card.image} folder="studio" accept="image/*" onChange={(image) => patchCard({ image })} />
+                <Field label="Alt text (SEO)" value={card.alt} onChange={(alt) => patchCard({ alt })} />
               </div>
             );
           })}
