@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Phone, Mail, Heart, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, Mail, Heart, ChevronDown, Search } from "lucide-react";
 import { CATEGORY_LABELS, CATEGORY_ROUTES, subcategoriesFor, type CategoryKey } from "@/lib/catalog";
 import { listSettings } from "@/lib/admin.functions";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
@@ -9,6 +9,7 @@ import { FaThreads } from "react-icons/fa6";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getSiteBlocks } from "@/lib/site-blocks.functions";
+import { useNavigate } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -17,6 +18,17 @@ export function Navbar() {
   const { branding } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
+  const submitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const term = query.trim();
+    if (!term) return;
+    setIsMobileMenuOpen(false);
+    void navigate({ to: "/search", search: { q: term } });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -177,6 +189,16 @@ export function Navbar() {
             >
               Get a Quote
             </Link>
+            <form onSubmit={submitSearch} className="relative">
+              <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search..."
+                aria-label="Search products"
+                className="w-36 rounded-full border border-border bg-card py-2 pl-8 pr-3 text-xs text-foreground outline-none placeholder:text-muted-foreground focus:w-52 focus:border-primary transition-all"
+              />
+            </form>
             <Link
               to="/favorites"
               className="p-2 hover:bg-surface rounded-full transition-colors text-muted-foreground hover:text-primary relative group"
