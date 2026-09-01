@@ -393,6 +393,7 @@ type ProductForm = {
   name: string;
   slug: string;
   category: "sportswear" | "activewear" | "casualwear";
+  subcategory: string;
   description: string;
   price: number;
   stock: number;
@@ -406,7 +407,7 @@ type ProductForm = {
 };
 
 const EMPTY_PRODUCT: ProductForm = {
-  name: "", slug: "", category: "sportswear", description: "", price: 0, stock: 0,
+  name: "", slug: "", category: "sportswear", subcategory: "", description: "", price: 0, stock: 0,
   images: [], sizes: "", colors: "", is_featured: false, is_active: true,
   status: "published", sort_order: 0,
 };
