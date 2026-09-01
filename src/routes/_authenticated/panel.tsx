@@ -54,6 +54,8 @@ import { CustomOrdersTab } from "@/components/admin/CustomOrdersTab";
 import { SmartImage } from "@/components/admin/SmartImage";
 import { MediaField } from "@/components/admin/MediaField";
 import { copyToClipboard, downloadUrl, uploadMedia } from "@/lib/media";
+import { getCatalogTaxonomy, setProductSubcategory } from "@/lib/catalog.functions";
+import { subcategoriesFor } from "@/lib/catalog";
 
 
 // PDF export will be handled by dynamic import in AnalyticsDashboard
