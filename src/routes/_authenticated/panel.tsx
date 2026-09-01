@@ -36,14 +36,7 @@ import {
   getEngagementStats,
   bulkActionCustomizationVideos 
 } from "@/lib/customization.functions";
-import { 
-  getInstagramSettings, 
-  updateInstagramSettings, 
-  syncInstagramPosts,
-  initiateInstagramAuth 
-} from "@/lib/instagram.functions";
 import { DEFAULT_BRANDING, DEFAULT_THEME, FONT_PRESETS, THEME_PRESETS, type BrandingConfig, type ThemeConfig } from "@/lib/theme";
-import { getInstagramLogs, retrySyncLog } from "@/lib/instagram.functions";
 import { CaptionPreview } from "@/components/CaptionPreview";
 import { BannersTab } from "@/components/admin/BannersTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
