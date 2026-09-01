@@ -1,5 +1,8 @@
 import { FaInstagram } from "react-icons/fa";
-import { assetUrl } from "@/lib/media";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { assetUrl, resolveMediaUrl } from "@/lib/media";
+import { getSiteBlocks } from "@/lib/site-blocks.functions";
 
 import factoryViewImg from "@/assets/factory-view.jpg.asset.json";
 import stitchingFloorImg from "@/assets/stitching-floor.jpg.asset.json";
@@ -12,7 +15,7 @@ const INSTAGRAM_PROFILE = "https://www.instagram.com/ambition_sports313";
 const INSTAGRAM_FEED =
   "https://www.instagram.com/ambition_sports313?igsi=MWNseTBvaHcxcGJq&utm_source=qr";
 
-const FACTORY_CARDS = [
+const FALLBACK_CARDS = [
   {
     src: factoryViewImg.url,
     alt: "Ambition Sports manufacturing facility floor overview in Sialkot",
@@ -40,6 +43,17 @@ const FACTORY_CARDS = [
 ];
 
 export function InstagramSection() {
+  const loadBlocks = useServerFn(getSiteBlocks);
+  const { data: blocks } = useQuery({ queryKey: ["site-blocks"], queryFn: () => loadBlocks() });
+
+  const uploaded = (blocks?.showcase ?? [])
+    .filter((card) => card.image?.trim())
+    .map((card, i) => ({
+      src: resolveMediaUrl(card.image),
+      alt: card.alt?.trim() || FALLBACK_CARDS[i]?.alt || "Ambition Sports factory photo",
+    }));
+  const FACTORY_CARDS = (uploaded.length ? uploaded : FALLBACK_CARDS).slice(0, 6);
+
   return (
     <section className="bg-card px-4 py-16 md:py-20 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-center gap-10 rounded-3xl border border-border bg-card p-8 md:grid-cols-2 md:p-12">
@@ -75,7 +89,7 @@ export function InstagramSection() {
               aria-label="Open our Instagram profile"
             >
               <img
-                src={assetUrl(img.src)}
+                src={img.src.startsWith("/__l5e") ? assetUrl(img.src) : img.src}
                 alt={img.alt}
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"

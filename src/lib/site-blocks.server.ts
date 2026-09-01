@@ -35,6 +35,7 @@ export type Facilities = {
   buttonUrl: string;
 };
 export type CategoryCard = { title: string; desc: string; image: string; url: string };
+export type ShowcaseCard = { image: string; alt: string };
 export type SiteBlocks = {
   workflow: WorkflowStep[];
   social: SocialLinks;
@@ -42,6 +43,7 @@ export type SiteBlocks = {
   catalog: Catalog;
   facilities: Facilities;
   categories: CategoryCard[];
+  showcase: ShowcaseCard[];
 };
 
 export const DEFAULT_CATEGORIES: CategoryCard[] = [
@@ -51,6 +53,15 @@ export const DEFAULT_CATEGORIES: CategoryCard[] = [
   { title: "Hoodies & Jackets", desc: "Fleece hoodies, windbreakers & tracksuits.", image: "", url: "/casual-wear" },
   { title: "Accessories", desc: "Caps, bags, socks, gloves & headwear.", image: "", url: "/casual-wear" },
   { title: "Custom Teamwear", desc: "Full club packages built to your spec.", image: "", url: "/quote" },
+];
+
+export const DEFAULT_SHOWCASE: ShowcaseCard[] = [
+  { image: "", alt: "Ambition Sports stitching unit in Sialkot" },
+  { image: "", alt: "Sublimation printing of custom sportswear" },
+  { image: "", alt: "Fabric cutting department" },
+  { image: "", alt: "Quality control on finished custom kits" },
+  { image: "", alt: "Finished custom team kits ready for export" },
+  { image: "", alt: "Performance fabric rolls for bulk B2B orders" },
 ];
 
 export const PAGE_BANNER_KEYS = [
@@ -105,6 +116,7 @@ export const DEFAULT_SITE_BLOCKS: SiteBlocks = {
     buttonUrl: "/quote",
   },
   categories: DEFAULT_CATEGORIES,
+  showcase: DEFAULT_SHOWCASE,
 };
 
 function getReadClient(): DB {
@@ -147,6 +159,7 @@ export async function fetchSiteBlocks(): Promise<SiteBlocks> {
       catalog: { ...DEFAULT_SITE_BLOCKS.catalog, ...(parsed.catalog ?? {}) },
       facilities: { ...DEFAULT_SITE_BLOCKS.facilities, ...(parsed.facilities ?? {}) },
       categories: parsed.categories?.length ? parsed.categories : DEFAULT_CATEGORIES,
+      showcase: parsed.showcase?.length ? parsed.showcase : DEFAULT_SHOWCASE,
     };
   } catch {
     return DEFAULT_SITE_BLOCKS;

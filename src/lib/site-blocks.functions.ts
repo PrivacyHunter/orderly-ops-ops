@@ -89,6 +89,15 @@ const blocksSchema = z.object({
     )
     .max(24)
     .default([]),
+  showcase: z
+    .array(
+      z.object({
+        image: z.string().max(600).default(""),
+        alt: z.string().max(200).default(""),
+      }),
+    )
+    .max(12)
+    .default([]),
 });
 
 export const getSiteBlocks = createServerFn({ method: "GET" }).handler(async () => {
