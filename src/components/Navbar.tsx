@@ -44,13 +44,18 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Sportswear", href: "/sportswear" },
-    { name: "Activewear", href: "/activewear" },
     { name: "Customization", href: "/customization" },
     { name: "About Us", href: "/about" },
     { name: "Contact Us", href: "/contact" },
     ...(siteMode === "store" ? [{ name: "Track Order", href: "/track" }] : []),
   ];
+
+  const categoryMenus = (["sportswear", "activewear", "casualwear"] as CategoryKey[]).map((key) => ({
+    key,
+    label: CATEGORY_LABELS[key],
+    href: CATEGORY_ROUTES[key],
+    subs: subcategoriesFor(key),
+  }));
 
 
   return (
