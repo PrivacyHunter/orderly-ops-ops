@@ -205,6 +205,10 @@ function CustomizationPage() {
             image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop",
           }}
         />
+
+        {/* International size guide (moved here from the home page) */}
+        <SizeGuide />
+
         <section className="px-5 sm:px-6 lg:px-10 max-w-7xl mx-auto pt-12 md:pt-16">
           <div className="mb-12 md:mb-16 min-w-0">
             <p className="text-muted-foreground max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed">
