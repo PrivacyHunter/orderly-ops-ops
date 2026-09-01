@@ -152,7 +152,11 @@ export function FeaturedProducts() {
                   <p className="mb-4 flex-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                     {product.description || "High-performance custom apparel engineered for elite teams."}
                   </p>
-                  <p className="mb-4 text-sm font-black tracking-tight text-foreground">{price}</p>
+                  {price ? (
+                    <p className="mb-4 text-sm font-black tracking-tight text-foreground">{price}</p>
+                  ) : (
+                    <p className="mb-4 text-[10px] font-black uppercase tracking-[0.14em] text-primary">Inquire For Pricing</p>
+                  )}
                   <Link
                     to="/quote"
                     className="block rounded-lg bg-primary px-4 py-3 text-center text-[10px] font-black uppercase tracking-[0.16em] text-primary-foreground transition-colors hover:bg-[#0f172a]"
