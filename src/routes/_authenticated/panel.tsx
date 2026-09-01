@@ -419,6 +419,12 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
   const save = useServerFn(upsertProduct);
   const remove = useServerFn(deleteProduct);
   const duplicate = useServerFn(duplicateProduct);
+  const loadTaxonomy = useServerFn(getCatalogTaxonomy);
+  const setSubcategory = useServerFn(setProductSubcategory);
+  const { data: taxonomy, refetch: refetchTaxonomy } = useQuery({
+    queryKey: ["catalog-taxonomy"],
+    queryFn: () => loadTaxonomy(),
+  });
 
   const saveMutation = useMutation({
     mutationFn: (draft: ProductForm) =>
