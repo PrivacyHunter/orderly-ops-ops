@@ -1,25 +1,61 @@
-import { useQuery } from "@tanstack/react-query";
 import { FaInstagram } from "react-icons/fa";
-import { getSiteBlocks } from "@/lib/site-blocks.functions";
+import { assetUrl } from "@/lib/media";
+
+import factoryViewImg from "@/assets/factory-view.jpg.asset.json";
+import stitchingFloorImg from "@/assets/stitching-floor.jpg.asset.json";
+import stitchingImg from "@/assets/wf-stitching.jpg.asset.json";
+import qcImg from "@/assets/wf-qc.jpg.asset.json";
+import designImg from "@/assets/wf-design.jpg.asset.json";
+import materialImg from "@/assets/wf-material.jpg.asset.json";
+
+const INSTAGRAM_PROFILE = "https://www.instagram.com/ambition_sports313";
+const INSTAGRAM_FEED =
+  "https://www.instagram.com/ambition_sports313?igsi=MWNseTBvaHcxcGJq&utm_source=qr";
+
+const FACTORY_CARDS = [
+  {
+    src: factoryViewImg.url,
+    alt: "Ambition Sports manufacturing facility floor overview in Sialkot",
+  },
+  {
+    src: stitchingFloorImg.url,
+    alt: "Precision stitching unit for custom teamwear and activewear",
+  },
+  {
+    src: stitchingImg.url,
+    alt: "Industrial flatlock stitching machines assembling sportswear",
+  },
+  {
+    src: qcImg.url,
+    alt: "Quality control inspection of finished custom kits",
+  },
+  {
+    src: designImg.url,
+    alt: "Digital design and sublimation printing setup",
+  },
+  {
+    src: materialImg.url,
+    alt: "Performance fabric rolls and material selection for B2B orders",
+  },
+];
 
 export function InstagramSection() {
-  const { data } = useQuery({ queryKey: ["site-blocks"], queryFn: () => getSiteBlocks() });
-  const handle = data?.social?.instagram || "";
-  if (!handle) return null;
-
   return (
-    <section className="bg-card px-4 py-16 dark:bg-zinc-950 md:py-20 lg:px-8">
+    <section className="bg-card px-4 py-16 md:py-20 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-center gap-10 rounded-3xl border border-border bg-card p-8 md:grid-cols-2 md:p-12">
         <div className="min-w-0">
-          <h3 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-primary">Follow The Work</h3>
-          <h2 className="mb-5 section-title font-black uppercase italic leading-tight tracking-tighter [hyphens:none] [overflow-wrap:break-word]">
+          <h3 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-primary">
+            Follow The Work
+          </h3>
+          <h2 className="section-title mb-5 font-black uppercase italic leading-tight tracking-tighter [hyphens:none] [overflow-wrap:break-word]">
             We&apos;re On <span className="text-primary">Instagram</span>
           </h2>
           <p className="mb-8 text-sm leading-relaxed text-muted-foreground md:text-base">
-            Fresh kits, factory floor clips and client deliveries — see what leaves our Sialkot unit every week.
+            Fresh kits, factory floor clips and client deliveries — see what
+            leaves our Sialkot unit every week.
           </p>
           <a
-            href={handle}
+            href={INSTAGRAM_FEED}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-4 text-xs font-black uppercase tracking-widest text-primary-foreground transition-transform hover:scale-[1.02]"
@@ -27,17 +63,29 @@ export function InstagramSection() {
             <FaInstagram size={16} /> View Our Feed
           </a>
         </div>
+
         <div className="grid grid-cols-3 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {FACTORY_CARDS.map((img, i) => (
             <a
               key={i}
-              href={handle}
+              href={INSTAGRAM_PROFILE}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-border bg-primary/5 transition-colors hover:bg-primary/15"
+              className="group relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted"
               aria-label="Open our Instagram profile"
             >
-              <FaInstagram className="text-primary/50 transition-transform group-hover:scale-110" size={22} />
+              <img
+                src={assetUrl(img.src)}
+                alt={img.alt}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <FaInstagram
+                  className="text-white drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
+                  size={28}
+                />
+              </div>
             </a>
           ))}
         </div>
