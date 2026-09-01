@@ -217,7 +217,6 @@ function PanelPage() {
         {activeTab === "customization" && can("customization") && <CustomizationTab onDone={() => void refetch()} />}
         {activeTab === "visitors" && can("visitors") && <VisitorsTab data={data!} />}
         {activeTab === "analytics" && can("analytics") && <AnalyticsDashboard data={data!} />}
-        {activeTab === "instagram" && can("instagram") && <InstagramTab />}
         {activeTab === "accounts" && (role === "owner" || role === "developer") && <AccountsTab data={data!} onDone={() => void refetch()} />}
         {activeTab === "logs" && role === "developer" && <LogsTab />}
         {activeTab === "content" && can("content") && <ContentTab />}
