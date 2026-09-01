@@ -89,7 +89,7 @@ export function InstagramSection() {
               aria-label="Open our Instagram profile"
             >
               <img
-                src={assetUrl(img.src)}
+                src={img.src.startsWith("/__l5e") ? assetUrl(img.src) : img.src}
                 alt={img.alt}
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
