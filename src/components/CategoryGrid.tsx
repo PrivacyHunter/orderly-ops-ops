@@ -54,6 +54,7 @@ export function CategoryGrid() {
                     src={image}
                     alt={cat.title}
                     loading="lazy"
+                        decoding="async"
                     className="absolute inset-0 h-full w-full bg-[#0f172a] object-cover transition-transform duration-700 group-hover:scale-110"
                     onError={(e) => { (e.currentTarget as HTMLImageElement).style.visibility = "hidden"; }}
                   />

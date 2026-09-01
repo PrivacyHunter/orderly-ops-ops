@@ -62,6 +62,7 @@ export function FabricTech() {
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
+                        decoding="async"
                 className="aspect-[4/5] w-full bg-muted object-cover"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.visibility = "hidden"; }}
               />
