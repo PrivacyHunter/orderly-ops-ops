@@ -9,6 +9,8 @@ import { CatalogCTA } from "@/components/CatalogCTA";
 import { CategoryProducts } from "@/components/CategoryProducts";
 
 export const Route = createFileRoute("/sportswear")({
+  validateSearch: (search: Record<string, unknown>): { sub?: string } =>
+    typeof search["sub"] === "string" && search["sub"] ? { sub: search["sub"] } : {},
   loader: async ({ context }) => {
     const qc = context.queryClient;
     const [seo] = await Promise.all([
@@ -44,6 +46,8 @@ export const Route = createFileRoute("/sportswear")({
 });
 
 function Sportswear() {
+  const { sub } = Route.useSearch();
+  const activeSub = sub === "all" ? "" : (sub ?? "");
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
       <Navbar />
@@ -62,7 +66,7 @@ function Sportswear() {
           }}
         />
 
-        <CategoryProducts category="sportswear" accentClass="group-hover:text-primary" />
+        <CategoryProducts category="sportswear" accentClass="group-hover:text-primary" activeSub={activeSub} />
 
         {/* Global Catalog CTA */}
         <CatalogCTA />

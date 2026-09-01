@@ -13,7 +13,7 @@ import { InstagramSection } from "@/components/InstagramSection";
 import { StatsStrip } from "@/components/StatsStrip";
 import { OemWorkflow } from "@/components/OemWorkflow";
 import { FabricTech } from "@/components/FabricTech";
-import { MoqTiers, EcoManufacturing, SizeGuide, OrderTrackingBanner } from "@/components/B2bSections";
+import { MoqTiers, EcoManufacturing } from "@/components/B2bSections";
 
 import { Certifications } from "@/components/Certifications";
 import { motion } from "framer-motion";
@@ -282,7 +282,7 @@ function Index() {
           </div>
         </section>
 
-        <SizeGuide />
+        
 
         <Certifications />
 
@@ -329,7 +329,7 @@ function Index() {
 
 
 
-        <OrderTrackingBanner />
+        
 
         {/* Red footer CTA banner */}
         <section className="bg-primary px-4 py-14 md:py-16 lg:px-8">

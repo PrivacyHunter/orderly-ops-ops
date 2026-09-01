@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Phone, Mail, Heart } from "lucide-react";
+import { Menu, X, Phone, Mail, Heart, ChevronDown } from "lucide-react";
+import { CATEGORY_LABELS, CATEGORY_ROUTES, subcategoriesFor, type CategoryKey } from "@/lib/catalog";
 import { listSettings } from "@/lib/admin.functions";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FaThreads } from "react-icons/fa6";
@@ -43,14 +44,18 @@ export function Navbar() {
   const social = blocks?.social;
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Sportswear", href: "/sportswear" },
-    { name: "Activewear", href: "/activewear" },
     { name: "Customization", href: "/customization" },
     { name: "About Us", href: "/about" },
     { name: "Contact Us", href: "/contact" },
     ...(siteMode === "store" ? [{ name: "Track Order", href: "/track" }] : []),
   ];
+
+  const categoryMenus = (["sportswear", "activewear", "casualwear"] as CategoryKey[]).map((key) => ({
+    key,
+    label: CATEGORY_LABELS[key],
+    href: CATEGORY_ROUTES[key],
+    subs: subcategoriesFor(key),
+  }));
 
 
   return (
@@ -113,7 +118,48 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
+            <Link
+              to="/"
+              className="text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
+              activeProps={{ className: "text-primary" }}
+              activeOptions={{ exact: true }}
+            >
+              Home
+            </Link>
+            {categoryMenus.map((menu) => (
+              <div key={menu.key} className="relative group/menu">
+                <Link
+                  to={menu.href}
+                  className="flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
+                  activeProps={{ className: "text-primary" }}
+                >
+                  {menu.label}
+                  <ChevronDown size={14} className="transition-transform group-hover/menu:rotate-180" />
+                </Link>
+                <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-1 pt-3 opacity-0 transition-all group-hover/menu:visible group-hover/menu:translate-y-0 group-hover/menu:opacity-100">
+                  <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+                    {menu.subs.map((sub) => (
+                      <Link
+                        key={sub.slug}
+                        to={menu.href}
+                        search={{ sub: sub.slug }}
+                        className="block border-b border-border px-4 py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-foreground transition-colors hover:bg-surface hover:text-primary"
+                      >
+                        {sub.name}
+                      </Link>
+                    ))}
+                    <Link
+                      to={menu.href}
+                      search={{ sub: "all" }}
+                      className="block px-4 py-3 text-[11px] font-black uppercase tracking-[0.12em] text-primary transition-colors hover:bg-surface"
+                    >
+                      All Products
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -157,7 +203,46 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-background text-foreground border-b border-border p-6 flex flex-col gap-6 shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="lg:hidden absolute top-full left-0 max-h-[75vh] w-full overflow-y-auto bg-background text-foreground border-b border-border p-6 flex flex-col gap-5 shadow-lg animate-in slide-in-from-top duration-300">
+            <Link
+              to="/"
+              className="text-lg font-bold uppercase tracking-widest hover:text-primary"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            {categoryMenus.map((menu) => (
+              <div key={menu.key} className="flex flex-col gap-2">
+                <Link
+                  to={menu.href}
+                  className="text-lg font-bold uppercase tracking-widest hover:text-primary"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {menu.label}
+                </Link>
+                <div className="ml-3 flex flex-col gap-2 border-l border-border pl-4">
+                  {menu.subs.map((sub) => (
+                    <Link
+                      key={sub.slug}
+                      to={menu.href}
+                      search={{ sub: sub.slug }}
+                      className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground hover:text-primary"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {sub.name}
+                    </Link>
+                  ))}
+                  <Link
+                    to={menu.href}
+                    search={{ sub: "all" }}
+                    className="text-[11px] font-black uppercase tracking-[0.12em] text-primary"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    All Products
+                  </Link>
+                </div>
+              </div>
+            ))}
             {navLinks.map((link) => (
               <Link
                 key={link.name}

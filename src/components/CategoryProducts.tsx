@@ -5,12 +5,15 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Info, Package, Zap } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getPublicProducts } from "@/lib/banners.functions";
+import { getCatalogTaxonomy } from "@/lib/catalog.functions";
 import { QuickViewModal } from "@/components/QuickViewModal";
 import { resolveMediaUrl } from "@/lib/media";
+import { CATEGORY_ROUTES, formatPrice, resolveSubcategory, subcategoriesFor, type CategoryKey } from "@/lib/catalog";
 
 type PublicProduct = {
   id: string;
   name: string;
+  slug: string;
   category: string;
   description: string | null;
   price: number | null;
@@ -20,48 +23,83 @@ type PublicProduct = {
 };
 
 type CategoryProductsProps = {
-  category: "sportswear" | "activewear" | "casualwear";
+  category: CategoryKey;
   accentClass: string;
+  activeSub?: string;
 };
 
-function displayPrice(product: PublicProduct) {
-  return product.price == null || product.price === 0
-    ? "Custom Quote"
-    : `${product.currency ?? "USD"} ${product.price}`;
-}
-
-export function CategoryProducts({ category, accentClass }: CategoryProductsProps) {
+export function CategoryProducts({ category, accentClass, activeSub = "" }: CategoryProductsProps) {
   const getProducts = useServerFn(getPublicProducts);
+  const loadTaxonomy = useServerFn(getCatalogTaxonomy);
   const { data = [], isPending } = useQuery({
     queryKey: ["public-products", category],
     queryFn: () => getProducts({ data: { category } }),
   });
+  const { data: taxonomy } = useQuery({ queryKey: ["catalog-taxonomy"], queryFn: () => loadTaxonomy() });
   const [selected, setSelected] = useState<PublicProduct | null>(null);
+
+  const assignments = taxonomy?.assignments ?? {};
+  const subs = subcategoriesFor(category);
+  const route = CATEGORY_ROUTES[category];
+
+  const withSub = (data as PublicProduct[]).map((product) => ({
+    product,
+    sub: resolveSubcategory(product, assignments),
+  }));
+  const visible = activeSub ? withSub.filter((row) => row.sub === activeSub) : withSub;
 
   const modalProduct = selected
     ? {
         name: selected.name,
         category: selected.category,
         desc: selected.description || "Premium custom apparel manufactured to your specifications.",
-        price: displayPrice(selected),
-        image: selected.cover_image || selected.images?.[0] || "",
+        price: formatPrice(selected.price, selected.currency) ?? "",
+        image: resolveMediaUrl(selected.cover_image || selected.images?.[0] || ""),
       }
     : null;
 
   return (
     <>
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:py-24 lg:px-8 lg:py-32">
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:py-20 lg:px-8 lg:py-24">
+        {/* Sub-category tabs */}
+        <div className="mb-10 flex flex-wrap gap-2 sm:gap-3">
+          <Link
+            to={route}
+            search={{ sub: "" }}
+            className={`rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.14em] transition-colors sm:text-xs ${
+              activeSub ? "border-border text-muted-foreground hover:border-primary hover:text-primary" : "border-primary bg-primary text-primary-foreground"
+            }`}
+          >
+            All Products
+          </Link>
+          {subs.map((sub) => (
+            <Link
+              key={sub.slug}
+              to={route}
+              search={{ sub: sub.slug }}
+              className={`rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.14em] transition-colors sm:text-xs ${
+                activeSub === sub.slug
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border text-muted-foreground hover:border-primary hover:text-primary"
+              }`}
+            >
+              {sub.name}
+            </Link>
+          ))}
+        </div>
+
         {isPending ? (
           <div className="grid min-h-64 place-items-center text-sm font-bold uppercase text-muted-foreground">Loading products…</div>
-        ) : data.length === 0 ? (
+        ) : visible.length === 0 ? (
           <div className="grid min-h-64 place-items-center gap-3 text-center text-muted-foreground">
             <Package size={28} />
             <p className="text-sm font-bold uppercase">Products coming soon</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
-            {data.map((product, index) => {
+            {visible.map(({ product, sub }, index) => {
               const image = resolveMediaUrl(product.cover_image || product.images?.[0] || "");
+              const price = formatPrice(product.price, product.currency);
               return (
                 <motion.article
                   key={product.id}
@@ -72,29 +110,35 @@ export function CategoryProducts({ category, accentClass }: CategoryProductsProp
                   whileHover={{ y: -10 }}
                   className="group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-border bg-card"
                 >
-                  <div className="relative h-44 overflow-hidden bg-muted sm:h-52 lg:h-60">
+                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block h-44 overflow-hidden bg-muted sm:h-52 lg:h-60">
                     {image ? (
-                      <img src={image} alt={product.name} loading="lazy" className="h-full w-full object-contain p-3 opacity-90 transition duration-700 group-hover:scale-105 group-hover:opacity-100" />
+                      <img src={image} alt={`${product.name} — custom ${product.category} manufactured by Ambition Sports`} loading="lazy" className="h-full w-full object-contain p-3 opacity-90 transition duration-700 group-hover:scale-105 group-hover:opacity-100" />
                     ) : (
                       <div className="grid h-full place-items-center text-muted-foreground"><Package size={28} /></div>
                     )}
                     <div className="absolute right-4 top-4 max-w-[calc(100%-2rem)] sm:right-6 sm:top-6">
                       <span className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-[9px] font-black uppercase text-primary-foreground sm:px-4 sm:text-[10px]">
-                        <Zap size={10} fill="currentColor" className="shrink-0" /> {product.category}
+                        <Zap size={10} fill="currentColor" className="shrink-0" /> {subs.find((s) => s.slug === sub)?.name ?? product.category}
                       </span>
                     </div>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
-                  </div>
+                  </Link>
 
                   <div className="flex min-w-0 flex-grow flex-col p-6 sm:p-8 lg:p-10">
                     <h2 className={`mb-3 break-words text-xl font-black uppercase italic leading-tight transition-colors [overflow-wrap:anywhere] sm:text-2xl ${accentClass}`}>
-                      {product.name}
+                      <Link to="/product/$slug" params={{ slug: product.slug }}>{product.name}</Link>
                     </h2>
                     <p className="mb-8 flex-grow break-words text-sm leading-relaxed text-muted-foreground">
                       {product.description || "Premium custom apparel manufactured to your specifications."}
                     </p>
                     <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
-                      <span className="text-lg font-black italic sm:text-xl">{displayPrice(product)}</span>
+                      {price ? (
+                        <span className="text-lg font-black italic sm:text-xl">{price}</span>
+                      ) : (
+                        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-primary">
+                          Inquire For Pricing
+                        </span>
+                      )}
                       <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-muted-foreground">
                         <CheckCircle2 size={16} className="text-neon-lime" /> Premium QC
                       </span>

@@ -9,6 +9,8 @@ import { CategoryProducts } from "@/components/CategoryProducts";
 
 
 export const Route = createFileRoute("/casual-wear")({
+  validateSearch: (search: Record<string, unknown>): { sub?: string } =>
+    typeof search["sub"] === "string" && search["sub"] ? { sub: search["sub"] } : {},
   loader: async ({ context }) => {
     const qc = context.queryClient;
     const [seo] = await Promise.all([
@@ -44,6 +46,8 @@ export const Route = createFileRoute("/casual-wear")({
 });
 
 function CasualWear() {
+  const { sub } = Route.useSearch();
+  const activeSub = sub === "all" ? "" : (sub ?? "");
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-white selection:text-background">
       <Navbar />
@@ -62,7 +66,7 @@ function CasualWear() {
           }}
         />
 
-        <CategoryProducts category="casualwear" accentClass="group-hover:text-primary" />
+        <CategoryProducts category="casualwear" accentClass="group-hover:text-primary" activeSub={activeSub} />
 
         {/* Casual CTA */}
         <section className="py-24 px-4 bg-white relative overflow-hidden">

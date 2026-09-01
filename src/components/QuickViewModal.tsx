@@ -78,7 +78,13 @@ export function QuickViewModal({ product, isOpen, onClose }: {
               </h2>
 
               <div className="mb-6 flex flex-wrap items-center gap-3">
-                <span className="text-xl font-black italic tracking-tighter sm:text-2xl">{product.price}</span>
+                {product.price ? (
+                  <span className="text-xl font-black italic tracking-tighter sm:text-2xl">{product.price}</span>
+                ) : (
+                  <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-primary">
+                    Inquire For Pricing
+                  </span>
+                )}
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck size={16} className="shrink-0 text-neon-lime" />
                   <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground sm:text-[10px]">

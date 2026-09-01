@@ -54,6 +54,8 @@ import { CustomOrdersTab } from "@/components/admin/CustomOrdersTab";
 import { SmartImage } from "@/components/admin/SmartImage";
 import { MediaField } from "@/components/admin/MediaField";
 import { copyToClipboard, downloadUrl, uploadMedia } from "@/lib/media";
+import { getCatalogTaxonomy, setProductSubcategory } from "@/lib/catalog.functions";
+import { subcategoriesFor } from "@/lib/catalog";
 
 
 // PDF export will be handled by dynamic import in AnalyticsDashboard
@@ -393,6 +395,7 @@ type ProductForm = {
   name: string;
   slug: string;
   category: "sportswear" | "activewear" | "casualwear";
+  subcategory: string;
   description: string;
   price: number;
   stock: number;
@@ -406,7 +409,7 @@ type ProductForm = {
 };
 
 const EMPTY_PRODUCT: ProductForm = {
-  name: "", slug: "", category: "sportswear", description: "", price: 0, stock: 0,
+  name: "", slug: "", category: "sportswear", subcategory: "", description: "", price: 0, stock: 0,
   images: [], sizes: "", colors: "", is_featured: false, is_active: true,
   status: "published", sort_order: 0,
 };
@@ -418,10 +421,16 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
   const save = useServerFn(upsertProduct);
   const remove = useServerFn(deleteProduct);
   const duplicate = useServerFn(duplicateProduct);
+  const loadTaxonomy = useServerFn(getCatalogTaxonomy);
+  const setSubcategory = useServerFn(setProductSubcategory);
+  const { data: taxonomy, refetch: refetchTaxonomy } = useQuery({
+    queryKey: ["catalog-taxonomy"],
+    queryFn: () => loadTaxonomy(),
+  });
 
   const saveMutation = useMutation({
-    mutationFn: (draft: ProductForm) =>
-      save({
+    mutationFn: async (draft: ProductForm) => {
+      const result = await save({
         data: {
           id: draft.id,
           name: draft.name,
@@ -439,8 +448,13 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
           status: draft.status,
           sort_order: draft.sort_order,
         },
-      }),
-    onSuccess: () => { toast.success("Product saved"); setForm(null); onDone(); },
+      });
+      if (draft.slug) {
+        await setSubcategory({ data: { slug: draft.slug, subcategory: draft.subcategory } }).catch(() => null);
+      }
+      return result;
+    },
+    onSuccess: () => { toast.success("Product saved"); setForm(null); refetchTaxonomy(); onDone(); },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Save failed"),
   });
 
@@ -478,6 +492,7 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
     name: product.name,
     slug: product.slug,
     category: product.category,
+    subcategory: taxonomy?.assignments?.[product.slug] ?? "",
     description: product.description ?? "",
     price: Number(product.price) || 0,
     stock: Number(product.stock) || 0,
@@ -575,6 +590,19 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
           <div className="grid gap-3 sm:grid-cols-3"><ProductInput label="Price" type="number" value={String(form.price)} onChange={(price) => setForm({ ...form, price: Number(price) })} /><ProductInput label="Stock" type="number" value={String(form.stock)} onChange={(stock) => setForm({ ...form, stock: Number(stock) })} /><ProductInput label="Order" type="number" value={String(form.sort_order)} onChange={(sort_order) => setForm({ ...form, sort_order: Number(sort_order) })} /></div>
           <div className="grid gap-3 sm:grid-cols-2"><ProductInput label="Sizes (comma separated)" value={form.sizes} onChange={(sizes) => setForm({ ...form, sizes })} /><ProductInput label="Colors (comma separated)" value={form.colors} onChange={(colors) => setForm({ ...form, colors })} /></div>
           <div className="grid gap-3 sm:grid-cols-2"><label><span className="text-[10px] font-bold uppercase text-muted-foreground">Category</span><select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value as ProductForm["category"] })} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2"><option value="sportswear">Sportswear</option><option value="activewear">Activewear</option><option value="casualwear">Casual wear</option></select></label><label><span className="text-[10px] font-bold uppercase text-muted-foreground">Status</span><select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value as ProductForm["status"] })} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2"><option value="published">Published</option><option value="draft">Draft</option><option value="scheduled">Scheduled</option></select></label></div>
+          <label className="block">
+            <span className="text-[10px] font-bold uppercase text-muted-foreground">Sub-category</span>
+            <select
+              value={form.subcategory}
+              onChange={(e) => setForm({ ...form, subcategory: e.target.value })}
+              className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2"
+            >
+              <option value="">Auto-detect from product name</option>
+              {subcategoriesFor(form.category).map((sub) => (
+                <option key={sub.slug} value={sub.slug}>{sub.name}</option>
+              ))}
+            </select>
+          </label>
           <div className="flex gap-3"><Toggle label="Featured" value={form.is_featured} onChange={(is_featured) => setForm({ ...form, is_featured })} /><Toggle label="Active" value={form.is_active} onChange={(is_active) => setForm({ ...form, is_active })} /></div>
           <button type="submit" disabled={saveMutation.isPending} className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-xs font-black uppercase text-primary-foreground">{saveMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} Save product</button>
         </form>
