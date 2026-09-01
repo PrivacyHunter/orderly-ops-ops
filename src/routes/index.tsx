@@ -13,7 +13,7 @@ import { InstagramSection } from "@/components/InstagramSection";
 import { StatsStrip } from "@/components/StatsStrip";
 import { OemWorkflow } from "@/components/OemWorkflow";
 import { FabricTech } from "@/components/FabricTech";
-import { MoqTiers, EcoManufacturing, SizeGuide, OrderTrackingBanner } from "@/components/B2bSections";
+import { MoqTiers, EcoManufacturing } from "@/components/B2bSections";
 
 import { Certifications } from "@/components/Certifications";
 import { motion } from "framer-motion";
