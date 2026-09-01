@@ -203,7 +203,46 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-background text-foreground border-b border-border p-6 flex flex-col gap-6 shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="lg:hidden absolute top-full left-0 max-h-[75vh] w-full overflow-y-auto bg-background text-foreground border-b border-border p-6 flex flex-col gap-5 shadow-lg animate-in slide-in-from-top duration-300">
+            <Link
+              to="/"
+              className="text-lg font-bold uppercase tracking-widest hover:text-primary"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            {categoryMenus.map((menu) => (
+              <div key={menu.key} className="flex flex-col gap-2">
+                <Link
+                  to={menu.href}
+                  className="text-lg font-bold uppercase tracking-widest hover:text-primary"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {menu.label}
+                </Link>
+                <div className="ml-3 flex flex-col gap-2 border-l border-border pl-4">
+                  {menu.subs.map((sub) => (
+                    <Link
+                      key={sub.slug}
+                      to={menu.href}
+                      search={{ sub: sub.slug }}
+                      className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground hover:text-primary"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {sub.name}
+                    </Link>
+                  ))}
+                  <Link
+                    to={menu.href}
+                    search={{ sub: "all" }}
+                    className="text-[11px] font-black uppercase tracking-[0.12em] text-primary"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    All Products
+                  </Link>
+                </div>
+              </div>
+            ))}
             {navLinks.map((link) => (
               <Link
                 key={link.name}
