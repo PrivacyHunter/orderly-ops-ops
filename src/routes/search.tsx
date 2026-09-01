@@ -85,8 +85,8 @@ function SearchPage() {
           className="relative mt-6 max-w-xl"
           onSubmit={(e) => {
             e.preventDefault();
-            const value = new FormData(e.currentTarget).get("q");
-            void navigate({ search: { q: String(value ?? "").trim() || undefined } });
+            const value = String(new FormData(e.currentTarget).get("q") ?? "").trim();
+            void navigate({ search: value ? { q: value } : {} });
           }}
         >
           <SearchIcon size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
