@@ -121,6 +121,7 @@ export function FeaturedProducts() {
                         src={image}
                         alt={product.name}
                         loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : null}

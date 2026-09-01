@@ -119,9 +119,16 @@ export function HeroSlider() {
             className="absolute inset-0 z-20"
           />
           {isVideoUrl(activeMedia) ? (
-            <video src={activeMedia} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+            <video src={activeMedia} autoPlay muted loop playsInline preload="metadata" className="h-full w-full object-cover" />
           ) : (
-            <div className="h-full w-full bg-muted bg-cover bg-center" style={{ backgroundImage: `url(${activeMedia})` }} />
+            <img
+              src={activeMedia}
+              alt={`${activeBanner.title1} ${activeBanner.title2}`.trim() || "Custom sportswear manufacturing banner"}
+              fetchPriority={current === 0 ? "high" : "auto"}
+              loading={current === 0 ? "eager" : "lazy"}
+              decoding="async"
+              className="h-full w-full bg-muted object-cover"
+            />
           )}
         </motion.div>
       </AnimatePresence>
