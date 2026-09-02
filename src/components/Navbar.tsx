@@ -131,7 +131,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex min-w-0 items-center gap-3 xl:gap-5">
             <Link
               to="/"
               className="text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"

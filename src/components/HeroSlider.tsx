@@ -141,8 +141,9 @@ export function HeroSlider() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
             transition={{ duration: 0.6 }}
-            className="w-full max-w-[20rem] sm:max-w-md md:max-w-lg lg:max-w-xl min-w-0 pb-8 sm:pb-10 md:pb-0"
+            className="w-full max-w-[20rem] sm:max-w-md md:max-w-lg lg:max-w-xl min-w-0 pb-16 sm:pb-20 lg:pb-8"
           >
+
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -185,8 +186,8 @@ export function HeroSlider() {
       </div>
 
       {/* Navigation Controls */}
-      <div className="absolute bottom-6 sm:bottom-8 lg:bottom-12 left-1/2 -translate-x-1/2 lg:left-8 lg:translate-x-0 z-30 flex items-center gap-8">
-        <div className="flex gap-3">
+      <div className="pointer-events-none absolute bottom-5 sm:bottom-6 lg:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-6 px-5 sm:px-8 lg:justify-end lg:gap-8">
+        <div className="pointer-events-auto flex gap-3">
           {banners.map((_, i) => (
             <button
               key={i}
@@ -196,15 +197,16 @@ export function HeroSlider() {
             />
           ))}
         </div>
-        <div className="hidden lg:flex gap-4 ml-8">
-          <button onClick={prev} className="p-2 border border-slate-900/10 dark:border-white/10 rounded-full hover:bg-primary hover:text-white transition-all text-slate-900 dark:text-white">
+        <div className="pointer-events-auto hidden lg:flex gap-4">
+          <button onClick={prev} aria-label="Previous banner" className="rounded-full border border-slate-900/10 bg-white/60 p-2 text-slate-900 backdrop-blur transition-all hover:bg-primary hover:text-white dark:border-white/10 dark:bg-background/50 dark:text-white">
             <ChevronLeft size={20} />
           </button>
-          <button onClick={next} className="p-2 border border-slate-900/10 dark:border-white/10 rounded-full hover:bg-primary hover:text-white transition-all text-slate-900 dark:text-white">
+          <button onClick={next} aria-label="Next banner" className="rounded-full border border-slate-900/10 bg-white/60 p-2 text-slate-900 backdrop-blur transition-all hover:bg-primary hover:text-white dark:border-white/10 dark:bg-background/50 dark:text-white">
             <ChevronRight size={20} />
           </button>
         </div>
       </div>
+
     </section>
   );
 }
