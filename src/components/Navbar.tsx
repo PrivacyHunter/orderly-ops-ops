@@ -111,8 +111,9 @@ export function Navbar() {
             : "shadow-sm"
         )}
       >
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2 group">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
+          <Link to="/" className="flex shrink-0 items-center gap-2 group mr-2 xl:mr-4">
+
             {branding.logoUrl ? (
               <span className="inline-flex items-center justify-center p-1.5 rounded-xl border-2 border-primary bg-white">
                 <img src={branding.logoUrl} alt={branding.logoText} className="h-8 md:h-10 w-auto object-contain" />
