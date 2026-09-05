@@ -43,10 +43,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     () => parseJson<ThemeConfig>(settings?.["theme"], DEFAULT_THEME),
     [settings],
   );
-  const savedBranding = useMemo(
-    () => parseJson<BrandingConfig>(settings?.["branding"], DEFAULT_BRANDING),
-    [settings],
-  );
+  const savedBranding = useMemo(() => {
+    const parsed = parseJson<BrandingConfig>(settings?.["branding"], DEFAULT_BRANDING);
+    // Legacy preview-only asset URLs 404 on the live domain — fall back to the bundled logo.
+    const logoUrl = !parsed.logoUrl || parsed.logoUrl.startsWith("/__l5e/")
+      ? DEFAULT_BRANDING.logoUrl
+      : parsed.logoUrl;
+    return { ...parsed, logoUrl };
+  }, [settings]);
 
   const theme = preview?.theme ?? savedTheme;
   const branding = preview?.branding ?? savedBranding;
