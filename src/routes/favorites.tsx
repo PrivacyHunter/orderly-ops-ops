@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FeaturedProducts } from "@/components/FeaturedProducts";
+import { PageHero } from "@/components/PageHero";
 import { motion } from "framer-motion";
 import { Heart, ArrowLeft, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
