@@ -7,6 +7,7 @@ import { trackCustomOrder } from "@/lib/orders.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Search, Package, Truck, CheckCircle2, Factory, ShieldCheck, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PageHero } from "@/components/PageHero";
 
 export const Route = createFileRoute("/track")({
   head: () => {
