@@ -7,6 +7,7 @@ import { trackCustomOrder } from "@/lib/orders.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Search, Package, Truck, CheckCircle2, Factory, ShieldCheck, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PageHero } from "@/components/PageHero";
 
 export const Route = createFileRoute("/track")({
   head: () => {
@@ -70,16 +71,18 @@ function Track() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
+      <PageHero
+        pageKey="track"
+        defaults={{
+          eyebrow: "Real-Time Logistics",
+          title1: "Track Your",
+          title2: "Ambition",
+          subtitle: "Monitor your custom apparel through every stage of our manufacturing process",
+          image: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=2070&auto=format&fit=crop",
+        }}
+      />
       <main className="mx-auto max-w-4xl px-4 py-16 md:py-24 lg:px-8">
-        <div className="mb-12 text-center md:mb-16">
-          <h3 className="mb-4 text-[11px] font-black uppercase tracking-[0.3em] text-primary">Real-Time Logistics</h3>
-          <h1 className="mb-6 page-title font-black uppercase italic leading-tight tracking-tight">
-            Track Your <span className="text-primary">Ambition</span>
-          </h1>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Monitor your custom apparel through every stage of our manufacturing process.
-          </p>
-        </div>
+
 
         <form onSubmit={handleTrack} className="mb-12 flex flex-col gap-3 md:flex-row">
           <label className="relative flex-1">

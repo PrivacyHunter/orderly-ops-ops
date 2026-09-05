@@ -15,6 +15,8 @@ export const PAGE_BANNERS: { key: string; label: string }[] = [
   { key: "contact", label: "Contact us" },
   { key: "customization", label: "Customization" },
   { key: "about", label: "About us" },
+  { key: "track", label: "Order tracker" },
+  { key: "favorites", label: "Favorites" },
 ];
 
 const EMPTY_BANNER: PageBanner = { eyebrow: "", title1: "", title2: "", subtitle: "", image: "" };
