@@ -109,7 +109,7 @@ export function HeroSlider() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="absolute inset-0 z-0 shimmer"
+          className="absolute inset-0 z-0"
         >
           <div className="absolute inset-0 z-10 bg-gradient-to-r from-white/97 dark:from-background/97 via-white/80 dark:via-background/85 to-white/40 dark:to-background/50" />
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-white/70 dark:from-background/80 via-transparent to-transparent" />

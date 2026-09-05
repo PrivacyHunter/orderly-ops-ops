@@ -37,8 +37,8 @@ export function PageHero({
   };
 
   return (
-    <section className="relative flex h-[220px] items-center justify-center overflow-hidden border-y-2 border-primary py-8 sm:h-[300px] sm:py-14 lg:h-auto lg:aspect-[16/7] lg:min-h-[360px] lg:max-h-[440px] lg:py-20">
-      <div className="absolute inset-0 z-0 shimmer bg-muted">
+    <section className="relative flex h-[300px] items-center justify-center overflow-hidden border-y-2 border-primary py-12 sm:h-[380px] sm:py-16 lg:h-auto lg:aspect-[16/7] lg:min-h-[420px] lg:max-h-[500px] lg:py-24">
+      <div className="absolute inset-0 z-0 bg-muted">
         {isVideoUrl(hero.image) ? (
           <video src={hero.image} className="h-full w-full object-cover opacity-30" autoPlay muted loop playsInline />
         ) : (

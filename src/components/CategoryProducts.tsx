@@ -121,7 +121,7 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
                   whileHover={{ y: -10 }}
                   className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-card sm:rounded-3xl"
                 >
-                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[16/10] overflow-hidden bg-muted shimmer sm:aspect-[4/3]">
+                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[16/10] overflow-hidden bg-muted sm:aspect-[4/3]">
                     {image ? (
                       <img
                         src={image}
@@ -136,9 +136,9 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
                     ) : (
                       <div className="grid h-full place-items-center text-muted-foreground"><Package size={28} /></div>
                     )}
-                    <div className="absolute right-4 top-4 max-w-[calc(100%-2rem)] sm:right-6 sm:top-6">
-                      <span className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-[9px] font-black uppercase text-primary-foreground sm:px-4 sm:text-[10px]">
-                        <Zap size={10} fill="currentColor" className="shrink-0" /> {subs.find((s) => s.slug === sub)?.name ?? product.category}
+                    <div className="absolute left-3 right-3 top-3 z-20 flex justify-end sm:left-4 sm:right-4 sm:top-4">
+                      <span className="flex min-w-0 max-w-full items-center gap-1.5 rounded-full bg-primary px-2.5 py-1.5 text-[9px] font-black uppercase text-primary-foreground sm:px-3.5 sm:text-[10px]">
+                        <Zap size={10} fill="currentColor" className="shrink-0" /> <span className="truncate">{subs.find((s) => s.slug === sub)?.name ?? product.category}</span>
                       </span>
                     </div>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />

@@ -241,7 +241,7 @@
     inset: 0;
     transform: translateX(-100%);
     background: linear-gradient(90deg, transparent, var(--surface-strong), transparent);
-    animation: shimmer-sweep 1.6s infinite;
+    animation: shimmer-sweep 1.6s ease-in-out 3;
   }
 }
 
