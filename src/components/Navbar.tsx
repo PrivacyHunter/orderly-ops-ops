@@ -13,6 +13,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const { branding } = useTheme();
@@ -105,19 +106,26 @@ export function Navbar() {
 
       <nav
         className={cn(
-          "sticky top-0 z-50 w-full border-b border-border bg-background text-foreground transition-all duration-300 px-4 lg:px-8 py-4",
+          "sticky top-0 z-50 w-full border-b border-foreground/10 bg-background/95 text-foreground backdrop-blur-xl transition-shadow duration-300",
           isScrolled 
-            ? "py-3 shadow-sm" 
+            ? "shadow-lg" 
             : "shadow-sm"
         )}
       >
-        <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
-          <Link to="/" className="flex shrink-0 items-center gap-2 group mr-2 xl:mr-4">
+        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6">
+          <Link to="/" className="group flex shrink-0 items-center" aria-label="Ambition Sports home">
 
             {branding.logoUrl ? (
-              <span className="inline-flex items-center justify-center p-1.5 rounded-xl border-2 border-primary bg-white">
-                <img src={branding.logoUrl} alt={branding.logoText} className="h-8 md:h-10 w-auto object-contain" />
-              </span>
+              <img
+                src={branding.logoUrl}
+                alt={branding.logoText}
+                width={128}
+                height={48}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                className="h-10 w-auto max-w-28 object-contain sm:h-11 sm:max-w-32"
+              />
             ) : (
               <>
                 <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center font-black text-primary-foreground text-2xl group-hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all">
@@ -131,11 +139,12 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex min-w-0 items-center gap-3 xl:gap-5">
+          <div className="hidden min-w-0 flex-1 items-center justify-end xl:flex">
+            <div className="flex min-w-0 items-center gap-6">
             <Link
               to="/"
-              className="text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
-              activeProps={{ className: "text-primary" }}
+              className="relative whitespace-nowrap py-2 text-sm font-medium text-muted-foreground transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:bg-primary after:transition-transform hover:text-foreground"
+              activeProps={{ className: "text-foreground after:scale-x-100" }}
               activeOptions={{ exact: true }}
             >
               Home
@@ -144,8 +153,8 @@ export function Navbar() {
               <div key={menu.key} className="relative group/menu">
                 <Link
                   to={menu.href}
-                  className="flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
-                  activeProps={{ className: "text-primary" }}
+                  className="relative flex items-center gap-1 whitespace-nowrap py-2 text-sm font-medium text-muted-foreground transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:bg-primary after:transition-transform hover:text-foreground"
+                  activeProps={{ className: "text-foreground after:scale-x-100" }}
                 >
                   {menu.label}
                   <ChevronDown size={14} className="transition-transform group-hover/menu:rotate-180" />
@@ -177,56 +186,60 @@ export function Navbar() {
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
-                activeProps={{ className: "text-primary" }}
+                className="relative whitespace-nowrap py-2 text-sm font-medium text-muted-foreground transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:bg-primary after:transition-transform hover:text-foreground"
+                activeProps={{ className: "text-foreground after:scale-x-100" }}
               >
                 {link.name}
               </Link>
             ))}
-            <Link
-              to="/quote"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded font-black text-sm uppercase transition-all hover:scale-105"
-              
-            >
-              Get a Quote
-            </Link>
-            <form onSubmit={submitSearch} className="relative">
+            </div>
+            <div className="ml-5 flex shrink-0 items-center gap-4 border-l border-foreground/10 pl-5">
+            <Button asChild className="h-auto rounded-lg px-5 py-2.5 text-sm font-semibold shadow-none transition-colors">
+              <Link to="/quote">Get a Quote</Link>
+            </Button>
+            <form onSubmit={submitSearch} className="relative hidden min-[1360px]:block">
               <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search..."
                 aria-label="Search products"
-                className="w-36 rounded-full border border-border bg-card py-2 pl-8 pr-3 text-xs text-foreground outline-none placeholder:text-muted-foreground focus:w-52 focus:border-primary transition-all"
+                className="h-9 w-32 rounded-lg border border-foreground/10 bg-foreground/5 py-2 pl-9 pr-3 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:w-40 focus:border-primary/70 focus:bg-foreground/10 focus:ring-1 focus:ring-primary/30"
               />
             </form>
             <Link
               to="/favorites"
-              className="p-2 hover:bg-surface rounded-full transition-colors text-muted-foreground hover:text-primary relative group"
+              className="group relative grid h-9 w-9 shrink-0 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-primary"
               title="My Favorites"
             >
               <Heart size={20} />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
             <ThemeToggle />
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-3 xl:hidden">
+            <Link to="/search" aria-label="Search products" className="grid h-9 w-9 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-primary">
+              <Search size={19} />
+            </Link>
             <ThemeToggle />
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              className="grid h-9 w-9 place-items-center rounded-full text-foreground hover:bg-surface"
+              className="rounded-lg text-foreground"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 max-h-[80vh] w-full overflow-y-auto bg-background text-foreground border-b border-border p-5 flex flex-col shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="absolute left-0 top-full flex max-h-[80vh] w-full flex-col overflow-y-auto border-b border-foreground/10 bg-background/98 p-5 text-foreground shadow-lg backdrop-blur-xl animate-in slide-in-from-top duration-300 xl:hidden">
             <form onSubmit={submitSearch} className="relative mb-4">
               <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input
@@ -240,7 +253,7 @@ export function Navbar() {
 
             <Link
               to="/"
-              className="border-b border-border py-3.5 text-sm font-bold uppercase tracking-widest hover:text-primary"
+              className="border-b border-border py-3.5 text-sm font-medium hover:text-primary"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Home
@@ -254,7 +267,7 @@ export function Navbar() {
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => setOpenGroup(isOpen ? null : menu.key)}
-                    className="flex w-full items-center justify-between py-3.5 text-sm font-bold uppercase tracking-widest hover:text-primary"
+                    className="flex w-full items-center justify-between py-3.5 text-sm font-medium hover:text-primary"
                   >
                     {menu.label}
                     <ChevronDown size={16} className={cn("transition-transform", isOpen && "rotate-180")} />
@@ -289,7 +302,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 to={link.href}
-                className="border-b border-border py-3.5 text-sm font-bold uppercase tracking-widest hover:text-primary"
+                className="border-b border-border py-3.5 text-sm font-medium hover:text-primary"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}

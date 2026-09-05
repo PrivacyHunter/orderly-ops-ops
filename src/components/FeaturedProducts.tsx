@@ -10,7 +10,7 @@ import { formatPrice } from "@/lib/catalog";
 
 export function FeaturedProducts() {
   const getProducts = useServerFn(getPublicProducts);
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["public-products", "featured"],
     queryFn: () => getProducts({ data: { featuredOnly: true } }),
   });
@@ -93,12 +93,25 @@ export function FeaturedProducts() {
         </div>
 
         <div className="overflow-hidden">
-          <motion.div
+          {isPending ? (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-label="Loading featured products">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="overflow-hidden rounded-lg border border-border bg-card">
+                  <div className="aspect-[4/3] shimmer bg-muted" />
+                  <div className="space-y-3 p-5">
+                    <div className="h-3 w-1/3 shimmer rounded" />
+                    <div className="h-5 w-3/4 shimmer rounded" />
+                    <div className="h-10 w-full shimmer rounded" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : <motion.div
             className="flex"
             animate={{ x: `-${index * (100 / perView)}%` }}
             transition={{ type: "spring", stiffness: 120, damping: 22 }}
           >
-            {products.map((product) => {
+            {products.map((product, productIndex) => {
             const image = resolveMediaUrl(product.cover_image || product.images?.[0] || "");
             const price = formatPrice(product.price, product.currency);
             return (
@@ -114,15 +127,18 @@ export function FeaturedProducts() {
                   <Link
                     to="/product/$slug"
                     params={{ slug: product.slug }}
-                    className="relative block h-52 overflow-hidden bg-surface"
+                    className="relative block aspect-[4/3] overflow-hidden bg-surface shimmer"
                   >
                     {image ? (
                       <img
                         src={image}
                         alt={product.name}
-                        loading="lazy"
+                        width={640}
+                        height={480}
+                        loading={productIndex < perView ? "eager" : "lazy"}
+                        fetchPriority={productIndex < perView ? "high" : "auto"}
                         decoding="async"
-                        className="h-full w-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
+                        className="relative z-10 h-full w-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : null}
                     <span className="absolute left-3 top-3 rounded bg-primary px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-primary-foreground">
@@ -169,7 +185,7 @@ export function FeaturedProducts() {
               </div>
             );
           })}
-          </motion.div>
+          </motion.div>}
         </div>
       </div>
     </section>

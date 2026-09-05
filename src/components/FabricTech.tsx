@@ -61,6 +61,8 @@ export function FabricTech() {
               <img
                 src={img.src}
                 alt={img.alt}
+                width={640}
+                height={800}
                 loading="lazy"
                         decoding="async"
                 className="aspect-[4/5] w-full bg-muted object-cover"

@@ -37,12 +37,21 @@ export function PageHero({
   };
 
   return (
-    <section className="relative flex min-h-[280px] items-center justify-center overflow-hidden border-y-2 border-primary py-14 sm:min-h-[360px] sm:py-20 md:min-h-[440px]">
-      <div className="absolute inset-0 z-0">
+    <section className="relative flex aspect-[16/7] min-h-[280px] max-h-[440px] items-center justify-center overflow-hidden border-y-2 border-primary py-14 sm:py-20">
+      <div className="absolute inset-0 z-0 shimmer bg-muted">
         {isVideoUrl(hero.image) ? (
           <video src={hero.image} className="h-full w-full object-cover opacity-30" autoPlay muted loop playsInline />
         ) : (
-          <div className="h-full w-full bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${hero.image})` }} />
+          <img
+            src={hero.image}
+            alt=""
+            width={1920}
+            height={840}
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            className="h-full w-full object-cover opacity-30"
+          />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
       </div>

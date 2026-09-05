@@ -13,15 +13,41 @@ function safeName(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9.]+/g, "-").replace(/^-|-$/g, "");
 }
 
+async function optimizeImageForUpload(file: File) {
+  if (!file.type.startsWith("image/") || file.type === "image/svg+xml" || file.type === "image/gif") return file;
+
+  const bitmap = await createImageBitmap(file);
+  const maxDimension = 2200;
+  const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
+  const width = Math.max(1, Math.round(bitmap.width * scale));
+  const height = Math.max(1, Math.round(bitmap.height * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d");
+  if (!context) {
+    bitmap.close();
+    return file;
+  }
+  context.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/webp", 0.82));
+  if (!blob || blob.size >= file.size) return file;
+  const baseName = file.name.replace(/\.[^.]+$/, "") || "image";
+  return new File([blob], `${baseName}.webp`, { type: "image/webp", lastModified: file.lastModified });
+}
+
 /** Uploads an image or video from the admin panel and returns its public URL. */
 export async function uploadMedia(file: File, folder: MediaFolder, bucket = "site-media") {
-  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName(file.name)}`;
+  const optimizedFile = await optimizeImageForUpload(file);
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName(optimizedFile.name)}`;
   const options: { cacheControl: string; upsert: boolean; contentType?: string } = {
     cacheControl: "31536000",
     upsert: false,
   };
-  if (file.type) options.contentType = file.type;
-  const { error } = await supabase.storage.from(bucket).upload(path, file, options);
+  if (optimizedFile.type) options.contentType = optimizedFile.type;
+  const { error } = await supabase.storage.from(bucket).upload(path, optimizedFile, options);
   if (error) throw new Error(error.message);
   return mediaUrl(bucket, path);
 }

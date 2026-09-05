@@ -89,7 +89,18 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
         </div>
 
         {isPending ? (
-          <div className="grid min-h-64 place-items-center text-sm font-bold uppercase text-muted-foreground">Loading products…</div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-12 lg:grid-cols-3" aria-label="Loading products">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="overflow-hidden rounded-3xl border border-border bg-card">
+                <div className="aspect-[4/3] shimmer bg-muted" />
+                <div className="space-y-4 p-8">
+                  <div className="h-6 w-2/3 shimmer rounded" />
+                  <div className="h-16 w-full shimmer rounded" />
+                  <div className="h-12 w-full shimmer rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : visible.length === 0 ? (
           <div className="grid min-h-64 place-items-center gap-3 text-center text-muted-foreground">
             <Package size={28} />
@@ -110,9 +121,18 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
                   whileHover={{ y: -10 }}
                   className="group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-border bg-card"
                 >
-                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block h-44 overflow-hidden bg-muted sm:h-52 lg:h-60">
+                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[4/3] overflow-hidden bg-muted shimmer">
                     {image ? (
-                      <img src={image} alt={`${product.name} — custom ${product.category} manufactured by Ambition Sports`} loading="lazy" className="h-full w-full object-contain p-3 opacity-90 transition duration-700 group-hover:scale-105 group-hover:opacity-100" />
+                      <img
+                        src={image}
+                        alt={`${product.name} — custom ${product.category} manufactured by Ambition Sports`}
+                        width={640}
+                        height={480}
+                        loading={index < 3 ? "eager" : "lazy"}
+                        fetchPriority={index < 3 ? "high" : "auto"}
+                        decoding="async"
+                        className="relative z-10 h-full w-full object-contain p-3 opacity-90 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
+                      />
                     ) : (
                       <div className="grid h-full place-items-center text-muted-foreground"><Package size={28} /></div>
                     )}

@@ -191,7 +191,10 @@ function Index() {
                     <img 
                       src={facilities.image1} 
                       alt="Ambition Sports custom sportswear manufacturing facility floor in Sialkot, Pakistan" 
-
+                      width={640}
+                      height={800}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 hover:scale-105"
                     />
                   </div>
@@ -209,6 +212,10 @@ function Index() {
                     <img 
                       src={facilities.image2} 
                       alt="Industrial stitching floor producing bulk OEM teamwear orders at Ambition Sports" 
+                      width={640}
+                      height={800}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 hover:scale-105"
                     />
 

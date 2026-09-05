@@ -109,7 +109,7 @@ export function HeroSlider() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 shimmer"
         >
           <div className="absolute inset-0 z-10 bg-gradient-to-r from-white/97 dark:from-background/97 via-white/80 dark:via-background/85 to-white/40 dark:to-background/50" />
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-white/70 dark:from-background/80 via-transparent to-transparent" />
@@ -124,10 +124,12 @@ export function HeroSlider() {
             <img
               src={activeMedia}
               alt={`${activeBanner.title1} ${activeBanner.title2}`.trim() || "Custom sportswear manufacturing banner"}
-              fetchPriority={current === 0 ? "high" : "auto"}
-              loading={current === 0 ? "eager" : "lazy"}
+              width={1920}
+              height={1080}
+              fetchPriority="high"
+              loading="eager"
               decoding="async"
-              className="h-full w-full bg-muted object-cover"
+              className="relative z-10 h-full w-full bg-muted object-cover"
             />
           )}
         </motion.div>
