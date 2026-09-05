@@ -193,18 +193,18 @@ export function Navbar() {
               </Link>
             ))}
             </div>
-            <div className="ml-6 flex shrink-0 items-center gap-4 border-l border-foreground/10 pl-6">
+            <div className="ml-5 flex shrink-0 items-center gap-4 border-l border-foreground/10 pl-5">
             <Button asChild className="h-auto rounded-lg px-5 py-2.5 text-sm font-semibold shadow-none transition-colors">
               <Link to="/quote">Get a Quote</Link>
             </Button>
-            <form onSubmit={submitSearch} className="relative hidden 2xl:block">
+            <form onSubmit={submitSearch} className="relative hidden min-[1360px]:block">
               <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search..."
                 aria-label="Search products"
-                className="h-9 w-40 rounded-lg border border-foreground/10 bg-foreground/5 py-2 pl-9 pr-3 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/70 focus:bg-foreground/10 focus:ring-1 focus:ring-primary/30"
+                className="h-9 w-32 rounded-lg border border-foreground/10 bg-foreground/5 py-2 pl-9 pr-3 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:w-40 focus:border-primary/70 focus:bg-foreground/10 focus:ring-1 focus:ring-primary/30"
               />
             </form>
             <Link
