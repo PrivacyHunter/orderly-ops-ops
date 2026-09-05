@@ -48,21 +48,28 @@ function FavoritesPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
-      <main className="py-24 px-4 lg:px-8 max-w-7xl mx-auto">
+
+      <PageHero
+        pageKey="favorites"
+        defaults={{
+          eyebrow: "Your Shortlist",
+          title1: "My",
+          title2: "Favorites",
+          subtitle: "Saved custom kits and products from Ambition Sports",
+          image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2070&auto=format&fit=crop",
+        }}
+      />
+
+      <main className="py-16 px-4 lg:px-8 max-w-7xl mx-auto">
         <header className="mb-12 flex items-center justify-between">
-          <div>
-            <Link to="/" className="flex items-center gap-2 text-primary text-xs font-black uppercase tracking-widest mb-4 hover:translate-x-[-4px] transition-transform">
-              <ArrowLeft size={14} /> Back to Home
-            </Link>
-            <h1 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter">
-              My <span className="text-primary">Favorites</span>
-            </h1>
-          </div>
+          <Link to="/" className="flex items-center gap-2 text-primary text-xs font-black uppercase tracking-widest hover:translate-x-[-4px] transition-transform">
+            <ArrowLeft size={14} /> Back to Home
+          </Link>
           <div className="hidden md:block">
             <Heart size={48} className="text-primary opacity-20" />
           </div>
         </header>
+
 
         {!isLoaded ? (
           <div className="h-64 flex items-center justify-center">
