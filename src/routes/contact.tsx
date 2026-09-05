@@ -95,8 +95,8 @@ function Contact() {
           <div className="grid gap-10 lg:grid-cols-3 lg:gap-16">
             
             {/* Contact Info Cards */}
-            <div className="lg:col-span-1 space-y-8">
-               <div className="space-y-6">
+            <div className="min-w-0 space-y-8 lg:col-span-1">
+               <div className="min-w-0 space-y-6">
                  <ContactCard 
                   icon={<Phone className="text-primary" size={24} />} 
                   title="Phone / WhatsApp" 
@@ -135,7 +135,7 @@ function Contact() {
             </div>
 
             {/* Map Placeholder & Form */}
-            <div className="lg:col-span-2 space-y-12">
+            <div className="min-w-0 space-y-12 lg:col-span-2">
                 <div className="group relative h-[300px] w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 sm:h-[450px] sm:rounded-[2.5rem]">
                   <div className="absolute inset-0 z-0">
                     <iframe 
@@ -262,7 +262,7 @@ function CustomOrderForm() {
   };
 
   return (
-    <div id="custom-order" className="mt-20 rounded-[3rem] border border-border bg-card p-8 shadow-xl md:p-14">
+    <div id="custom-order" className="mt-14 min-w-0 rounded-2xl border border-border bg-card p-5 shadow-xl sm:mt-20 sm:p-8 md:rounded-[3rem] md:p-14">
       <h2 className="mb-3 section-title font-black uppercase italic leading-none tracking-tighter">
         Custom <span className="text-primary">Order Form</span>
       </h2>
@@ -328,7 +328,7 @@ function Field({
   placeholder?: string;
 }) {
   return (
-    <div className="space-y-3">
+    <div className="min-w-0 space-y-3">
       <label className="text-xs sm:text-sm font-black uppercase tracking-[0.24em] text-primary">{label}</label>
       <input
         name={name}
@@ -346,12 +346,12 @@ function ContactCard({ icon, title, value, desc }: { icon: React.ReactNode, titl
   return (
     <motion.div 
       whileHover={{ x: 10 }}
-      className="p-8 bg-surface border border-border rounded-2xl group hover:border-primary/40 transition-all shadow-xl relative overflow-hidden"
+      className="group relative min-w-0 overflow-hidden rounded-2xl border border-border bg-surface p-5 shadow-xl transition-all hover:border-primary/40 sm:p-8"
     >
        <div className="absolute top-0 left-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300" />
        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">{icon}</div>
        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground mb-2 group-hover:text-white transition-colors">{title}</h3>
-       <div className="text-xl font-bold mb-2 italic tracking-tighter">{value}</div>
+       <div className="mb-2 break-words text-lg font-bold italic tracking-tighter [overflow-wrap:anywhere] sm:text-xl">{value}</div>
        <div className="text-xs text-muted-foreground font-medium">{desc}</div>
     </motion.div>
   );
