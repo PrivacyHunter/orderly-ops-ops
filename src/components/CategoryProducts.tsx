@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Info, Package, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Info, Package } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getPublicProducts } from "@/lib/banners.functions";
 import { getCatalogTaxonomy } from "@/lib/catalog.functions";
@@ -136,15 +136,13 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
                     ) : (
                       <div className="grid h-full place-items-center text-muted-foreground"><Package size={28} /></div>
                     )}
-                    <div className="absolute left-3 right-3 top-3 z-20 flex justify-end sm:left-4 sm:right-4 sm:top-4">
-                      <span className="flex min-w-0 max-w-full items-center gap-1.5 rounded-full bg-primary px-2.5 py-1.5 text-[9px] font-black uppercase text-primary-foreground sm:px-3.5 sm:text-[10px]">
-                        <Zap size={10} fill="currentColor" className="shrink-0" /> <span className="truncate">{subs.find((s) => s.slug === sub)?.name ?? product.category}</span>
-                      </span>
-                    </div>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                   </Link>
 
                   <div className="flex min-w-0 flex-grow flex-col p-4 sm:p-8 lg:p-10">
+                    <p className="mb-2 line-clamp-2 min-w-0 break-words text-[9px] font-black uppercase leading-relaxed tracking-[0.12em] text-primary [overflow-wrap:anywhere] sm:mb-3 sm:text-[10px]">
+                      {subs.find((s) => s.slug === sub)?.name ?? product.category}
+                    </p>
                     <h2 className={`mb-2 break-words text-lg font-black uppercase italic leading-tight transition-colors [overflow-wrap:anywhere] sm:mb-3 sm:text-2xl ${accentClass}`}>
                       <Link to="/product/$slug" params={{ slug: product.slug }}>{product.name}</Link>
                     </h2>

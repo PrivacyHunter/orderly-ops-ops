@@ -141,9 +141,6 @@ export function FeaturedProducts() {
                         className="relative z-10 h-full w-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : null}
-                    <span className="absolute left-3 top-3 rounded bg-primary px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-primary-foreground">
-                      Featured
-                    </span>
                   </Link>
                   <button
                     type="button"
@@ -160,7 +157,10 @@ export function FeaturedProducts() {
                 </div>
 
                 <div className="flex flex-1 flex-col border-t border-border p-5">
-                  <p className="mb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-primary">{product.category}</p>
+                  <div className="mb-2 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="shrink-0 rounded bg-primary px-2 py-1 text-[8px] font-black uppercase tracking-[0.12em] text-primary-foreground">Featured</span>
+                    <p className="min-w-0 break-words text-[9px] font-black uppercase leading-relaxed tracking-[0.14em] text-primary [overflow-wrap:anywhere]">{product.category}</p>
+                  </div>
                   <h4 className="mb-2 min-w-0 break-words text-base font-black uppercase leading-tight tracking-tight [overflow-wrap:anywhere]">
                     <Link to="/product/$slug" params={{ slug: product.slug }} className="hover:text-primary">
                       {product.name}
@@ -176,7 +176,7 @@ export function FeaturedProducts() {
                   )}
                   <Link
                     to="/quote"
-                    className="block rounded-lg bg-primary px-4 py-3 text-center text-[10px] font-black uppercase tracking-[0.16em] text-primary-foreground transition-colors hover:bg-[#0f172a]"
+                    className="flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-3 py-3 text-center text-[9px] font-black uppercase leading-snug tracking-[0.1em] text-primary-foreground transition-colors hover:opacity-90 min-[380px]:text-[10px] min-[380px]:tracking-[0.14em]"
                   >
                     Request Spec Sheet / B2B Quote
                   </Link>
