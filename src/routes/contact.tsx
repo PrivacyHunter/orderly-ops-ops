@@ -91,12 +91,12 @@ function Contact() {
           }}
         />
 
-        <section className="py-32 px-4 lg:px-8 max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-16">
+        <section className="mx-auto max-w-7xl px-4 py-14 sm:py-20 lg:px-8 lg:py-32">
+          <div className="grid gap-10 lg:grid-cols-3 lg:gap-16">
             
             {/* Contact Info Cards */}
-            <div className="lg:col-span-1 space-y-8">
-               <div className="space-y-6">
+            <div className="min-w-0 space-y-8 lg:col-span-1">
+               <div className="min-w-0 space-y-6">
                  <ContactCard 
                   icon={<Phone className="text-primary" size={24} />} 
                   title="Phone / WhatsApp" 
@@ -135,8 +135,8 @@ function Contact() {
             </div>
 
             {/* Map Placeholder & Form */}
-            <div className="lg:col-span-2 space-y-12">
-               <div className="w-full h-[450px] bg-white/5 rounded-[2.5rem] border border-white/10 overflow-hidden relative group">
+            <div className="min-w-0 space-y-12 lg:col-span-2">
+                <div className="group relative h-[300px] w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 sm:h-[450px] sm:rounded-[2.5rem]">
                   <div className="absolute inset-0 z-0">
                     <iframe 
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d108420.21102983796!2d74.46083375837648!3d32.50296766518116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391ee9042c130095%3A0x1927702e71887e14!2sSialkot%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
@@ -149,7 +149,7 @@ function Contact() {
                     />
                   </div>
                   <div className="absolute inset-0 pointer-events-none border-[12px] border-background/20 rounded-[2.5rem]" />
-                  <div className="absolute top-8 left-8 bg-background/80 backdrop-blur-md p-4 rounded-xl border border-white/10 z-10 flex items-center gap-4">
+                   <div className="absolute left-3 top-3 z-10 flex max-w-[calc(100%-1.5rem)] items-center gap-3 rounded-xl border border-white/10 bg-background/80 p-3 backdrop-blur-md sm:left-8 sm:top-8 sm:gap-4 sm:p-4">
                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
                         <Factory className="text-background" size={24} />
                      </div>
@@ -160,7 +160,7 @@ function Contact() {
                   </div>
                </div>
 
-               <div className="bg-card border border-border p-10 md:p-16 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-2xl sm:p-10 md:rounded-[3rem] md:p-16">
                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] -z-10" />
                  <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 leading-none">Global <br /><span className="text-primary">Inquiry Portal</span></h2>
                  <p className="text-muted-foreground mb-12 uppercase font-bold tracking-widest text-xs">Direct line to our manufacturing experts</p>
@@ -262,7 +262,7 @@ function CustomOrderForm() {
   };
 
   return (
-    <div id="custom-order" className="mt-20 rounded-[3rem] border border-border bg-card p-8 shadow-xl md:p-14">
+    <div id="custom-order" className="mt-14 min-w-0 rounded-2xl border border-border bg-card p-5 shadow-xl sm:mt-20 sm:p-8 md:rounded-[3rem] md:p-14">
       <h2 className="mb-3 section-title font-black uppercase italic leading-none tracking-tighter">
         Custom <span className="text-primary">Order Form</span>
       </h2>
@@ -328,7 +328,7 @@ function Field({
   placeholder?: string;
 }) {
   return (
-    <div className="space-y-3">
+    <div className="min-w-0 space-y-3">
       <label className="text-xs sm:text-sm font-black uppercase tracking-[0.24em] text-primary">{label}</label>
       <input
         name={name}
@@ -346,12 +346,12 @@ function ContactCard({ icon, title, value, desc }: { icon: React.ReactNode, titl
   return (
     <motion.div 
       whileHover={{ x: 10 }}
-      className="p-8 bg-surface border border-border rounded-2xl group hover:border-primary/40 transition-all shadow-xl relative overflow-hidden"
+      className="group relative min-w-0 overflow-hidden rounded-2xl border border-border bg-surface p-5 shadow-xl transition-all hover:border-primary/40 sm:p-8"
     >
        <div className="absolute top-0 left-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300" />
        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">{icon}</div>
        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground mb-2 group-hover:text-white transition-colors">{title}</h3>
-       <div className="text-xl font-bold mb-2 italic tracking-tighter">{value}</div>
+       <div className="mb-2 break-words text-lg font-bold italic tracking-tighter [overflow-wrap:anywhere] sm:text-xl">{value}</div>
        <div className="text-xs text-muted-foreground font-medium">{desc}</div>
     </motion.div>
   );

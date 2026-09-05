@@ -182,11 +182,11 @@ export function SizeGuide() {
             ))}
           </div>
           <div className="overflow-x-auto rounded-lg border border-border">
-            <table className="w-full min-w-[420px] text-left text-sm">
+            <table className="w-full min-w-[360px] text-left text-xs sm:min-w-[420px] sm:text-sm">
               <thead className="bg-surface">
                 <tr>
                   {table.head.map((h) => (
-                    <th key={h} className="px-4 py-3 text-[10px] font-black uppercase tracking-[0.16em] text-muted-foreground">
+                    <th key={h} className="px-2.5 py-3 text-[9px] font-black uppercase tracking-[0.12em] text-muted-foreground sm:px-4 sm:text-[10px] sm:tracking-[0.16em]">
                       {h}
                     </th>
                   ))}
@@ -196,7 +196,7 @@ export function SizeGuide() {
                 {table.rows.map((r) => (
                   <tr key={r[0]} className="border-t border-border">
                     {r.map((c, i) => (
-                      <td key={i} className={`px-4 py-3 ${i === 0 ? "font-black text-primary" : "text-muted-foreground"}`}>
+                      <td key={i} className={`px-2.5 py-3 sm:px-4 ${i === 0 ? "font-black text-primary" : "text-muted-foreground"}`}>
                         {c}
                       </td>
                     ))}

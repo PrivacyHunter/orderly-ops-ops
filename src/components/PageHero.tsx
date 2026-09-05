@@ -37,7 +37,7 @@ export function PageHero({
   };
 
   return (
-    <section className="relative flex aspect-[16/7] min-h-[280px] max-h-[440px] items-center justify-center overflow-hidden border-y-2 border-primary py-14 sm:py-20">
+    <section className="relative flex h-[220px] items-center justify-center overflow-hidden border-y-2 border-primary py-8 sm:h-[300px] sm:py-14 lg:h-auto lg:aspect-[16/7] lg:min-h-[360px] lg:max-h-[440px] lg:py-20">
       <div className="absolute inset-0 z-0 shimmer bg-muted">
         {isVideoUrl(hero.image) ? (
           <video src={hero.image} className="h-full w-full object-cover opacity-30" autoPlay muted loop playsInline />
@@ -59,10 +59,10 @@ export function PageHero({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 mx-auto w-full min-w-0 max-w-4xl px-5 text-center sm:px-8"
+        className="relative z-10 mx-auto w-full min-w-0 max-w-4xl px-4 text-center sm:px-8"
       >
         {hero.eyebrow && (
-          <h3 className={`mb-3 break-words text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.35em] sm:text-xs md:text-sm ${accentClass}`}>
+          <h3 className={`mb-2 break-words text-[9px] font-black uppercase tracking-[0.16em] sm:mb-3 sm:tracking-[0.35em] sm:text-xs md:text-sm ${accentClass}`}>
             {hero.eyebrow}
           </h3>
         )}
@@ -71,7 +71,7 @@ export function PageHero({
           {hero.title2 && <span className={`block ${accentClass}`}>{hero.title2}</span>}
         </h1>
         {hero.subtitle && (
-          <div className="mt-5 flex items-center justify-center gap-3">
+          <div className="mt-3 flex items-center justify-center gap-3 sm:mt-5">
             <span className={`hidden h-[2px] w-8 shrink-0 sm:block sm:w-12 ${ruleClass}`} />
             <p className="max-w-[34ch] break-words text-[10px] font-bold uppercase leading-relaxed tracking-[0.12em] text-foreground/80 sm:text-xs sm:tracking-widest">
               {hero.subtitle}

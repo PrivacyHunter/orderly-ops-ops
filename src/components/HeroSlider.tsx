@@ -143,7 +143,7 @@ export function HeroSlider() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
             transition={{ duration: 0.6 }}
-            className="w-full max-w-[20rem] sm:max-w-md md:max-w-lg lg:max-w-xl min-w-0 pb-16 sm:pb-20 lg:pb-8"
+            className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl min-w-0 pb-16 sm:pb-20 lg:pb-8"
           >
 
             <motion.p 
