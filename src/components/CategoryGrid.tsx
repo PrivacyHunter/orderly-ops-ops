@@ -48,7 +48,7 @@ export function CategoryGrid() {
               >
                 <Link
                   to={(cat.url || "/sportswear") as any}
-                  className="group relative block h-72 overflow-hidden rounded-lg border border-border transition-colors hover:border-[2px] hover:border-primary sm:h-80"
+                  className="group shimmer relative block h-72 overflow-hidden rounded-lg border border-border transition-colors hover:border-[2px] hover:border-primary sm:h-80"
                 >
                   <img
                     src={image}

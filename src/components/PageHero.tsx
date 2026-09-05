@@ -38,7 +38,7 @@ export function PageHero({
 
   return (
     <section className="relative flex aspect-[16/7] min-h-[280px] max-h-[440px] items-center justify-center overflow-hidden border-y-2 border-primary py-14 sm:py-20">
-      <div className="absolute inset-0 z-0 bg-muted">
+      <div className="absolute inset-0 z-0 shimmer bg-muted">
         {isVideoUrl(hero.image) ? (
           <video src={hero.image} className="h-full w-full object-cover opacity-30" autoPlay muted loop playsInline />
         ) : (

@@ -121,7 +121,7 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
                   whileHover={{ y: -10 }}
                   className="group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-border bg-card"
                 >
-                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[4/3] overflow-hidden bg-muted">
+                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[4/3] overflow-hidden bg-muted shimmer">
                     {image ? (
                       <img
                         src={image}

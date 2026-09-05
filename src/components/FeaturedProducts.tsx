@@ -127,7 +127,7 @@ export function FeaturedProducts() {
                   <Link
                     to="/product/$slug"
                     params={{ slug: product.slug }}
-                    className="relative block aspect-[4/3] overflow-hidden bg-surface"
+                    className="relative block aspect-[4/3] overflow-hidden bg-surface shimmer"
                   >
                     {image ? (
                       <img
