@@ -113,19 +113,21 @@ export function Navbar() {
         )}
       >
         <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6">
-          <Link to="/" className="group flex shrink-0 items-center" aria-label="Ambition Sports home">
+          <Link to="/" className="group flex shrink-0 items-center gap-3" aria-label="Ambition Sports home">
 
             {branding.logoUrl ? (
-              <img
-                src={branding.logoUrl}
-                alt={branding.logoText}
-                width={128}
-                height={48}
-                loading="eager"
-                decoding="async"
-                fetchPriority="high"
-                className="h-10 w-auto max-w-28 object-contain sm:h-11 sm:max-w-32"
-              />
+              <span className="inline-flex items-center justify-center rounded-xl border-2 border-primary bg-white p-1.5 shadow-sm group-hover:shadow-md transition-all">
+                <img
+                  src={branding.logoUrl}
+                  alt={branding.logoText}
+                  width={128}
+                  height={48}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                  className="h-9 w-auto max-w-24 object-contain sm:h-10 sm:max-w-28"
+                />
+              </span>
             ) : (
               <>
                 <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center font-black text-primary-foreground text-2xl group-hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all">

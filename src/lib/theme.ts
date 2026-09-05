@@ -79,7 +79,7 @@ export type BrandingConfig = {
 
 export const DEFAULT_BRANDING: BrandingConfig = {
   logoText: "Ambition Sports",
-  logoUrl: "/logo.png",
+  logoUrl: "/__l5e/assets-v1/d3bf0a07-c810-4bab-9ee5-d9cd57e2cd7c/ambition-sports-logo.png",
   faviconUrl: "",
   showNotificationBar: true,
   notificationText: "Premium Custom Sportswear — Worldwide Shipping Available",
