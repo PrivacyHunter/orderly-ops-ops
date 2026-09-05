@@ -128,6 +128,8 @@ function SearchPage() {
                       <img
                         src={resolveMediaUrl(p.cover_image || p.images?.[0] || "")}
                         alt={`${p.name} — custom ${p.category} manufactured by Ambition Sports`}
+                        width={480}
+                        height={480}
                         loading="lazy"
                         decoding="async"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

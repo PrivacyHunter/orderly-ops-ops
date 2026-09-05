@@ -66,7 +66,17 @@ function ProductBody() {
   const [active, setActive] = useState(0);
 
   if (isLoading) {
-    return <div className="mx-auto max-w-7xl px-4 py-32 text-sm font-bold uppercase tracking-widest text-muted-foreground">Loading product…</div>;
+    return (
+      <main className="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:py-24 lg:grid-cols-2">
+        <div className="aspect-square shimmer rounded-2xl border border-border bg-muted" />
+        <div className="space-y-5 py-4">
+          <div className="h-3 w-1/4 shimmer rounded" />
+          <div className="h-16 w-3/4 shimmer rounded" />
+          <div className="h-6 w-1/3 shimmer rounded" />
+          <div className="h-28 w-full shimmer rounded" />
+        </div>
+      </main>
+    );
   }
 
   if (!data) {
@@ -90,11 +100,11 @@ function ProductBody() {
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
         {/* Mockup showcase */}
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <div className="overflow-hidden rounded-2xl border border-border bg-surface">
+          <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-surface">
             {image ? (
-              <img src={image} alt={`${data.name} high-resolution custom apparel mockup`} className="h-[340px] w-full object-contain p-8 md:h-[520px]" />
+              <img src={image} alt={`${data.name} high-resolution custom apparel mockup`} width={800} height={800} fetchPriority="high" loading="eager" decoding="async" className="h-full w-full object-contain p-8" />
             ) : (
-              <div className="h-[340px] w-full bg-muted md:h-[520px]" />
+              <div className="h-full w-full bg-muted" />
             )}
           </div>
           {gallery.length > 1 && (
@@ -107,7 +117,7 @@ function ProductBody() {
                   onClick={() => setActive(i)}
                   className={`overflow-hidden rounded-lg border bg-card p-2 ${i === active ? "border-primary" : "border-border"}`}
                 >
-                  <img src={g} alt={`${data.name} view ${i + 1}`} className="h-16 w-full object-contain" />
+                  <img src={g} alt={`${data.name} view ${i + 1}`} width={128} height={64} loading="lazy" decoding="async" className="h-16 w-full object-contain" />
                 </button>
               ))}
             </div>

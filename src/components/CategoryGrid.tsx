@@ -53,9 +53,12 @@ export function CategoryGrid() {
                   <img
                     src={image}
                     alt={cat.title}
-                    loading="lazy"
-                        decoding="async"
-                    className="absolute inset-0 h-full w-full bg-[#0f172a] object-cover transition-transform duration-700 group-hover:scale-110"
+                    width={640}
+                    height={640}
+                    fetchPriority="high"
+                    loading="eager"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full bg-ink object-cover transition-transform duration-700 group-hover:scale-110"
                     onError={(e) => { (e.currentTarget as HTMLImageElement).style.visibility = "hidden"; }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/45 to-transparent" />

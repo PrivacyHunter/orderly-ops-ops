@@ -124,10 +124,12 @@ export function HeroSlider() {
             <img
               src={activeMedia}
               alt={`${activeBanner.title1} ${activeBanner.title2}`.trim() || "Custom sportswear manufacturing banner"}
-              fetchPriority={current === 0 ? "high" : "auto"}
-              loading={current === 0 ? "eager" : "lazy"}
+              width={1920}
+              height={1080}
+              fetchPriority="high"
+              loading="eager"
               decoding="async"
-              className="h-full w-full bg-muted object-cover"
+              className="relative z-10 h-full w-full bg-muted object-cover"
             />
           )}
         </motion.div>
