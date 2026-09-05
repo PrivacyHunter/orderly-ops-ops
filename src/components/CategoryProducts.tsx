@@ -60,13 +60,13 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
 
   return (
     <>
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:py-20 lg:px-8 lg:py-24">
+      <section className="mx-auto max-w-7xl overflow-hidden px-4 py-10 sm:py-20 lg:px-8 lg:py-24">
         {/* Sub-category tabs */}
-        <div className="mb-10 flex flex-wrap gap-2 sm:gap-3">
+        <div className="-mx-4 mb-7 flex snap-x gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mb-10 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
           <Link
             to={route}
             search={{ sub: "" }}
-            className={`rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.14em] transition-colors sm:text-xs ${
+            className={`shrink-0 snap-start rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] transition-colors sm:text-xs ${
               activeSub ? "border-border text-muted-foreground hover:border-primary hover:text-primary" : "border-primary bg-primary text-primary-foreground"
             }`}
           >
@@ -77,7 +77,7 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
               key={sub.slug}
               to={route}
               search={{ sub: sub.slug }}
-              className={`rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.14em] transition-colors sm:text-xs ${
+              className={`shrink-0 snap-start rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] transition-colors sm:text-xs ${
                 activeSub === sub.slug
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border text-muted-foreground hover:border-primary hover:text-primary"
@@ -119,9 +119,9 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
                   viewport={{ once: true }}
                   transition={{ delay: Math.min(index, 5) * 0.08 }}
                   whileHover={{ y: -10 }}
-                  className="group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-border bg-card"
+                  className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-card sm:rounded-3xl"
                 >
-                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[4/3] overflow-hidden bg-muted shimmer">
+                  <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[16/10] overflow-hidden bg-muted shimmer sm:aspect-[4/3]">
                     {image ? (
                       <img
                         src={image}
@@ -144,14 +144,14 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                   </Link>
 
-                  <div className="flex min-w-0 flex-grow flex-col p-6 sm:p-8 lg:p-10">
-                    <h2 className={`mb-3 break-words text-xl font-black uppercase italic leading-tight transition-colors [overflow-wrap:anywhere] sm:text-2xl ${accentClass}`}>
+                  <div className="flex min-w-0 flex-grow flex-col p-4 sm:p-8 lg:p-10">
+                    <h2 className={`mb-2 break-words text-lg font-black uppercase italic leading-tight transition-colors [overflow-wrap:anywhere] sm:mb-3 sm:text-2xl ${accentClass}`}>
                       <Link to="/product/$slug" params={{ slug: product.slug }}>{product.name}</Link>
                     </h2>
-                    <p className="mb-8 flex-grow break-words text-sm leading-relaxed text-muted-foreground">
+                    <p className="mb-5 flex-grow break-words text-[13px] leading-relaxed text-muted-foreground sm:mb-8 sm:text-sm">
                       {product.description || "Premium custom apparel manufactured to your specifications."}
                     </p>
-                    <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
+                    <div className="mb-5 flex flex-wrap items-center justify-between gap-3 sm:mb-8">
                       {price ? (
                         <span className="text-lg font-black italic sm:text-xl">{price}</span>
                       ) : (

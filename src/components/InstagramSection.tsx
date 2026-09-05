@@ -56,7 +56,7 @@ export function InstagramSection() {
 
   return (
     <section className="bg-card px-4 py-16 md:py-20 lg:px-8">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 rounded-3xl border border-border bg-card p-8 md:grid-cols-2 md:p-12">
+      <div className="mx-auto grid max-w-7xl items-center gap-8 rounded-2xl border border-border bg-card p-5 sm:rounded-3xl md:grid-cols-2 md:p-12">
         <div className="min-w-0">
           <h3 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-primary">
             Follow The Work

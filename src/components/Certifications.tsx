@@ -20,8 +20,8 @@ export function Certifications({ tone = "surface" }: { tone?: "surface" | "plain
       <div className="mx-auto max-w-7xl">
         <h3 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-primary">Trust & Compliance</h3>
         <h2 className="mb-12 section-title font-black uppercase italic leading-tight tracking-tighter [hyphens:none] break-normal">
-          <span className="inline-block whitespace-nowrap">Our Certifications</span>{" "}
-          <span className="inline-block whitespace-nowrap text-primary">&amp; Compliance</span>
+          <span>Our Certifications</span>{" "}
+          <span className="text-primary">&amp; Compliance</span>
         </h2>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">

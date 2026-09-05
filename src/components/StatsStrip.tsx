@@ -10,7 +10,7 @@ const STATS = [
 export function StatsStrip() {
   return (
     <section className="-mt-px border-b-2 border-primary bg-surface">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 divide-y divide-border px-4 py-4 sm:py-5 lg:grid-cols-4 lg:divide-y-0 lg:divide-x lg:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-border px-4 py-3 min-[400px]:grid-cols-2 sm:py-5 lg:grid-cols-4 lg:divide-y-0 lg:divide-x lg:px-8">
         {STATS.map(({ icon: Icon, value, label }) => (
           <div key={label} className="flex items-center gap-3 px-2 py-3 sm:gap-4 sm:px-5">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary sm:h-12 sm:w-12">

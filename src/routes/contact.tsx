@@ -91,8 +91,8 @@ function Contact() {
           }}
         />
 
-        <section className="py-32 px-4 lg:px-8 max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-16">
+        <section className="mx-auto max-w-7xl px-4 py-14 sm:py-20 lg:px-8 lg:py-32">
+          <div className="grid gap-10 lg:grid-cols-3 lg:gap-16">
             
             {/* Contact Info Cards */}
             <div className="lg:col-span-1 space-y-8">
@@ -136,7 +136,7 @@ function Contact() {
 
             {/* Map Placeholder & Form */}
             <div className="lg:col-span-2 space-y-12">
-               <div className="w-full h-[450px] bg-white/5 rounded-[2.5rem] border border-white/10 overflow-hidden relative group">
+                <div className="group relative h-[300px] w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 sm:h-[450px] sm:rounded-[2.5rem]">
                   <div className="absolute inset-0 z-0">
                     <iframe 
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d108420.21102983796!2d74.46083375837648!3d32.50296766518116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391ee9042c130095%3A0x1927702e71887e14!2sSialkot%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
@@ -149,7 +149,7 @@ function Contact() {
                     />
                   </div>
                   <div className="absolute inset-0 pointer-events-none border-[12px] border-background/20 rounded-[2.5rem]" />
-                  <div className="absolute top-8 left-8 bg-background/80 backdrop-blur-md p-4 rounded-xl border border-white/10 z-10 flex items-center gap-4">
+                   <div className="absolute left-3 top-3 z-10 flex max-w-[calc(100%-1.5rem)] items-center gap-3 rounded-xl border border-white/10 bg-background/80 p-3 backdrop-blur-md sm:left-8 sm:top-8 sm:gap-4 sm:p-4">
                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
                         <Factory className="text-background" size={24} />
                      </div>
@@ -160,7 +160,7 @@ function Contact() {
                   </div>
                </div>
 
-               <div className="bg-card border border-border p-10 md:p-16 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-2xl sm:p-10 md:rounded-[3rem] md:p-16">
                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] -z-10" />
                  <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 leading-none">Global <br /><span className="text-primary">Inquiry Portal</span></h2>
                  <p className="text-muted-foreground mb-12 uppercase font-bold tracking-widest text-xs">Direct line to our manufacturing experts</p>

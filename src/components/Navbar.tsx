@@ -112,11 +112,11 @@ export function Navbar() {
             : "shadow-sm"
         )}
       >
-        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto grid h-16 max-w-[1440px] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 sm:h-[72px] sm:gap-4 sm:px-6">
           <Link to="/" className="group flex shrink-0 items-center gap-3" aria-label="Ambition Sports home">
 
             {branding.logoUrl ? (
-              <span className="inline-flex items-center justify-center rounded-xl border-2 border-primary bg-white p-1.5 shadow-sm group-hover:shadow-md transition-all">
+              <span className="inline-flex items-center justify-center rounded-lg border-2 border-primary bg-white p-1 shadow-sm transition-all group-hover:shadow-md sm:rounded-xl sm:p-1.5">
                 <img
                   src={branding.logoUrl}
                   alt={branding.logoText}
@@ -125,7 +125,7 @@ export function Navbar() {
                   loading="eager"
                   decoding="async"
                   fetchPriority="high"
-                  className="h-9 w-auto max-w-24 object-contain sm:h-10 sm:max-w-28"
+                  className="h-8 w-auto max-w-20 object-contain min-[380px]:max-w-24 sm:h-10 sm:max-w-28"
                 />
               </span>
             ) : (
@@ -221,7 +221,7 @@ export function Navbar() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 xl:hidden">
+          <div className="flex shrink-0 items-center gap-1 min-[380px]:gap-2 sm:gap-3 xl:hidden">
             <Link to="/search" aria-label="Search products" className="grid h-9 w-9 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-primary">
               <Search size={19} />
             </Link>
