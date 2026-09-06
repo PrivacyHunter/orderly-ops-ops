@@ -46,7 +46,8 @@ import { SmartImage } from "@/components/admin/SmartImage";
 import { MediaField } from "@/components/admin/MediaField";
 import { copyToClipboard, downloadUrl, uploadMedia } from "@/lib/media";
 import { getCatalogTaxonomy, setProductSubcategory } from "@/lib/catalog.functions";
-import { subcategoriesFor } from "@/lib/catalog";
+import { findCategory, DEFAULT_CATEGORIES } from "@/lib/catalog";
+import { CatalogTab } from "@/components/admin/CatalogTab";
 
 
 // PDF export will be handled by dynamic import in AnalyticsDashboard
@@ -66,7 +67,7 @@ export const Route = createFileRoute("/_authenticated/panel")({
   component: PanelPage,
 });
 
-type Tab = "overview" | "inbox" | "orders" | "products" | "banners" | "certificates" | "blocks" | "theme" | "branding" | "seo" | "customization" | "visitors" | "analytics" | "accounts" | "logs" | "content" | "settings";
+type Tab = "overview" | "inbox" | "orders" | "products" | "catalog" | "banners" | "certificates" | "blocks" | "theme" | "branding" | "seo" | "customization" | "visitors" | "analytics" | "accounts" | "logs" | "content" | "settings";
 
 const TABS: {
   id: Tab;
@@ -80,6 +81,7 @@ const TABS: {
   { id: "inbox", label: "Inbox", icon: Inbox, roles: ["owner", "admin", "developer"], permission: "inbox" },
   { id: "orders", label: "Custom Orders", icon: ShoppingBag, roles: ["owner", "admin", "developer"], permission: "orders" },
   { id: "products", label: "Products", icon: Package, roles: ["owner", "admin", "developer"], permission: "products" },
+  { id: "catalog", label: "Categories", icon: Layers, roles: ["owner", "admin", "developer"], permission: "products" },
   { id: "banners", label: "Banners", icon: Images, roles: ["owner", "admin", "developer"], permission: "banners" },
   { id: "certificates", label: "Certificates", icon: Award, roles: ["owner", "admin", "developer"], permission: "certificates" },
   { id: "blocks", label: "Site Blocks", icon: Layers, roles: ["owner", "admin", "developer"], permission: "content" },
@@ -201,6 +203,7 @@ function PanelPage() {
         {activeTab === "inbox" && can("inbox") && <InboxTab data={data!} onDone={() => void refetch()} />}
         {activeTab === "orders" && can("orders") && <CustomOrdersTab />}
         {activeTab === "products" && can("products") && <ProductsTab data={data!} onDone={() => void refetch()} />}
+              {activeTab === "catalog" && can("products") && <CatalogTab />}
               {activeTab === "banners" && can("banners") && <BannersTab />}
         {activeTab === "certificates" && can("certificates") && <CertificatesTab />}
         {activeTab === "blocks" && can("content") && <SiteBlocksTab />}
@@ -382,7 +385,7 @@ type ProductForm = {
   id?: string;
   name: string;
   slug: string;
-  category: "sportswear" | "activewear" | "casualwear";
+  category: string;
   subcategory: string;
   description: string;
   price: number;
@@ -512,7 +515,7 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
             <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search products" className="h-11 min-w-0 flex-1 bg-transparent text-sm outline-none" />
           </label>
           <select value={category} onChange={(e) => setCategory(e.target.value)} className="h-11 rounded-xl border border-border bg-background px-3 text-sm">
-            <option value="all">All categories</option><option value="sportswear">Sportswear</option><option value="activewear">Activewear</option><option value="casualwear">Casual wear</option>
+            <option value="all">All categories</option>{(taxonomy?.categories ?? DEFAULT_CATEGORIES).map((c) => (<option key={c.slug} value={c.slug}>{c.name}</option>))}
           </select>
         </div>
         <div className="overflow-x-auto">
@@ -577,7 +580,7 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
           <ProductInput label="Description" value={form.description} onChange={(description) => setForm({ ...form, description })} />
           <div className="grid gap-3 sm:grid-cols-3"><ProductInput label="Price" type="number" value={String(form.price)} onChange={(price) => setForm({ ...form, price: Number(price) })} /><ProductInput label="Stock" type="number" value={String(form.stock)} onChange={(stock) => setForm({ ...form, stock: Number(stock) })} /><ProductInput label="Order" type="number" value={String(form.sort_order)} onChange={(sort_order) => setForm({ ...form, sort_order: Number(sort_order) })} /></div>
           <div className="grid gap-3 sm:grid-cols-2"><ProductInput label="Sizes (comma separated)" value={form.sizes} onChange={(sizes) => setForm({ ...form, sizes })} /><ProductInput label="Colors (comma separated)" value={form.colors} onChange={(colors) => setForm({ ...form, colors })} /></div>
-          <div className="grid gap-3 sm:grid-cols-2"><label><span className="text-[10px] font-bold uppercase text-muted-foreground">Category</span><select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value as ProductForm["category"] })} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2"><option value="sportswear">Sportswear</option><option value="activewear">Activewear</option><option value="casualwear">Casual wear</option></select></label><label><span className="text-[10px] font-bold uppercase text-muted-foreground">Status</span><select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value as ProductForm["status"] })} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2"><option value="published">Published</option><option value="draft">Draft</option><option value="scheduled">Scheduled</option></select></label></div>
+          <div className="grid gap-3 sm:grid-cols-2"><label><span className="text-[10px] font-bold uppercase text-muted-foreground">Category</span><select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value, subcategory: "" })} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">{(taxonomy?.categories ?? DEFAULT_CATEGORIES).map((c) => (<option key={c.slug} value={c.slug}>{c.name}{c.enabled ? "" : " (off site)"}</option>))}</select></label><label><span className="text-[10px] font-bold uppercase text-muted-foreground">Status</span><select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value as ProductForm["status"] })} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2"><option value="published">Published</option><option value="draft">Draft</option><option value="scheduled">Scheduled</option></select></label></div>
           <label className="block">
             <span className="text-[10px] font-bold uppercase text-muted-foreground">Sub-category</span>
             <select
@@ -586,7 +589,7 @@ function ProductsTab({ data, onDone }: { data: Dash; onDone: () => void }) {
               className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2"
             >
               <option value="">Auto-detect from product name</option>
-              {subcategoriesFor(form.category).map((sub) => (
+              {(findCategory(taxonomy, form.category)?.subcategories ?? []).map((sub) => (
                 <option key={sub.slug} value={sub.slug}>{sub.name}</option>
               ))}
             </select>
