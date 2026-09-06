@@ -56,8 +56,22 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
       }
     : null;
 
+  // Admin can switch a category off; its page then stops listing products.
+  const category_ = findCategory(taxonomy, category);
+  if (taxonomy && category_ && !category_.enabled) {
+    return (
+      <section className="mx-auto max-w-3xl px-4 py-20 text-center lg:px-8">
+        <h2 className="mb-3 section-title font-black uppercase italic">Currently unavailable</h2>
+        <p className="text-sm text-muted-foreground">
+          This collection is not published right now. Please explore our other custom apparel ranges or request a quote.
+        </p>
+      </section>
+    );
+  }
+
   return (
     <>
+
       <section className="mx-auto max-w-7xl overflow-hidden px-4 py-10 sm:py-20 lg:px-8 lg:py-24">
         {/* Sub-category tabs */}
         <div className="-mx-4 mb-7 flex snap-x gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mb-10 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
