@@ -8,7 +8,7 @@ import { Footer } from "@/components/Footer";
 import { getPublicProduct } from "@/lib/banners.functions";
 import { getCatalogTaxonomy } from "@/lib/catalog.functions";
 import { resolveMediaUrl } from "@/lib/media";
-import { formatPrice, resolveSubForConfig, subLabel } from "@/lib/catalog";
+import { formatPrice, resolveSubForConfig, subLabel as subcategoryLabel } from "@/lib/catalog";
 
 /** B2B manufacturing spec sheet shown on every product detail page. */
 const SPEC_SHEET: { label: string; value: string }[] = [
@@ -93,7 +93,7 @@ function ProductBody() {
   const gallery = [data.cover_image, ...(data.images ?? [])].filter(Boolean).map((u) => resolveMediaUrl(u as string));
   const image = gallery[active] || gallery[0];
   const price = formatPrice(data.price, data.currency);
-  const subLabel = subLabel(taxonomy, data.category ?? "", resolveSubForConfig(data, taxonomy));
+  const subLabel = subcategoryLabel(taxonomy, data.category ?? "", resolveSubForConfig(data, taxonomy));
 
   return (
     <main className="bg-background px-4 py-16 md:py-24 lg:px-8">
