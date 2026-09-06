@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight } from "lucide-react";
 import { getSiteBlocks } from "@/lib/site-blocks.functions";
+import { getCatalogTaxonomy } from "@/lib/catalog.functions";
+import { categoryLinkProps, liveCategories, slugify } from "@/lib/catalog";
 import { resolveMediaUrl, assetUrl } from "@/lib/media";
 import fallbackA from "@/assets/file-38.jpg.asset.json";
 import fallbackB from "@/assets/file-41.jpg.asset.json";
@@ -22,10 +24,24 @@ const FALLBACK_IMAGES = [fallbackA.url, fallbackB.url, fallbackC.url].map(assetU
 export function CategoryGrid() {
   const load = useServerFn(getSiteBlocks);
   const { data } = useQuery({ queryKey: ["site-blocks"], queryFn: () => load() });
-  const categories = (((data as any)?.categories as CategoryCard[] | undefined)?.length
-    ? ((data as any).categories as CategoryCard[])
-    : FALLBACK
-  ).slice(0, 3);
+  const loadCatalog = useServerFn(getCatalogTaxonomy);
+  const { data: catalog } = useQuery({ queryKey: ["catalog-taxonomy"], queryFn: () => loadCatalog() });
+  const blockCards = ((data as any)?.categories as CategoryCard[] | undefined) ?? [];
+
+  // Titles/links come from the admin catalog; imagery still comes from Site Blocks.
+  const live = liveCategories(catalog);
+  const categories = (live.length
+    ? live.map((cat, i) => {
+        const card =
+          blockCards.find((c) => slugify(c.title ?? "") === cat.slug) ?? blockCards[i] ?? FALLBACK[i];
+        return {
+          slug: cat.slug,
+          title: cat.name,
+          desc: cat.description || card?.desc || "",
+          image: card?.image ?? "",
+        };
+      })
+    : FALLBACK.map((c) => ({ slug: slugify(c.title), title: c.title, desc: c.desc, image: c.image })));
 
   return (
     <section className="bg-background px-4 py-16 md:py-20 lg:px-8">
@@ -47,7 +63,7 @@ export function CategoryGrid() {
                 transition={{ delay: Math.min(i, 5) * 0.06 }}
               >
                 <Link
-                  to={(cat.url || "/sportswear") as any}
+                  {...(categoryLinkProps(cat.slug) as any)}
                   className="group relative block h-72 overflow-hidden rounded-lg border border-border transition-colors hover:border-[2px] hover:border-primary sm:h-80"
                 >
                   <img
