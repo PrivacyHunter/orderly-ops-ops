@@ -7,12 +7,5 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  tanstackStart: {
-    // Emit a static app shell (dist/client/index.html) so the built client can be
-    // served from any static host, while server functions stay fully dynamic.
-    spa: {
-      enabled: true,
-      prerender: { outputPath: "/index.html", crawlLinks: false },
-    },
-  },
+  tanstackStart: {},
 });
