@@ -1,10 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireAppAuth as requireSupabaseAuth } from "@/lib/auth-middleware";
+import { parseCatalogConfig, type CatalogConfig } from "@/lib/catalog";
 
 const SETTINGS_KEY = "catalog_taxonomy";
-
-type Taxonomy = { assignments: Record<string, string> };
 
 async function publicClient() {
   const { createClient } = await import("@supabase/supabase-js");
@@ -14,24 +13,29 @@ async function publicClient() {
   return createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
 }
 
-function parseTaxonomy(raw: unknown): Taxonomy {
-  if (!raw) return { assignments: {} };
-  try {
-    const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
-    const assignments = (parsed as any)?.assignments;
-    return { assignments: assignments && typeof assignments === "object" ? assignments : {} };
-  } catch {
-    return { assignments: {} };
-  }
+/** Public catalog config: categories, sub-categories and product assignments. */
+export const getCatalogTaxonomy = createServerFn({ method: "GET" }).handler(async (): Promise<CatalogConfig> => {
+  const client = await publicClient();
+  if (!client) return parseCatalogConfig(null);
+  const { data } = await client.from("site_settings").select("value").eq("key", SETTINGS_KEY).maybeSingle();
+  return parseCatalogConfig((data as any)?.value);
+});
+
+async function readConfig(supabase: any): Promise<CatalogConfig> {
+  const { data } = await supabase
+    .from("site_settings")
+    .select("value")
+    .eq("key", SETTINGS_KEY)
+    .maybeSingle();
+  return parseCatalogConfig((data as any)?.value);
 }
 
-/** Public sub-category assignments (product slug -> sub-category slug). */
-export const getCatalogTaxonomy = createServerFn({ method: "GET" }).handler(async (): Promise<Taxonomy> => {
-  const client = await publicClient();
-  if (!client) return { assignments: {} };
-  const { data } = await client.from("site_settings").select("value").eq("key", SETTINGS_KEY).maybeSingle();
-  return parseTaxonomy((data as any)?.value);
-});
+async function writeConfig(supabase: any, config: CatalogConfig) {
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: SETTINGS_KEY, value: JSON.stringify(config) }, { onConflict: "key" });
+  if (error) throw new Error(error.message);
+}
 
 /** Staff-only: assign a product to a sub-category. */
 export const setProductSubcategory = createServerFn({ method: "POST" })
@@ -48,19 +52,39 @@ export const setProductSubcategory = createServerFn({ method: "POST" })
     const { assertStaff } = await import("./admin.server");
     await assertStaff(context.supabase, context.userId);
 
-    const { data: row } = await context.supabase
-      .from("site_settings")
-      .select("value")
-      .eq("key", SETTINGS_KEY)
-      .maybeSingle();
-    const taxonomy = parseTaxonomy((row as any)?.value);
+    const config = await readConfig(context.supabase);
+    if (data.subcategory) config.assignments[data.slug] = data.subcategory;
+    else delete config.assignments[data.slug];
 
-    if (data.subcategory) taxonomy.assignments[data.slug] = data.subcategory;
-    else delete taxonomy.assignments[data.slug];
+    await writeConfig(context.supabase, config);
+    return { ok: true as const };
+  });
 
-    const { error } = await context.supabase
-      .from("site_settings")
-      .upsert({ key: SETTINGS_KEY, value: JSON.stringify(taxonomy) }, { onConflict: "key" });
-    if (error) throw new Error(error.message);
+const subSchema = z.object({
+  slug: z.string().min(1).max(80),
+  name: z.string().min(1).max(80),
+  enabled: z.boolean(),
+});
+
+const categorySchema = z.object({
+  slug: z.string().min(1).max(60),
+  name: z.string().min(1).max(80),
+  description: z.string().max(300).default(""),
+  enabled: z.boolean(),
+  subcategories: z.array(subSchema).max(24),
+});
+
+/** Staff-only: replace the category / sub-category structure of the site. */
+export const saveCatalogCategories = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ categories: z.array(categorySchema).max(24) }).parse(data),
+  )
+  .handler(async ({ context, data }) => {
+    const { assertStaff } = await import("./admin.server");
+    await assertStaff(context.supabase, context.userId);
+
+    const config = await readConfig(context.supabase);
+    await writeConfig(context.supabase, { assignments: config.assignments, categories: data.categories });
     return { ok: true as const };
   });
