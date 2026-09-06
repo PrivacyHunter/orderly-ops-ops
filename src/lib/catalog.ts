@@ -56,7 +56,7 @@ export function isCategoryKey(value: string): value is CategoryKey {
   return value === "sportswear" || value === "activewear" || value === "casualwear";
 }
 
-type ClassifiableProduct = {
+export type ClassifiableProduct = {
   slug?: string | null;
   name?: string | null;
   description?: string | null;
@@ -100,4 +100,158 @@ export function formatPrice(
   if (!hasPrice(price)) return null;
   const value = typeof price === "string" ? Number(price) : (price as number);
   return `${currency || "USD"} ${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+}
+
+/* ------------------------------------------------------------------ *
+ * Admin-managed catalog configuration
+ * ------------------------------------------------------------------ */
+
+export type CatalogSub = { slug: string; name: string; enabled: boolean };
+
+export type CatalogCategory = {
+  slug: string;
+  name: string;
+  description: string;
+  enabled: boolean;
+  subcategories: CatalogSub[];
+};
+
+export type CatalogConfig = {
+  assignments: Record<string, string>;
+  categories: CatalogCategory[];
+};
+
+/** URL-safe slug from any label. */
+export function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+
+const CATEGORY_DESCRIPTIONS: Record<CategoryKey, string> = {
+  sportswear: "Soccer, basketball & team kits built for match day.",
+  activewear: "Leggings, tanks, compression & training tees.",
+  casualwear: "Hoodies, jackets, tracksuits & everyday essentials.",
+};
+
+/** The three built-in categories, used until an admin edits the catalog. */
+export const DEFAULT_CATEGORIES: CatalogCategory[] = (
+  ["sportswear", "activewear", "casualwear"] as CategoryKey[]
+).map((key) => ({
+  slug: key,
+  name: CATEGORY_LABELS[key],
+  description: CATEGORY_DESCRIPTIONS[key],
+  enabled: true,
+  subcategories: subcategoriesFor(key).map((sub) => ({
+    slug: sub.slug,
+    name: sub.name,
+    enabled: true,
+  })),
+}));
+
+function normalizeCategory(raw: any): CatalogCategory | null {
+  const slug = slugify(String(raw?.slug ?? raw?.name ?? ""));
+  if (!slug) return null;
+  const subsRaw = Array.isArray(raw?.subcategories) ? raw.subcategories : [];
+  const subcategories: CatalogSub[] = [];
+  for (const sub of subsRaw) {
+    const subSlug = slugify(String(sub?.slug ?? sub?.name ?? ""));
+    if (!subSlug || subcategories.some((s) => s.slug === subSlug)) continue;
+    subcategories.push({
+      slug: subSlug,
+      name: String(sub?.name ?? subSlug).slice(0, 80) || subSlug,
+      enabled: sub?.enabled !== false,
+    });
+  }
+  return {
+    slug,
+    name: String(raw?.name ?? slug).slice(0, 80) || slug,
+    description: String(raw?.description ?? "").slice(0, 300),
+    enabled: raw?.enabled !== false,
+    subcategories,
+  };
+}
+
+/** Parse the stored catalog setting, falling back to the built-in categories. */
+export function parseCatalogConfig(raw: unknown): CatalogConfig {
+  let parsed: any = raw;
+  if (typeof raw === "string") {
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      parsed = null;
+    }
+  }
+  const assignments =
+    parsed?.assignments && typeof parsed.assignments === "object" ? parsed.assignments : {};
+  const list = Array.isArray(parsed?.categories) ? parsed.categories : null;
+  const categories = list
+    ? list.map(normalizeCategory).filter((c: CatalogCategory | null): c is CatalogCategory => Boolean(c))
+    : DEFAULT_CATEGORIES;
+  return {
+    assignments: assignments as Record<string, string>,
+    categories: categories.length ? categories : DEFAULT_CATEGORIES,
+  };
+}
+
+/** Categories that are switched on for the live site. */
+export function liveCategories(config: CatalogConfig | undefined | null): CatalogCategory[] {
+  return (config?.categories ?? DEFAULT_CATEGORIES).filter((c) => c.enabled);
+}
+
+export function findCategory(
+  config: CatalogConfig | undefined | null,
+  slug: string,
+): CatalogCategory | undefined {
+  return (config?.categories ?? DEFAULT_CATEGORIES).find((c) => c.slug === slug);
+}
+
+/** Enabled sub-categories of one category. */
+export function liveSubcategories(
+  config: CatalogConfig | undefined | null,
+  categorySlug: string,
+): CatalogSub[] {
+  return (findCategory(config, categorySlug)?.subcategories ?? []).filter((s) => s.enabled);
+}
+
+export function subLabel(
+  config: CatalogConfig | undefined | null,
+  categorySlug: string,
+  subSlug: string,
+): string {
+  return (
+    findCategory(config, categorySlug)?.subcategories.find((s) => s.slug === subSlug)?.name ??
+    subcategoryName(subSlug)
+  );
+}
+
+/** Router link props for a category page (built-in route or dynamic page). */
+export function categoryLinkProps(categorySlug: string, sub = ""): Record<string, unknown> {
+  const builtin = (CATEGORY_ROUTES as Record<string, string>)[categorySlug];
+  if (builtin) return { to: builtin, search: { sub } };
+  return { to: "/category/$slug", params: { slug: categorySlug }, search: { sub } };
+}
+
+/** Sub-category of a product, honouring the admin-managed catalog. */
+export function resolveSubForConfig(
+  product: ClassifiableProduct,
+  config: CatalogConfig | undefined | null,
+): string {
+  const category = product.category ?? "";
+  const subs = liveSubcategories(config, category);
+  if (!subs.length) return "";
+  const assigned =
+    product.subcategory || (product.slug ? (config?.assignments ?? {})[product.slug] : undefined);
+  if (assigned && subs.some((s) => s.slug === assigned)) return assigned;
+
+  const haystack = `${product.name ?? ""} ${product.description ?? ""}`.toLowerCase();
+  for (const known of SUBCATEGORIES.filter((s) => s.category === category)) {
+    if (known.keywords.some((k) => haystack.includes(k)) && subs.some((s) => s.slug === known.slug)) {
+      return known.slug;
+    }
+  }
+  return subs[0]?.slug ?? "";
 }

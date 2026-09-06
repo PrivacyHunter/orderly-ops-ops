@@ -25,6 +25,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as SportswearRouteImport } from './routes/sportswear'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
+import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as ApiPublicTrackingRouteImport } from './routes/api/public/tracking'
 import { Route as ApiPublicWebhookRouteImport } from './routes/api/public/webhook'
@@ -109,6 +110,11 @@ const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
   path: '/panel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const CategorySlugRoute = CategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
   '/panel': typeof AuthenticatedPanelRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
   '/panel': typeof AuthenticatedPanelRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
   '/_authenticated/panel': typeof AuthenticatedPanelRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/sportswear'
     | '/track'
     | '/panel'
+    | '/category/$slug'
     | '/product/$slug'
     | '/api/public/tracking'
     | '/api/public/webhook'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/sportswear'
     | '/track'
     | '/panel'
+    | '/category/$slug'
     | '/product/$slug'
     | '/api/public/tracking'
     | '/api/public/webhook'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/sportswear'
     | '/track'
     | '/_authenticated/panel'
+    | '/category/$slug'
     | '/product/$slug'
     | '/api/public/tracking'
     | '/api/public/webhook'
@@ -278,6 +290,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SportswearRoute: typeof SportswearRoute
   TrackRoute: typeof TrackRoute
+  CategorySlugRoute: typeof CategorySlugRoute
   ProductSlugRoute: typeof ProductSlugRoute
   ApiPublicTrackingRoute: typeof ApiPublicTrackingRoute
   ApiPublicWebhookRoute: typeof ApiPublicWebhookRoute
@@ -398,6 +411,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPanelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/category/$slug': {
+      id: '/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$slug': {
       id: '/product/$slug'
       path: '/product/$slug'
@@ -456,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SportswearRoute: SportswearRoute,
   TrackRoute: TrackRoute,
+  CategorySlugRoute: CategorySlugRoute,
   ProductSlugRoute: ProductSlugRoute,
   ApiPublicTrackingRoute: ApiPublicTrackingRoute,
   ApiPublicWebhookRoute: ApiPublicWebhookRoute,

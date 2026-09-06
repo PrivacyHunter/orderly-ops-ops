@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X, Phone, Mail, Heart, ChevronDown, Search } from "lucide-react";
-import { CATEGORY_LABELS, CATEGORY_ROUTES, subcategoriesFor, type CategoryKey } from "@/lib/catalog";
+import { categoryLinkProps, liveCategories } from "@/lib/catalog";
+import { getCatalogTaxonomy } from "@/lib/catalog.functions";
 import { listSettings } from "@/lib/admin.functions";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FaThreads } from "react-icons/fa6";
@@ -63,11 +64,14 @@ export function Navbar() {
     ...(siteMode === "store" ? [{ name: "Track Order", href: "/track" }] : []),
   ];
 
-  const categoryMenus = (["sportswear", "activewear", "casualwear"] as CategoryKey[]).map((key) => ({
-    key,
-    label: CATEGORY_LABELS[key],
-    href: CATEGORY_ROUTES[key],
-    subs: subcategoriesFor(key),
+  const loadCatalog = useServerFn(getCatalogTaxonomy);
+  const { data: catalog } = useQuery({ queryKey: ["catalog-taxonomy"], queryFn: () => loadCatalog() });
+  const categoryMenus = liveCategories(catalog).map((cat) => ({
+    key: cat.slug,
+    label: cat.name,
+    linkProps: categoryLinkProps(cat.slug) as any,
+    subLink: (sub: string) => categoryLinkProps(cat.slug, sub) as any,
+    subs: cat.subcategories.filter((s) => s.enabled),
   }));
 
 
@@ -154,7 +158,7 @@ export function Navbar() {
             {categoryMenus.map((menu) => (
               <div key={menu.key} className="relative group/menu">
                 <Link
-                  to={menu.href}
+                  {...menu.linkProps}
                   className="relative flex items-center gap-1 whitespace-nowrap py-2 text-sm font-medium text-muted-foreground transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:bg-primary after:transition-transform hover:text-foreground"
                   activeProps={{ className: "text-foreground after:scale-x-100" }}
                 >
@@ -166,16 +170,14 @@ export function Navbar() {
                     {menu.subs.map((sub) => (
                       <Link
                         key={sub.slug}
-                        to={menu.href}
-                        search={{ sub: sub.slug }}
+                        {...menu.subLink(sub.slug)}
                         className="block border-b border-border px-4 py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-foreground transition-colors hover:bg-surface hover:text-primary"
                       >
                         {sub.name}
                       </Link>
                     ))}
                     <Link
-                      to={menu.href}
-                      search={{ sub: "all" }}
+                      {...menu.subLink("all")}
                       className="block px-4 py-3 text-[11px] font-black uppercase tracking-[0.12em] text-primary transition-colors hover:bg-surface"
                     >
                       All Products
@@ -277,8 +279,7 @@ export function Navbar() {
                   {isOpen && (
                     <div className="flex flex-col pb-3">
                       <Link
-                        to={menu.href}
-                        search={{ sub: "all" }}
+                        {...menu.subLink("all")}
                         className="py-2 pl-3 text-xs font-bold capitalize tracking-wide text-primary"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -287,8 +288,7 @@ export function Navbar() {
                       {menu.subs.map((sub) => (
                         <Link
                           key={sub.slug}
-                          to={menu.href}
-                          search={{ sub: sub.slug }}
+                          {...menu.subLink(sub.slug)}
                           className="py-2 pl-3 text-xs font-semibold capitalize tracking-wide text-muted-foreground hover:text-primary"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >

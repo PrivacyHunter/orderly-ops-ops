@@ -8,7 +8,7 @@ import { getPublicProducts } from "@/lib/banners.functions";
 import { getCatalogTaxonomy } from "@/lib/catalog.functions";
 import { QuickViewModal } from "@/components/QuickViewModal";
 import { resolveMediaUrl } from "@/lib/media";
-import { CATEGORY_ROUTES, formatPrice, resolveSubcategory, subcategoriesFor, type CategoryKey } from "@/lib/catalog";
+import { categoryLinkProps, formatPrice, liveSubcategories, resolveSubForConfig } from "@/lib/catalog";
 
 type PublicProduct = {
   id: string;
@@ -23,7 +23,7 @@ type PublicProduct = {
 };
 
 type CategoryProductsProps = {
-  category: CategoryKey;
+  category: string;
   accentClass: string;
   activeSub?: string;
 };
@@ -38,13 +38,11 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
   const { data: taxonomy } = useQuery({ queryKey: ["catalog-taxonomy"], queryFn: () => loadTaxonomy() });
   const [selected, setSelected] = useState<PublicProduct | null>(null);
 
-  const assignments = taxonomy?.assignments ?? {};
-  const subs = subcategoriesFor(category);
-  const route = CATEGORY_ROUTES[category];
+  const subs = liveSubcategories(taxonomy, category);
 
   const withSub = (data as PublicProduct[]).map((product) => ({
     product,
-    sub: resolveSubcategory(product, assignments),
+    sub: resolveSubForConfig(product, taxonomy),
   }));
   const visible = activeSub ? withSub.filter((row) => row.sub === activeSub) : withSub;
 
@@ -64,8 +62,7 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
         {/* Sub-category tabs */}
         <div className="-mx-4 mb-7 flex snap-x gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mb-10 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
           <Link
-            to={route}
-            search={{ sub: "" }}
+            {...(categoryLinkProps(category, "") as any)}
             className={`shrink-0 snap-start rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] transition-colors sm:text-xs ${
               activeSub ? "border-border text-muted-foreground hover:border-primary hover:text-primary" : "border-primary bg-primary text-primary-foreground"
             }`}
@@ -75,8 +72,7 @@ export function CategoryProducts({ category, accentClass, activeSub = "" }: Cate
           {subs.map((sub) => (
             <Link
               key={sub.slug}
-              to={route}
-              search={{ sub: sub.slug }}
+              {...(categoryLinkProps(category, sub.slug) as any)}
               className={`shrink-0 snap-start rounded-full border px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] transition-colors sm:text-xs ${
                 activeSub === sub.slug
                   ? "border-primary bg-primary text-primary-foreground"
