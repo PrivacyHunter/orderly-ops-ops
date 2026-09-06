@@ -163,7 +163,7 @@ export const upsertProduct = createServerFn({ method: "POST" })
         id: z.string().uuid().optional(),
         name: z.string().min(2).max(160),
         slug: z.string().min(2).max(160).regex(/^[a-z0-9-]+$/),
-        category: z.enum(["sportswear", "activewear", "casualwear"]),
+        category: z.string().min(2).max(60),
         description: z.string().max(4000).optional().default(""),
         price: z.number().nonnegative().optional(),
         stock: z.number().int().nonnegative().default(0),
