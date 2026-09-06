@@ -8,7 +8,7 @@ import { getPublicProducts } from "@/lib/banners.functions";
 import { getCatalogTaxonomy } from "@/lib/catalog.functions";
 import { QuickViewModal } from "@/components/QuickViewModal";
 import { resolveMediaUrl } from "@/lib/media";
-import { categoryLinkProps, formatPrice, liveSubcategories, resolveSubForConfig } from "@/lib/catalog";
+import { categoryLinkProps, findCategory, formatPrice, liveSubcategories, resolveSubForConfig } from "@/lib/catalog";
 
 type PublicProduct = {
   id: string;
