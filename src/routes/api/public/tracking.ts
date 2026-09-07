@@ -47,22 +47,31 @@ export const Route = createFileRoute("/api/public/tracking")({
 
           const device = userAgent?.includes("Mobi") ? "Mobile" : "Desktop";
 
-          // Last resort: resolve the visitor IP through a free geo lookup.
-          if (!location.country) {
-            const ip = (header("x-forwarded-for", "cf-connecting-ip", "x-real-ip") ?? "").split(",")[0]?.trim();
-            if (ip && !ip.startsWith("127.") && !ip.startsWith("::")) {
-              try {
-                const geo: any = await fetch(`https://ipapi.co/${ip}/json/`).then((r) => (r.ok ? r.json() : null));
-                if (geo && !geo.error) {
-                  location.city = location.city ?? geo.city ?? null;
-                  location.region = location.region ?? geo.region ?? null;
-                  location.country = location.country ?? geo.country_name ?? geo.country ?? null;
-                  location.latitude = location.latitude ?? geo.latitude ?? null;
-                  location.longitude = location.longitude ?? geo.longitude ?? null;
-                }
-              } catch (geoError) {
-                console.error("Geo lookup failed", geoError);
+          // Visitor IP (behind Vercel/Cloudflare proxies).
+          const ip =
+            (header("x-forwarded-for", "cf-connecting-ip", "x-real-ip") ?? "")
+              .split(",")[0]
+              ?.trim() || null;
+
+          let timezone: string | null = header("x-vercel-ip-timezone", "cf-timezone");
+          let postalCode: string | null = header("x-vercel-ip-postal-code", "cf-postal-code");
+
+          // Fill in whatever the edge headers didn't give us via a free IP geo lookup.
+          const needsGeo = !location.country || location.latitude == null || location.longitude == null;
+          if (needsGeo && ip && !ip.startsWith("127.") && !ip.startsWith("::") && !ip.startsWith("10.") && !ip.startsWith("192.168.")) {
+            try {
+              const geo: any = await fetch(`https://ipapi.co/${ip}/json/`).then((r) => (r.ok ? r.json() : null));
+              if (geo && !geo.error) {
+                location.city = location.city ?? geo.city ?? null;
+                location.region = location.region ?? geo.region ?? null;
+                location.country = location.country ?? geo.country_name ?? geo.country ?? null;
+                location.latitude = location.latitude ?? geo.latitude ?? null;
+                location.longitude = location.longitude ?? geo.longitude ?? null;
+                timezone = timezone ?? geo.timezone ?? null;
+                postalCode = postalCode ?? geo.postal ?? null;
               }
+            } catch (geoError) {
+              console.error("Geo lookup failed", geoError);
             }
           }
 
@@ -74,12 +83,15 @@ export const Route = createFileRoute("/api/public/tracking")({
               browser,
               os,
               device,
+              ip,
+              timezone,
+              postal_code: postalCode,
               city: location?.city,
               region: location?.region,
               country: location?.country,
               latitude: location?.latitude,
               longitude: location?.longitude,
-              location_json: location,
+              location_json: { ...location, referrer: referrer ?? null, userAgent },
               created_at: new Date().toISOString(),
             });
 
