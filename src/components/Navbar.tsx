@@ -46,11 +46,15 @@ export function Navbar() {
     // Check site mode from settings if possible, otherwise default
     // In a real app we'd query this or get it from ThemeContext
     const fetchMode = async () => {
-      const settings = await listSettings();
-      if (settings["site_mode"] === "store") setSiteMode("store");
-      else setSiteMode("business");
+      try {
+        const settings = await listSettings();
+        setSiteMode(settings?.["site_mode"] === "store" ? "store" : "business");
+      } catch {
+        setSiteMode("business");
+      }
     };
     fetchMode();
+
   }, []);
 
   const loadBlocks = useServerFn(getSiteBlocks);
