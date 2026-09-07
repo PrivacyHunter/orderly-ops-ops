@@ -11,7 +11,8 @@
     "start:cpanel": "node app.js",
     "typecheck": "tsc --noEmit",
     "build:node": "node scripts/build-cpanel.mjs",
-    "start:node": "node app.js"
+    "start:node": "node app.js",
+    "build:vercel": "node scripts/build-vercel.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
