@@ -6,7 +6,9 @@
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build",
+    "build:cpanel": "node scripts/build-cpanel.mjs",
     "start": "vite start",
+    "start:cpanel": "node app.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
