@@ -71,15 +71,17 @@
   },
   "devDependencies": {
     "@lovable.dev/vite-tanstack-config": "^2.15.1",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.20",
     "nitropack": "^2.13.4",
     "postcss": "^8.5.2",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.3",
     "vite": "^8.2.1",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^6.1.1"
   }
 }
