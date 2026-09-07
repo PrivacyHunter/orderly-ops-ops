@@ -15,8 +15,8 @@ delete env.LOVABLE_SANDBOX;
 delete env.DEV_SERVER__PROJECT_PATH;
 
 const result = spawnSync(
-  "npx",
-  ["vite", "build", "--config", "vite.config.vercel.ts"],
+  "npm",
+  ["exec", "--no", "--", "vite", "build", "--config", "vite.config.vercel.ts"],
   {
     stdio: "inherit",
     shell: process.platform === "win32",
