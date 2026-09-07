@@ -9,7 +9,9 @@
     "build:cpanel": "node scripts/build-cpanel.mjs",
     "start": "vite start",
     "start:cpanel": "node app.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:node": "node scripts/build-cpanel.mjs",
+    "start:node": "node app.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

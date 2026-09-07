@@ -1,111 +1,121 @@
-# Ambition Sports — cPanel (Hostinger) par host karne ka tareeqa
+# Ambition Sports — cPanel (Node.js) par GitHub se host karne ki guide
 
-Ye site ek **Node.js app** hai. Admin panel, banners, products, visitor tracking —
-sab server par chalte hain aur data database (Lovable Cloud / Supabase) mein hai.
-Isliye sirf HTML files `public_html` mein daalne se kaam **nahi** chalega.
+Ye site ek **Node.js app** hai (admin panel, banners, products, visitor tracking
+sab server par chalte hain, data Lovable Cloud / Supabase database mein hai).
+Aapki hosting Node.js support karti hai — is liye ye poori tarah chalegi.
 
----
-
-## Step 0 — Pehle ye check karein (zaroori)
-
-cPanel mein login karke **Software** section dekhein:
-
-- **"Setup Node.js App"** ya **"Node.js Selector"** mojood hai? → Step 1 par jayein.
-- Nahi hai? → Aapka shared plan is app ko chala nahi sakta. Neeche
-  "Agar Node.js support nahi hai" section padhein.
+Tested: build + server dono verify ho chuke hain (`/` aur `/panel` = 200 OK).
 
 ---
 
-## Step 1 — Apne computer par build karein
+## Zaroori cheezein
 
-```bash
-npm install
-npm run build:cpanel
-```
-
-Ye `.output/` folder banata hai:
-
-- `.output/server/index.mjs` — Node server
-- `.output/public/` — CSS, JS, images
-
-> Note: `npm run build` (Lovable/Vercel ke liye) aur `npm run build:cpanel`
-> (aapki hosting ke liye) alag hain. cPanel ke liye **hamesha** `build:cpanel`.
+- cPanel → **Setup Node.js App** (Node 20 ya naya)
+- cPanel → **Git Version Control** (GitHub se clone karne ke liye)
+- Project ka GitHub repo (Lovable → GitHub sync)
 
 ---
 
-## Step 2 — cPanel mein Node.js app banayein
+## Step 1 — cPanel mein repo clone karein (GitHub se)
 
-1. cPanel → **Setup Node.js App** → **Create Application**
-2. **Node.js version**: 20 ya us se naya
-3. **Application mode**: Production
-4. **Application root**: `ambition` (koi bhi folder naam, `public_html` ke bahar)
-5. **Application URL**: apna domain (ya subdomain)
-6. **Application startup file**: `app.js`
-7. **Create** dabayein
+1. cPanel → **Git Version Control** → **Create**
+2. **Clone URL**: `https://github.com/<aapka-user>/<repo>.git`
+3. **Repository Path**: `ambition` (public_html ke **bahar**)
+4. **Create** dabayein — code clone ho jayega.
 
----
-
-## Step 3 — Files upload karein
-
-Application root folder (`ambition`) mein ye upload karein:
-
-- `.output/` (poora folder — File Manager chhupi files bhi dikhaye, "Show Hidden Files" on karein)
-- `app.js`
-- `package.json`
-
-Baaki kuch upload karne ki zaroorat nahi (`node_modules`, `src`, `dist` nahi chahiye —
-server bundle self-contained hai).
-
-Tip: zip banakar upload karein aur cPanel File Manager se **Extract** karein — tez hota hai.
+> Private repo ho to GitHub par ek Personal Access Token banayein aur URL aise dein:
+> `https://<token>@github.com/<user>/<repo>.git`
 
 ---
 
-## Step 4 — Environment variables set karein
+## Step 2 — Node.js app banayein
 
-Setup Node.js App → apni app kholein → **Environment variables** → ye 5 add karein:
+cPanel → **Setup Node.js App** → **Create Application**
+
+| Field | Value |
+|---|---|
+| Node.js version | 20 (ya naya) |
+| Application mode | Production |
+| Application root | `ambition` (Step 1 ka path) |
+| Application URL | aapka domain / subdomain |
+| Application startup file | `app.js` |
+
+**Create** dabayein.
+
+---
+
+## Step 3 — Environment variables set karein
+
+Usi app screen par **Environment variables** mein ye 5 add karein
+(values project ki `.env` file / Lovable Cloud settings se):
 
 | Name | Value |
 |---|---|
-| `VITE_SUPABASE_URL` | project ka Supabase URL |
+| `VITE_SUPABASE_URL` | Supabase project URL |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | publishable key |
 | `SUPABASE_URL` | wohi URL |
 | `SUPABASE_PUBLISHABLE_KEY` | wohi publishable key |
 | `SUPABASE_SERVICE_ROLE_KEY` | service role key (secret — kisi ko na dein) |
+| `NODE_ENV` | `production` |
 
-Values project ki `.env` file / Lovable Cloud settings mein milengi.
 `SUPABASE_SERVICE_ROLE_KEY` ke baghair admin panel ka save/upload fail hoga.
 
-Phir **Restart** dabayein.
+---
+
+## Step 4 — Install + build (ek hi dafa)
+
+cPanel → **Terminal** (ya Node.js App page par "Run NPM Install" + Terminal):
+
+```bash
+cd ~/ambition
+source /home/<cpanel-user>/nodevenv/ambition/20/bin/activate   # Node.js App page par ye line likhi hoti hai
+npm install
+npm run build:node
+```
+
+`npm run build:node` banata hai:
+
+- `.output/server/index.mjs` — Node server
+- `.output/public/` — CSS, JS, images
+
+> Ek hi command mein: `npm install && npm run build:node`
 
 ---
 
-## Step 5 — Domain kholein
+## Step 5 — Restart aur domain kholein
 
-Apna domain browser mein kholein. Site aur `/panel` (admin) dono chalne chahiye,
-aur aapke saare banners/products **khud ba khud** aa jayenge — kyunki wo database
-mein hain, hosting par sirf code hai.
+Setup Node.js App → **Restart**. Phir apna domain kholein.
 
----
-
-## Har update ke baad (naya code deploy karna)
-
-1. `npm run build:cpanel`
-2. purana `.output` folder hosting se delete karein
-3. naya `.output` upload karein
-4. cPanel Node.js App → **Restart**
+- Home page + saare pages chalne chahiye
+- `/panel` (admin) bhi khulna chahiye
+- Aapke banners/products **khud ba khud** aa jayenge (wo database mein hain)
 
 ---
 
-## Agar Node.js support nahi hai
+## Har update ke baad (naya code deploy)
 
-Ye hosting ki limit hai, code ka masla nahi. Options:
+```bash
+cd ~/ambition
+source /home/<cpanel-user>/nodevenv/ambition/20/bin/activate
+git pull
+npm install
+npm run build:node
+```
 
-1. **Hostinger VPS** (~$5–6/month) — poori access, Node chal jata hai.
-   Vahan `npm install && npm run build:cpanel && node app.js` (PM2 ke saath) kaafi hai.
-2. **Vercel free plan, client ke account mein** — account client ke email se banayein,
-   client ko poora dashboard control mil jayega, custom domain free lagta hai,
-   deploy automatic hota hai. Sab se sasta aur reliable.
-3. **Lovable publish + custom domain** — sab se aasan, lekin hosting control Lovable ke paas.
+Phir cPanel → Setup Node.js App → **Restart**.
+
+(cPanel Git Version Control se bhi "Update from Remote" + "Deploy HEAD Commit" chal jata hai.)
+
+---
+
+## Commands ka khulasa
+
+| Command | Kis ke liye |
+|---|---|
+| `npm run dev` | local development |
+| `npm run build` | Lovable / Vercel / Cloudflare (output: `dist/`) |
+| `npm run build:node` | **aapki cPanel hosting** (output: `.output/`) |
+| `npm run start:node` | built Node server chalana (`node app.js`) |
 
 ---
 
@@ -113,8 +123,10 @@ Ye hosting ki limit hai, code ka masla nahi. Options:
 
 | Problem | Wajah / Hal |
 |---|---|
-| "Server bundle not found" | `.output` folder upload nahi hua ya galat jagah hai |
-| Site khulti hai par admin data khali | Environment variables missing → Step 4 |
+| "Server bundle not found" | `npm run build:node` chalaya nahi gaya |
+| Site khulti hai par data khali | Environment variables missing → Step 3 |
 | Admin mein save/upload fail | `SUPABASE_SERVICE_ROLE_KEY` missing |
-| 503 / "Passenger" error page | Node version purana (20+ karein) ya startup file `app.js` set nahi |
-| CSS/images load nahi | `.output/public` upload nahi hua (hidden files show karein) |
+| 503 / Passenger error | Node version purana, ya startup file `app.js` set nahi, ya Restart baqi hai |
+| CSS/images load nahi | build adhoora — `npm run build:node` dobara chalayein |
+| `npm install` memory error | Terminal mein `npm install --no-audit --no-fund` try karein |
+| Port ka masla | Kuch set na karein — Passenger `PORT` khud deta hai |
