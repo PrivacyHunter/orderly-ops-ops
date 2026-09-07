@@ -1006,27 +1006,218 @@ function BrandingTab() {
   );
 }
 
+type VisitRow = Dash["tracking"][number];
+
 function VisitorsTab({ data }: { data: Dash }) {
+  const visits = data.tracking;
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return visits;
+    return visits.filter((v) =>
+      [v.ip, v.city, v.region, v.country, v.page_path, v.browser, v.os, v.device]
+        .filter(Boolean)
+        .some((field) => String(field).toLowerCase().includes(q)),
+    );
+  }, [visits, query]);
+
+  const stats = useMemo(() => {
+    const today = new Date().toDateString();
+    return {
+      total: visits.length,
+      uniques: new Set(visits.map((v) => v.ip).filter(Boolean)).size,
+      countries: new Set(visits.map((v) => v.country).filter(Boolean)).size,
+      today: visits.filter((v) => v.created_at && new Date(v.created_at).toDateString() === today).length,
+    };
+  }, [visits]);
+
+  const mapped = useMemo(
+    () => filtered.filter((v) => v.latitude != null && v.longitude != null),
+    [filtered],
+  );
+
+  const selected = useMemo(
+    () => filtered.find((v) => v.id === selectedId) ?? null,
+    [filtered, selectedId],
+  );
+
   return (
-    <div className="glass overflow-x-auto rounded-3xl p-6">
-      <h2 className="mb-4 text-lg font-extrabold uppercase">Visitor intelligence</h2>
-      {data.tracking.length === 0 && <p className="text-xs text-muted-foreground">No visits logged yet.</p>}
-      <table className="w-full min-w-[640px] text-left text-xs">
-        <thead className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          <tr><th className="py-2">When</th><th>Location</th><th>Device</th><th>Browser</th><th>Page</th></tr>
-        </thead>
-        <tbody>
-          {data.tracking.map((t) => (
-            <tr key={t.id} className="border-t border-border">
-              <td className="py-2">{t.created_at ? new Date(t.created_at).toLocaleString() : "—"}</td>
-              <td>{[t.city, t.region, t.country].filter(Boolean).join(", ") || "—"}</td>
-              <td>{t.device ?? "—"}{t.os ? ` · ${t.os}` : ""}</td>
-              <td>{t.browser ?? "—"}</td>
-              <td>{t.page_path ?? "—"}</td>
-            </tr>
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card title="Total visits" value={stats.total} hint="last 1000 logged" />
+        <Card title="Unique visitors" value={stats.uniques} hint="by IP address" />
+        <Card title="Countries" value={stats.countries} />
+        <Card title="Today" value={stats.today} hint="visits since midnight" />
+      </div>
+
+      <div className="glass rounded-3xl p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-extrabold uppercase">Live visitor map</h2>
+            <p className="text-xs text-muted-foreground">
+              {mapped.length} of {filtered.length} visits have coordinates · click a dot for details
+            </p>
+          </div>
+          <input
+            value={query}
+            onChange={(e) => { setQuery(e.target.value); setSelectedId(null); }}
+            placeholder="Search IP, city, country, page…"
+            aria-label="Search visitors"
+            className="w-full max-w-xs rounded-xl border border-border bg-transparent px-4 py-2.5 text-xs outline-none focus:border-primary sm:w-72"
+          />
+        </div>
+
+        <VisitorMap visits={mapped} selectedId={selectedId} onSelect={setSelectedId} />
+
+        {selected && <VisitorDetail visit={selected} onClose={() => setSelectedId(null)} />}
+      </div>
+
+      <div className="glass overflow-x-auto rounded-3xl p-6">
+        <h2 className="mb-4 text-lg font-extrabold uppercase">Visitor log</h2>
+        {filtered.length === 0 && (
+          <p className="text-xs text-muted-foreground">
+            {visits.length === 0 ? "No visits logged yet." : "No visits match this search."}
+          </p>
+        )}
+        {filtered.length > 0 && (
+          <table className="w-full min-w-[760px] text-left text-xs">
+            <thead className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <tr><th className="py-2">When</th><th>IP</th><th>Location</th><th>Device</th><th>Browser</th><th>Page</th></tr>
+            </thead>
+            <tbody>
+              {filtered.slice(0, 300).map((t) => (
+                <tr
+                  key={t.id}
+                  onClick={() => setSelectedId(t.id)}
+                  className={`cursor-pointer border-t border-border transition-colors hover:bg-primary/5 ${selectedId === t.id ? "bg-primary/10" : ""}`}
+                >
+                  <td className="py-2">{t.created_at ? new Date(t.created_at).toLocaleString() : "—"}</td>
+                  <td className="font-mono">{t.ip ?? "—"}</td>
+                  <td>{[t.city, t.region, t.country].filter(Boolean).join(", ") || "—"}</td>
+                  <td>{t.device ?? "—"}{t.os ? ` · ${t.os}` : ""}</td>
+                  <td>{t.browser ?? "—"}</td>
+                  <td>{t.page_path ?? "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** Equirectangular world plot — no external map library, dots are clickable. */
+function VisitorMap({
+  visits, selectedId, onSelect,
+}: { visits: VisitRow[]; selectedId: string | null; onSelect: (id: string) => void }) {
+  const points = visits.map((v) => ({
+    visit: v,
+    x: ((Number(v.longitude) + 180) / 360) * 100,
+    y: ((90 - Number(v.latitude)) / 180) * 100,
+  }));
+
+  return (
+    <div className="mt-5 overflow-hidden rounded-2xl border border-border bg-[hsl(var(--muted))]/20">
+      <div className="relative aspect-[2/1] w-full">
+        {/* graticule */}
+        <div className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)",
+            backgroundSize: "8.333% 16.666%",
+          }}
+        />
+        <div className="absolute left-0 right-0 top-1/2 h-px bg-primary/30" />
+        <div className="absolute bottom-0 top-0 left-1/2 w-px bg-primary/30" />
+
+        {points.length === 0 && (
+          <p className="absolute inset-0 flex items-center justify-center text-xs text-muted-foreground">
+            No located visits yet.
+          </p>
+        )}
+
+        {points.map(({ visit, x, y }) => (
+          <button
+            key={visit.id}
+            type="button"
+            onClick={() => onSelect(visit.id)}
+            title={[visit.city, visit.country].filter(Boolean).join(", ") || visit.ip || "Visitor"}
+            aria-label={`Visitor from ${[visit.city, visit.country].filter(Boolean).join(", ") || "unknown location"}`}
+            className="absolute -translate-x-1/2 -translate-y-1/2"
+            style={{ left: `${x}%`, top: `${y}%` }}
+          >
+            <span
+              className={`block rounded-full ring-2 ring-primary/30 transition-all ${
+                selectedId === visit.id
+                  ? "h-3.5 w-3.5 bg-primary ring-4 ring-primary/50"
+                  : "h-2.5 w-2.5 bg-primary/80 hover:h-3.5 hover:w-3.5"
+              }`}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function VisitorDetail({ visit, onClose }: { visit: VisitRow; onClose: () => void }) {
+  const place = [visit.city, visit.region, visit.country].filter(Boolean).join(", ") || "Unknown location";
+  const hasCoords = visit.latitude != null && visit.longitude != null;
+  const embed = hasCoords
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${Number(visit.longitude) - 1.2}%2C${Number(visit.latitude) - 0.8}%2C${Number(visit.longitude) + 1.2}%2C${Number(visit.latitude) + 0.8}&layer=mapnik&marker=${visit.latitude}%2C${visit.longitude}`
+    : null;
+
+  return (
+    <div className="mt-5 grid gap-5 rounded-2xl border border-border p-5 lg:grid-cols-[1fr_1.2fr]">
+      <div className="space-y-3 text-xs">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Visitor</p>
+            <p className="mt-1 text-base font-extrabold">{place}</p>
+          </div>
+          <button onClick={onClose} className="rounded-lg border border-border px-3 py-1 text-[10px] font-bold uppercase hover:border-primary">
+            Close
+          </button>
+        </div>
+        <dl className="grid grid-cols-2 gap-3">
+          {[
+            ["IP", visit.ip ?? "—"],
+            ["When", visit.created_at ? new Date(visit.created_at).toLocaleString() : "—"],
+            ["Page", visit.page_path ?? "—"],
+            ["Device", `${visit.device ?? "—"}${visit.os ? ` · ${visit.os}` : ""}`],
+            ["Browser", visit.browser ?? "—"],
+            ["Timezone", visit.timezone ?? "—"],
+            ["Postal code", visit.postal_code ?? "—"],
+            ["Coordinates", hasCoords ? `${Number(visit.latitude).toFixed(3)}, ${Number(visit.longitude).toFixed(3)}` : "—"],
+          ].map(([label, value]) => (
+            <div key={label as string}>
+              <dt className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{label}</dt>
+              <dd className="mt-0.5 break-words font-mono">{value}</dd>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </dl>
+        {hasCoords && (
+          <a
+            href={`https://www.google.com/maps?q=${visit.latitude},${visit.longitude}`}
+            target="_blank" rel="noreferrer"
+            className="inline-flex rounded-xl border border-primary/30 px-4 py-2 text-[10px] font-bold uppercase text-primary hover:bg-primary/10"
+          >
+            Open in Google Maps
+          </a>
+        )}
+      </div>
+      <div className="overflow-hidden rounded-xl border border-border">
+        {embed ? (
+          <iframe title={`Map of ${place}`} src={embed} loading="lazy" className="h-64 w-full lg:h-full" />
+        ) : (
+          <p className="flex h-64 items-center justify-center text-xs text-muted-foreground">
+            No coordinates for this visit.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

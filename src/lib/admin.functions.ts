@@ -33,7 +33,7 @@ export const getDashboard = createServerFn({ method: "GET" })
       s.from("quotes").select("*").order("created_at", { ascending: false }).limit(50),
       s.from("orders").select("*").order("created_at", { ascending: false }).limit(50),
       s.from("products").select("*").order("sort_order", { ascending: true }),
-      s.from("user_tracking").select("*").order("created_at", { ascending: false }).limit(100),
+      s.from("user_tracking").select("*").order("created_at", { ascending: false }).limit(1000),
     ]);
     return {
       role,

@@ -11,6 +11,8 @@ import { spawnSync } from "node:child_process";
 const env = { ...process.env, NITRO_PRESET: "node-server" };
 // Lovable's sandbox pins a Cloudflare preset; drop it so the Node build wins.
 delete env.LOVABLE_NITRO_PRESET;
+delete env.LOVABLE_SANDBOX;
+delete env.DEV_SERVER__PROJECT_PATH;
 
 const result = spawnSync(
   "npx",
