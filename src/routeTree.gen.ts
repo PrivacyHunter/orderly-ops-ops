@@ -19,14 +19,17 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CustomizationRouteImport } from './routes/customization'
 import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SportswearRouteImport } from './routes/sportswear'
 import { Route as TrackRouteImport } from './routes/track'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicTrackingRouteImport } from './routes/api/public/tracking'
 import { Route as ApiPublicWebhookRouteImport } from './routes/api/public/webhook'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
@@ -80,6 +83,11 @@ const FavoritesRoute = FavoritesRouteImport.update({
   path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
@@ -105,6 +113,12 @@ const TrackRoute = TrackRouteImport.update({
   path: '/track',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
   id: '/panel',
   path: '/panel',
@@ -118,6 +132,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicTrackingRoute = ApiPublicTrackingRouteImport.update({
@@ -146,14 +165,17 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/customization': typeof CustomizationRoute
   '/favorites': typeof FavoritesRoute
+  '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/panel': typeof AuthenticatedPanelRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -168,14 +190,17 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/customization': typeof CustomizationRoute
   '/favorites': typeof FavoritesRoute
+  '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/panel': typeof AuthenticatedPanelRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -192,14 +217,17 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/customization': typeof CustomizationRoute
   '/favorites': typeof FavoritesRoute
+  '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/sportswear': typeof SportswearRoute
   '/track': typeof TrackRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/panel': typeof AuthenticatedPanelRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/api/public/tracking': typeof ApiPublicTrackingRoute
   '/api/public/webhook': typeof ApiPublicWebhookRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -216,14 +244,17 @@ export interface FileRouteTypes {
     | '/contact'
     | '/customization'
     | '/favorites'
+    | '/mcp'
     | '/quote'
     | '/reset-password'
     | '/search'
     | '/sportswear'
     | '/track'
+    | '/.well-known/oauth-protected-resource'
     | '/panel'
     | '/category/$slug'
     | '/product/$slug'
+    | '/.lovable/oauth/consent'
     | '/api/public/tracking'
     | '/api/public/webhook'
     | '/api/public/media/$'
@@ -238,14 +269,17 @@ export interface FileRouteTypes {
     | '/contact'
     | '/customization'
     | '/favorites'
+    | '/mcp'
     | '/quote'
     | '/reset-password'
     | '/search'
     | '/sportswear'
     | '/track'
+    | '/.well-known/oauth-protected-resource'
     | '/panel'
     | '/category/$slug'
     | '/product/$slug'
+    | '/.lovable/oauth/consent'
     | '/api/public/tracking'
     | '/api/public/webhook'
     | '/api/public/media/$'
@@ -261,14 +295,17 @@ export interface FileRouteTypes {
     | '/contact'
     | '/customization'
     | '/favorites'
+    | '/mcp'
     | '/quote'
     | '/reset-password'
     | '/search'
     | '/sportswear'
     | '/track'
+    | '/.well-known/oauth-protected-resource'
     | '/_authenticated/panel'
     | '/category/$slug'
     | '/product/$slug'
+    | '/.lovable/oauth/consent'
     | '/api/public/tracking'
     | '/api/public/webhook'
     | '/api/public/media/$'
@@ -285,13 +322,16 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CustomizationRoute: typeof CustomizationRoute
   FavoritesRoute: typeof FavoritesRoute
+  McpRoute: typeof McpRoute
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
   SportswearRoute: typeof SportswearRoute
   TrackRoute: typeof TrackRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   CategorySlugRoute: typeof CategorySlugRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   ApiPublicTrackingRoute: typeof ApiPublicTrackingRoute
   ApiPublicWebhookRoute: typeof ApiPublicWebhookRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
@@ -369,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quote': {
       id: '/quote'
       path: '/quote'
@@ -404,6 +451,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/panel': {
       id: '/_authenticated/panel'
       path: '/panel'
@@ -423,6 +477,13 @@ declare module '@tanstack/react-router' {
       path: '/product/$slug'
       fullPath: '/product/$slug'
       preLoaderRoute: typeof ProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/tracking': {
@@ -471,13 +532,17 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CustomizationRoute: CustomizationRoute,
   FavoritesRoute: FavoritesRoute,
+  McpRoute: McpRoute,
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,
   SportswearRoute: SportswearRoute,
   TrackRoute: TrackRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   CategorySlugRoute: CategorySlugRoute,
   ProductSlugRoute: ProductSlugRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   ApiPublicTrackingRoute: ApiPublicTrackingRoute,
   ApiPublicWebhookRoute: ApiPublicWebhookRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
