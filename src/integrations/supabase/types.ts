@@ -65,6 +65,102 @@ export type Database = {
         }
         Relationships: []
       }
+      certificates: {
+        Row: {
+          created_at: string
+          details: string
+          id: string
+          image_url: string
+          is_active: boolean
+          issue_date: string
+          issuer: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          issue_date?: string
+          issuer?: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          details?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          issue_date?: string
+          issuer?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      custom_orders: {
+        Row: {
+          admin_notes: string | null
+          colors: string | null
+          company: string | null
+          created_at: string
+          delivery_time: string | null
+          design_details: string | null
+          email: string
+          id: string
+          moq: string | null
+          name: string
+          phone: string | null
+          product: string | null
+          quantity: number | null
+          status: string
+          tracking_id: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          colors?: string | null
+          company?: string | null
+          created_at?: string
+          delivery_time?: string | null
+          design_details?: string | null
+          email: string
+          id?: string
+          moq?: string | null
+          name: string
+          phone?: string | null
+          product?: string | null
+          quantity?: number | null
+          status?: string
+          tracking_id: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          colors?: string | null
+          company?: string | null
+          created_at?: string
+          delivery_time?: string | null
+          design_details?: string | null
+          email?: string
+          id?: string
+          moq?: string | null
+          name?: string
+          phone?: string | null
+          product?: string | null
+          quantity?: number | null
+          status?: string
+          tracking_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       customization_videos: {
         Row: {
           caption_style: Json | null
