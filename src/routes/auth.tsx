@@ -53,11 +53,22 @@ function AuthPage() {
     }
   }
 
+  const { next } = Route.useSearch();
+
+  function goAfterAuth() {
+    if (next) {
+      window.location.replace(next);
+      return;
+    }
+    navigate({ to: "/panel", replace: true });
+  }
+
   useEffect(() => {
     void supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/panel", replace: true });
+      if (data.session) goAfterAuth();
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, next]);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -66,7 +77,7 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast.success("Welcome back");
-      navigate({ to: "/panel", replace: true });
+      goAfterAuth();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Authentication failed");
     } finally {
