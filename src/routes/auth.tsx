@@ -6,6 +6,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (s: Record<string, unknown>): { next?: string } => {
+    const raw = s['next'];
+    const next =
+      typeof raw === "string" && raw.startsWith("/") && !raw.startsWith("//") ? raw : undefined;
+    return next ? { next } : {};
+  },
   head: () => ({
     meta: [
       { title: "Staff Sign In | Ambition Sports" },
@@ -47,11 +53,22 @@ function AuthPage() {
     }
   }
 
+  const { next } = Route.useSearch();
+
+  function goAfterAuth() {
+    if (next) {
+      window.location.replace(next);
+      return;
+    }
+    navigate({ to: "/panel", replace: true });
+  }
+
   useEffect(() => {
     void supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/panel", replace: true });
+      if (data.session) goAfterAuth();
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, next]);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -60,7 +77,7 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast.success("Welcome back");
-      navigate({ to: "/panel", replace: true });
+      goAfterAuth();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Authentication failed");
     } finally {

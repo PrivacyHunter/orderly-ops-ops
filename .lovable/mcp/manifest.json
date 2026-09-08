@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "sdk_version": "2.0.3",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://fselzoydtmtxomxlximi.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "opscodestudioambitionest",
+      "version": "0.1.0",
+      "title": "opscodestudioambitionest"
+    },
+    "tools": [
+      {
+        "name": "list_products",
+        "title": "List products",
+        "description": "List Ambition Sports catalog products, optionally filtered by category or a text search on the product name.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Category slug, e.g. activewear, sportswear, casualwear.",
+              "type": "string",
+              "maxLength": 60
+            },
+            "search": {
+              "description": "Free text matched against the product name.",
+              "type": "string",
+              "maxLength": 120
+            },
+            "limit": {
+              "default": 25,
+              "description": "Maximum number of products to return.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_product",
+        "title": "Get product",
+        "description": "Fetch one catalog product by its slug, including description, images, sizes and colors.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Product slug, e.g. apex-pro-soccer-jersey."
+            }
+          },
+          "required": [
+            "slug"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_inquiries",
+        "title": "List inquiries",
+        "description": "List contact inquiries visible to the signed-in account, newest first. Staff accounts see all inquiries.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "status": {
+              "description": "Filter by status, e.g. new, contacted, closed.",
+              "type": "string",
+              "maxLength": 40
+            },
+            "limit": {
+              "default": 25,
+              "description": "Maximum number of inquiries to return.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_quotes",
+        "title": "List quote requests",
+        "description": "List bulk / custom quote requests visible to the signed-in account, newest first. Staff accounts see all requests.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "status": {
+              "description": "Filter by status, e.g. new, quoted, won.",
+              "type": "string",
+              "maxLength": 40
+            },
+            "limit": {
+              "default": 25,
+              "description": "Maximum number of quote requests to return.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
