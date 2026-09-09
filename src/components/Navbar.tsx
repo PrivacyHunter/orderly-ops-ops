@@ -192,6 +192,30 @@ export function Navbar() {
                 </div>
               </div>
             ))}
+            {hotCategories.length > 0 && (
+              <div className="relative group/menu">
+                <button
+                  type="button"
+                  className="relative flex items-center gap-1 whitespace-nowrap py-2 text-sm font-medium text-primary transition-colors"
+                >
+                  Hot Items
+                  <ChevronDown size={14} className="transition-transform group-hover/menu:rotate-180" />
+                </button>
+                <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-1 pt-3 opacity-0 transition-all group-hover/menu:visible group-hover/menu:translate-y-0 group-hover/menu:opacity-100">
+                  <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+                    {hotCategories.map((cat) => (
+                      <Link
+                        key={cat.slug}
+                        {...(categoryLinkProps(cat.slug) as any)}
+                        className="block border-b border-border px-4 py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-foreground transition-colors last:border-b-0 hover:bg-surface hover:text-primary"
+                      >
+                        {cat.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -306,6 +330,33 @@ export function Navbar() {
                 </div>
               );
             })}
+            {hotCategories.length > 0 && (
+              <div className="border-b border-border">
+                <button
+                  type="button"
+                  aria-expanded={openGroup === "hot-items"}
+                  onClick={() => setOpenGroup(openGroup === "hot-items" ? null : "hot-items")}
+                  className="flex w-full items-center justify-between py-3.5 text-sm font-medium text-primary"
+                >
+                  Hot Items
+                  <ChevronDown size={16} className={cn("transition-transform", openGroup === "hot-items" && "rotate-180")} />
+                </button>
+                {openGroup === "hot-items" && (
+                  <div className="flex flex-col pb-3">
+                    {hotCategories.map((cat) => (
+                      <Link
+                        key={cat.slug}
+                        {...(categoryLinkProps(cat.slug) as any)}
+                        className="py-2 pl-3 text-xs font-semibold capitalize tracking-wide text-muted-foreground hover:text-primary"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {cat.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             {navLinks.map((link) => (
               <Link
                 key={link.name}
