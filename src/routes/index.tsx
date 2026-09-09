@@ -8,6 +8,7 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { FeaturedProducts } from "@/components/FeaturedProducts";
 import { Testimonials } from "@/components/Testimonials";
 import { CategoryGrid } from "@/components/CategoryGrid";
+import { HotItems } from "@/components/HotItems";
 import { VisionMission } from "@/components/VisionMission";
 import { InstagramSection } from "@/components/InstagramSection";
 import { StatsStrip } from "@/components/StatsStrip";
@@ -165,6 +166,8 @@ function Index() {
         <VisionMission />
 
         <CategoryGrid />
+
+        <HotItems />
 
         <OemWorkflow />
 

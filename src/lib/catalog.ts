@@ -137,20 +137,98 @@ const CATEGORY_DESCRIPTIONS: Record<CategoryKey, string> = {
   casualwear: "Hoodies, jackets, tracksuits & everyday essentials.",
 };
 
-/** The three built-in categories, used until an admin edits the catalog. */
-export const DEFAULT_CATEGORIES: CatalogCategory[] = (
-  ["sportswear", "activewear", "casualwear"] as CategoryKey[]
-).map((key) => ({
-  slug: key,
-  name: CATEGORY_LABELS[key],
-  description: CATEGORY_DESCRIPTIONS[key],
-  enabled: true,
-  subcategories: subcategoriesFor(key).map((sub) => ({
-    slug: sub.slug,
-    name: sub.name,
+/** Sublimation "Hot Items" — headline sport-uniform categories. */
+export const HOT_ITEM_CATEGORIES: CatalogCategory[] = [
+  {
+    slug: "baseball-uniforms",
+    name: "Baseball Uniforms",
+    description: "Fully sublimated baseball jerseys, pants & caps for clubs and leagues.",
     enabled: true,
+    subcategories: [
+      { slug: "full-button-jerseys", name: "Full Button Jerseys", enabled: true },
+      { slug: "two-button-jerseys", name: "Two Button Jerseys", enabled: true },
+      { slug: "baseball-pants", name: "Baseball Pants", enabled: true },
+    ],
+  },
+  {
+    slug: "basketball-uniforms",
+    name: "Basketball Uniforms",
+    description: "Sublimated reversible jerseys, shooting shirts & shorts.",
+    enabled: true,
+    subcategories: [
+      { slug: "reversible-jerseys", name: "Reversible Jerseys", enabled: true },
+      { slug: "shooting-shirts", name: "Shooting Shirts", enabled: true },
+      { slug: "basketball-shorts", name: "Basketball Shorts", enabled: true },
+    ],
+  },
+  {
+    slug: "american-football",
+    name: "American Football",
+    description: "Sublimated game & practice football jerseys with integrated pants.",
+    enabled: true,
+    subcategories: [
+      { slug: "game-jerseys", name: "Game Jerseys", enabled: true },
+      { slug: "practice-jerseys", name: "Practice Jerseys", enabled: true },
+      { slug: "football-pants", name: "Football Pants", enabled: true },
+    ],
+  },
+  {
+    slug: "volleyball-uniforms",
+    name: "Volleyball Uniforms",
+    description: "Sublimated volleyball kits for men's and women's teams.",
+    enabled: true,
+    subcategories: [
+      { slug: "mens-volleyball-kits", name: "Men's Volleyball Kits", enabled: true },
+      { slug: "womens-volleyball-kits", name: "Women's Volleyball Kits", enabled: true },
+      { slug: "volleyball-shorts", name: "Volleyball Shorts", enabled: true },
+    ],
+  },
+  {
+    slug: "ice-hockey",
+    name: "Ice Hockey",
+    description: "Sublimated hockey jerseys, socks & practice sets.",
+    enabled: true,
+    subcategories: [
+      { slug: "hockey-jerseys", name: "Hockey Jerseys", enabled: true },
+      { slug: "hockey-socks", name: "Hockey Socks", enabled: true },
+      { slug: "hockey-practice-jerseys", name: "Practice Jerseys", enabled: true },
+    ],
+  },
+  {
+    slug: "custom-tshirts",
+    name: "Custom T-Shirts",
+    description: "All-over sublimated tees, dri-fit shirts & tank tops.",
+    enabled: true,
+    subcategories: [
+      { slug: "sublimated-tees", name: "Sublimated Tees", enabled: true },
+      { slug: "dri-fit-tees", name: "Dri-Fit Tees", enabled: true },
+      { slug: "tank-tops", name: "Tank Tops", enabled: true },
+    ],
+  },
+];
+
+export const HOT_ITEM_SLUGS: string[] = HOT_ITEM_CATEGORIES.map((c) => c.slug);
+
+export function isHotItem(slug: string): boolean {
+  return HOT_ITEM_SLUGS.includes(slug);
+}
+
+/** The built-in categories, used until an admin edits the catalog. */
+export const DEFAULT_CATEGORIES: CatalogCategory[] = [
+  ...(["sportswear", "activewear", "casualwear"] as CategoryKey[]).map((key) => ({
+    slug: key,
+    name: CATEGORY_LABELS[key],
+    description: CATEGORY_DESCRIPTIONS[key],
+    enabled: true,
+    subcategories: subcategoriesFor(key).map((sub) => ({
+      slug: sub.slug,
+      name: sub.name,
+      enabled: true,
+    })),
   })),
-}));
+  ...HOT_ITEM_CATEGORIES,
+];
+
 
 function normalizeCategory(raw: any): CatalogCategory | null {
   const slug = slugify(String(raw?.slug ?? raw?.name ?? ""));
