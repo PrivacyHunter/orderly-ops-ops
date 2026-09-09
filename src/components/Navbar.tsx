@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X, Phone, Mail, Heart, ChevronDown, Search } from "lucide-react";
-import { categoryLinkProps, liveCategories } from "@/lib/catalog";
+import { categoryLinkProps, liveCategories, isHotItem } from "@/lib/catalog";
 import { getCatalogTaxonomy } from "@/lib/catalog.functions";
 import { listSettings } from "@/lib/admin.functions";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
@@ -70,7 +70,9 @@ export function Navbar() {
 
   const loadCatalog = useServerFn(getCatalogTaxonomy);
   const { data: catalog } = useQuery({ queryKey: ["catalog-taxonomy"], queryFn: () => loadCatalog() });
-  const categoryMenus = liveCategories(catalog).map((cat) => ({
+  const allCategories = liveCategories(catalog);
+  const hotCategories = allCategories.filter((cat) => isHotItem(cat.slug));
+  const categoryMenus = allCategories.filter((cat) => !isHotItem(cat.slug)).map((cat) => ({
     key: cat.slug,
     label: cat.name,
     linkProps: categoryLinkProps(cat.slug) as any,

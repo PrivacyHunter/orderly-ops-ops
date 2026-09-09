@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight } from "lucide-react";
 import { getSiteBlocks } from "@/lib/site-blocks.functions";
 import { getCatalogTaxonomy } from "@/lib/catalog.functions";
-import { categoryLinkProps, liveCategories, slugify } from "@/lib/catalog";
+import { categoryLinkProps, liveCategories, slugify, isHotItem } from "@/lib/catalog";
 import { resolveMediaUrl, assetUrl } from "@/lib/media";
 import fallbackA from "@/assets/file-38.jpg.asset.json";
 import fallbackB from "@/assets/file-41.jpg.asset.json";
@@ -29,7 +29,7 @@ export function CategoryGrid() {
   const blockCards = ((data as any)?.categories as CategoryCard[] | undefined) ?? [];
 
   // Titles/links come from the admin catalog; imagery still comes from Site Blocks.
-  const live = liveCategories(catalog);
+  const live = liveCategories(catalog).filter((c) => !isHotItem(c.slug));
   const categories = (live.length
     ? live.map((cat, i) => {
         const card =
